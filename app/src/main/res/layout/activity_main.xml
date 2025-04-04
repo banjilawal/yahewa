@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="160dp"
+    >
+
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="10dp"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:text="@string/location"
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="start"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/current_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:padding="10dp"
+            android:text="@string/current_temperature" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:src="@drawable/sunny"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/feels_like_temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:padding="10dp"
+        android:text="@string/feels_like_temperature" />
+
+    <TextView
+        android:id="@+id/low_temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:padding="10dp"
+        android:text="@string/low_temperature" />
+
+    <TextView
+        android:id="@+id/high_temperature"
+        android:layout_width="235dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:padding="10dp"
+        android:text="@string/high_temperature" />
+
+    <TextView
+        android:id="@+id/percent_humidity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:padding="10dp"
+        android:text="@string/percent_humidity" />
+
+    <TextView
+        android:id="@+id/pressure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:padding="10dp"
+        android:text="@string/pressure" />
+</LinearLayout>

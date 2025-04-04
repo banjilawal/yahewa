@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Yahewa</string>
+    <string name="welcome_message">Welcome to Yahewa!</string>
+    <string name="welcome_subtitle">Your personal health assistant</string>
+    <string name="location">St Paul</string>
+    <string name="current_temperature">72</string>
+    <string name="feels_like_temperature">Feels like 78</string>
+    <string name="low_temperature">Low 65</string>
+    <string name="high_temperature">High 80</string>
+    <string name="percent_humidity">Humidity 100%</string>
+    <string name="pressure">1023 hPa</string>
 </resources>

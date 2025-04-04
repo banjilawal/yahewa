@@ -16,17 +16,18 @@ import com.lawal.banji.yahewa.ui.theme.YahewaTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
         enableEdgeToEdge()
-        setContent {
-            YahewaTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Yahewa",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
-        }
+//        setContent {
+//            YahewaTheme {
+//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+//                    Greeting(
+//                        name = "Yahewa",
+//                        modifier = Modifier.padding(innerPadding)
+//                    )
+//                }
+//            }
+//        }
     }
 }
 
