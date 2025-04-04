@@ -1,4 +1,9 @@
 <!-- res/values/attrs.xml -->
 <resources>
     <attr name="colorPrimary" format="color" />
+    <attr name="colorPrimaryVariant" format="color" />
+    <attr name="colorAccent" format="color" />
+    <attr name="colorBackground" format="color" />
+    <attr name="colorText" format="color" />
+    <attr name="colorTextSecondary" format="color" />
 </resources>
