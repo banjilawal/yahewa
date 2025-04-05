@@ -4,6 +4,4 @@
     <!-- Base application theme. With no action bar -->
     <style name="Theme.Yahewa" parent="android:Theme.Material.Light.NoActionBar" />
 
-
-
 </resources>

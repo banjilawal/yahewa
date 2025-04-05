@@ -6,9 +6,8 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
-    <color name="colorText">#FF000000</color>
-    <color name="colorTextSecondary">#1F1D1D</color>
-    <color name="colorBackground">#FFFFFFFF</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="gray">#8E928E</color>
     <color name="greenish">#CFDA03</color>
     <color name="bright_orange">#FF9800</color>
     <color name="colorPrimary">#91C0EC</color>

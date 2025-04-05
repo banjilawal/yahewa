@@ -5,84 +5,22 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--    <LinearLayout-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="0dp"-->
-    <!--        android:layout_weight="1"-->
-    <!--        android:gravity="start"-->
-    <!--        android:orientation="horizontal"-->
-    <!--        android:padding="10dp">-->
+    <TextView
+        android:id="@+id/heading"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/default_height"
+        android:layout_gravity="center"
+        android:gravity="start"
+        android:padding="@dimen/default_padding"
+        android:text="@string/app_name"
+        android:background="@color/gray"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:textSize="25sp" />
 
-    <!--        <TextView-->
-    <!--            android:id="@+id/current_temperature"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_gravity="start"-->
-    <!--            android:gravity="start"-->
-    <!--            android:padding="10dp"-->
-    <!--            android:text="@string/current_temperature"-->
-    <!--            android:textSize="25sp" />-->
-
-    <!--        <ImageView-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_gravity="start"-->
-    <!--            android:gravity="start"-->
-    <!--            android:src="@drawable/sunny" />-->
-    <!--    </LinearLayout>-->
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/feels_like_temperature"-->
-    <!--        android:layout_width="81dp"-->
-    <!--        android:layout_height="73dp"-->
-    <!--        android:layout_gravity="start"-->
-    <!--        android:gravity="start"-->
-    <!--        android:padding="10dp"-->
-    <!--        android:text="@string/feels_like_temperature"-->
-    <!--        android:textSize="25sp" />-->
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/low_temperature"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_gravity="start"-->
-    <!--        android:padding="10dp"-->
-    <!--        android:text="@string/low_temperature"-->
-    <!--        android:textSize="25sp" />-->
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/high_temperature"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_gravity="start"-->
-    <!--        android:padding="10dp"-->
-    <!--        android:text="@string/high_temperature"-->
-    <!--        android:textSize="25sp" />-->
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/percent_humidity"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_gravity="start"-->
-    <!--        android:padding="10dp"-->
-    <!--        android:text="@string/percent_humidity"-->
-    <!--        android:textSize="25sp" />-->
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/pressure"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_gravity="start"-->
-    <!--        android:padding="10dp"-->
-    <!--        android:text="@string/pressure"-->
-    <!--        android:textSize="25sp" />-->
-    <!--    -->
-
-    <!--</LinearLayout>-->
     <TextView
         android:id="@+id/location"
         android:layout_width="match_parent"
-        android:layout_height="67dp"
+        android:layout_height="@dimen/default_height"
         android:layout_gravity="center"
         android:gravity="center"
         android:padding="@dimen/default_padding"
@@ -90,39 +28,65 @@
         android:textAppearance="@android:style/TextAppearance.Large"
         android:textSize="25sp" />
 
-    <TextView
-        android:id="@+id/current_temperature"
-        android:layout_width="match_parent"
-        android:layout_height="67dp"
-        android:layout_gravity="start"
-        android:gravity="start"
-        android:padding="@dimen/default_padding"
-        android:text="@string/current_temperature"
-        android:textAppearance="@android:style/TextAppearance.Large"
-        android:textSize="25sp" />
-
-    <ImageView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="357dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="start"
+        android:layout_gravity="center"
         android:gravity="start"
-        android:src="@drawable/sunny" />
+        android:orientation="horizontal"
+        android:padding="0dp">
 
-    <TextView
-        android:id="@+id/feels_like_temperature"
-        android:layout_width="match_parent"
-        android:layout_height="67dp"
-        android:layout_gravity="start"
-        android:gravity="start"
-        android:padding="@dimen/default_padding"
-        android:text="@string/feels_like_temperature"
-        android:textAppearance="@android:style/TextAppearance.Large"
-        android:textSize="25sp" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/default_padding">
+
+            <TextView
+                android:id="@+id/current_temperature"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:gravity="center"
+                android:padding="0dp"
+                android:text="@string/current_temperature"
+                android:textAppearance="@android:style/TextAppearance.Large"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/feels_like_temperature"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="0dp"
+                android:text="@string/feels_like_temperature"
+                android:textAppearance="@android:style/TextAppearance.Large"
+                android:textSize="25sp" />
+
+        </LinearLayout>
+
+        <!--        android:layout_width="131dp"-->
+        <!--        android:layout_height="87dp"-->
+
+
+        <!--            android:layout_width="249dp"-->
+        <!--            android:layout_height="wrap_content"-->
+<!--        android:layout_width="192dp"-->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:contentDescription="@string/image_description"
+            android:gravity="start"
+            android:padding="0dp"
+            android:src="@drawable/sunny" />
+    </LinearLayout>
+
+
 
     <TextView
         android:id="@+id/low_temperature"
         android:layout_width="match_parent"
-        android:layout_height="67dp"
+        android:layout_height="@dimen/default_height"
         android:layout_gravity="start"
         android:gravity="start"
         android:padding="@dimen/default_padding"
@@ -133,7 +97,7 @@
     <TextView
         android:id="@+id/high_temperature"
         android:layout_width="match_parent"
-        android:layout_height="67dp"
+        android:layout_height="@dimen/default_height"
         android:layout_gravity="start"
         android:gravity="start"
         android:padding="@dimen/default_padding"
@@ -144,7 +108,7 @@
     <TextView
         android:id="@+id/percent_humidity"
         android:layout_width="match_parent"
-        android:layout_height="67dp"
+        android:layout_height="@dimen/default_height"
         android:layout_gravity="start"
         android:gravity="start"
         android:padding="@dimen/default_padding"
@@ -155,7 +119,7 @@
     <TextView
         android:id="@+id/pressure"
         android:layout_width="match_parent"
-        android:layout_height="67dp"
+        android:layout_height="@dimen/default_height"
         android:layout_gravity="start"
         android:gravity="start"
         android:padding="@dimen/default_padding"

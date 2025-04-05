@@ -2,4 +2,5 @@
 
 <resources>
     <dimen name="default_padding">15dp</dimen>
+    <dimen name="default_height">78dp</dimen>
 </resources>
