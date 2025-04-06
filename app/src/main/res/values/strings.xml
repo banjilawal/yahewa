@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Yahewa</string>
+    <string name="welcome_message">Welcome to Yahewa!</string>
+    <string name="welcome_subtitle">Your Weather Helper</string>
+    <string name="white_space">\u0020</string>
+    <string name="degree_symbol">&#176;</string>
+    <string name="default_temperature_scale">F</string>
+    <string name="location">St Paul, MN</string>
+    <string name="current_temperature">72&#176; F</string>
+    <string name="feels_like_temperature">Feels like 78&#176; F</string>
+    <string name="low_temperature">Low 65&#176; F</string>
+    <string name="high_temperature">High 80&#176; F</string>
+    <string name="percent_humidity">Humidity 100%</string>
+    <string name="pressure">1023 hPa</string>
+    <string name="image_description">Sunny</string>
 </resources>
