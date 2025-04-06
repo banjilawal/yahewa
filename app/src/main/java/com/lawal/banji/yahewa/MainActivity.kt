@@ -12,6 +12,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toDrawable
 import com.lawal.banji.yahewa.ui.theme.YahewaTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,7 +22,18 @@ class MainActivity : ComponentActivity() {
         setContent {
             YahewaTheme {
                 Surface(color = MaterialTheme.colorScheme.background) {
-                    HomeLayout()
+                   val weatherObservation = WeatherObservation(
+                        location = "New York",
+                        currentTemperature = Temperature(75),
+                        feelsLikeTemperature = Temperature(77),
+                        weatherCondition = "Sunny",
+                        lowTemperature = Temperature(70),
+                        highTemperature = Temperature(80),
+                        percentHumidity = 60,
+                        pressure = 1012,
+                        icon = ContextCompat.getDrawable(this, R.drawable.sunny) // Replace with actual drawable resource
+                    )
+                    WeatherObservationDisplay(weatherObservation)
                 }
             }
         }
