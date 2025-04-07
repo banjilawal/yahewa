@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -50,20 +51,21 @@ fun FormattedText(
 
 @Composable
 fun DisplayIcon(icon: Drawable?) {
+    val iconSize = dimensionResource(id = R.dimen.default_font_size) * 4
     if (icon != null) {
         Image(
             bitmap = icon.toBitmap().asImageBitmap(),
             contentDescription = "Weather Icon",
             modifier = Modifier
                 .padding((0.dp))
-                .size(dimensionResource(id = R.dimen.default_font_size))
+                .size(iconSize)
         )
     } else {
         Image(
             painter = painterResource(id = R.drawable.farenheit),
             contentDescription = "Default Weather Icon",
             modifier = Modifier
-                .size(dimensionResource(id = R.dimen.default_font_size))
+                .size(iconSize)
                 .background(Color.White)
         )
     }
@@ -75,19 +77,29 @@ fun DisplayCurrentConditions(
     feelsLikeTemperature: Temperature,
     icon: Drawable?
 ) {
-    Column(modifier =  Modifier.padding(dimensionResource(id = R.dimen.default_padding))) {
-        WeatherObservationRow(currentTemperature.toString(), Modifier.padding(0.dp), centered = true)
-        WeatherObservationRow(feelsLikeTemperature.toString(), Modifier.padding(0.dp), centered = true)
-        DisplayIcon(icon)
+    Row(modifier = Modifier.padding(dimensionResource(id = R.dimen.default_padding))) {
+        Column(modifier = Modifier.weight(3f).wrapContentWidth(Alignment.Start).then(Modifier.padding(0.dp))) {
+            WeatherObservationRow(currentTemperature.toString(), centered = true, backgroundColor = Color.White, paddingModifier = Modifier.padding(0.dp))
+            WeatherObservationRow("Feels like " + feelsLikeTemperature.toString(), centered = false, backgroundColor = Color.White, paddingModifier = Modifier.padding(0.dp))
+        }
+        Column(modifier = Modifier.weight(1f).then(Modifier.padding(0.dp)).wrapContentWidth(Alignment.Start)) {
+            DisplayIcon(icon)
+        }
     }
-
 }
 
 @Composable
-fun WeatherObservationRow(value: String, paddingModifier: Modifier, centered: Boolean = false) {
+fun WeatherObservationRow(
+    value: String,
+    centered: Boolean = false,
+    backgroundColor: Color = Color.White,
+    paddingModifier: Modifier = Modifier.padding(dimensionResource(id = R.dimen.default_padding))
+
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .background(backgroundColor)
             .then(paddingModifier), // 15dp spacing between rows
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = if (centered) Arrangement.Center else Arrangement.Start
@@ -103,16 +115,16 @@ fun WeatherObservationRow(value: String, paddingModifier: Modifier, centered: Bo
 @Composable
 fun WeatherObservationDisplay(weatherObservation: WeatherObservation) {
     Column(modifier = Modifier.padding(16.dp)) {
-        WeatherObservationRow(stringResource(id = R.string.app_name), Modifier.padding(dimensionResource(id = R.dimen.default_padding)), centered = true)
-        WeatherObservationRow(weatherObservation.location.toString(), Modifier.padding(dimensionResource(id = R.dimen.default_padding)), centered = true)
+        WeatherObservationRow(stringResource(id = R.string.app_name), centered = false, backgroundColor = colorResource(id = R.color.headingColor))
+        WeatherObservationRow(weatherObservation.location.toString(), centered = true)
         DisplayCurrentConditions(
             currentTemperature = weatherObservation.currentTemperature,
             feelsLikeTemperature = weatherObservation.feelsLikeTemperature,
             icon = weatherObservation.icon
         )
-        WeatherObservationRow("Low " + weatherObservation.lowTemperature.toString(), Modifier.padding(dimensionResource(id = R.dimen.default_padding)))
-        WeatherObservationRow("High " + weatherObservation.highTemperature.toString(), Modifier.padding(dimensionResource(id = R.dimen.default_padding)))
-        WeatherObservationRow("Humidity " +  weatherObservation.percentHumidity + "%", Modifier.padding(dimensionResource(id = R.dimen.default_padding)))
-        WeatherObservationRow("Pressure " + weatherObservation.pressure + " hPa", Modifier.padding(dimensionResource(id = R.dimen.default_padding)))
+        WeatherObservationRow("Low " + weatherObservation.lowTemperature.toString())
+        WeatherObservationRow("High " + weatherObservation.highTemperature.toString())
+        WeatherObservationRow("Humidity " +  weatherObservation.percentHumidity + "%")
+        WeatherObservationRow("Pressure " + weatherObservation.pressure + " hPa")
     }
 }
