@@ -1,9 +1,10 @@
 package com.lawal.banji.yahewa
 
 data class Temperature(
-    val degrees: Int
-) {
-    override fun toString(): String {
-        return "$degrees °F"
-    }
-}
+    val dayTimeAverage: Double,
+    val dayTimeLow: Double,
+    val dayTimeHigh: Double,
+    val nightTimeAverage: Double,
+    val eveningAverage: Double,
+    val morningAverage: Double
+)

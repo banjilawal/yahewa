@@ -1,16 +1,19 @@
 package com.lawal.banji.yahewa
 
 import android.graphics.drawable.Drawable
-import android.media.Image
 
 data class WeatherObservation(
     val location: String,
-    val currentTemperature: Temperature,
-    val feelsLikeTemperature: Temperature,
-    val weatherCondition: String,
-    val lowTemperature: Temperature,
-    val highTemperature: Temperature,
-    val percentHumidity: Int,
+    val latitude: Double,
+    val longitude: Double,
+    val currentTemperature: Double,
+    val feelsLikeTemperature: Double,
+    val description: String,
+    val lowTemperature: Double,
+    val highTemperature: Double,
+    val percentHumidity: Double,
     val pressure: Int,
     val icon: Drawable?
 )
+
+//http://api.openweathermap.org/geo/1.0/reverse?lat={lat}&lon={lon}&limit=1&appid={API key}

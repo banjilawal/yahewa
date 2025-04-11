@@ -21,15 +21,17 @@ class MainActivity : ComponentActivity() {
             YahewaTheme {
                 Surface(color = MaterialTheme.colorScheme.background) {
                    val weatherObservation = WeatherObservation(
-                        location = "New York",
-                        currentTemperature = Temperature(75),
-                        feelsLikeTemperature = Temperature(77),
-                        weatherCondition = "Sunny",
-                        lowTemperature = Temperature(70),
-                        highTemperature = Temperature(80),
-                        percentHumidity = 60,
-                        pressure = 1012,
-                        icon = ContextCompat.getDrawable(this, R.drawable.sunny) // Replace with actual drawable resource
+                       latitude = 40.7128,
+                       longitude = -74.0060,
+                       location = "New York",
+                       currentTemperature = 75.0,
+                       feelsLikeTemperature = 77.0,
+                       description = "Sunny",
+                       lowTemperature = 70.0,
+                       highTemperature = 80.0,
+                       percentHumidity = 60.0,
+                       pressure = 1012,
+                       icon = ContextCompat.getDrawable(this, R.drawable.sunny)
                     )
                     WeatherObservationDisplay(weatherObservation)
                 }
