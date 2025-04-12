@@ -18,4 +18,5 @@ data class Current(
     val windOrientation: Double,
     val rainVolume: Double,
     val snowVolume: Double
+
 )

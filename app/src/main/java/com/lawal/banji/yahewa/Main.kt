@@ -1,10 +1,10 @@
 package com.lawal.banji.yahewa
 
 data class Main(
-    val temp: Float,
-    val feels_like: Float,
-    val temp_min: Float,
-    val temp_max: Float,
-    val pressure: Int,
-    val humidity: Int
+    val temperature: Double,
+    val temperatureFeelsLike: Double,
+    val lowTemperature: Double,
+    val highTemperature: Double,
+    val pressure: Double,
+    val percentHumidity: Double
 )
