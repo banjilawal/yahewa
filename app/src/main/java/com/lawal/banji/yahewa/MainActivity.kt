@@ -11,6 +11,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import com.lawal.banji.yahewa.weather.view.WeatherViewModel
+import com.lawal.banji.yahewa.screen.WeatherDetailsDisplay
 import com.lawal.banji.yahewa.ui.theme.YahewaTheme
 
 

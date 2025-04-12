@@ -1,4 +1,4 @@
-package com.lawal.banji.yahewa
+package com.lawal.banji.yahewa.weather
 
 data class WeatherRecord(
     val latitude: Double,
@@ -6,6 +6,4 @@ data class WeatherRecord(
     val timeZone: String,
     val timeZoneOffset: Int,
     val current: Current,
-    val weather: Weather,
-    val daily: Daily
 )

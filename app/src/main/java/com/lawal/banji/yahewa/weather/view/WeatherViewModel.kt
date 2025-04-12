@@ -1,10 +1,12 @@
-package com.lawal.banji.yahewa
+package com.lawal.banji.yahewa.weather.view
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lawal.banji.yahewa.RetrofitInstance.api
+import com.lawal.banji.yahewa.query.OpenWeatherResponse
+import com.lawal.banji.yahewa.query.RetrofitInstance
+import com.lawal.banji.yahewa.query.RetrofitInstance.api
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

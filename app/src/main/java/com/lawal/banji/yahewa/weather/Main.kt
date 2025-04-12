@@ -1,4 +1,4 @@
-package com.lawal.banji.yahewa
+package com.lawal.banji.yahewa.weather
 
 data class Main(
     val temperature: Double,
