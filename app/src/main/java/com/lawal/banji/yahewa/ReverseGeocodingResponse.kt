@@ -1,6 +1,6 @@
 package com.lawal.banji.yahewa
 
 data class ReverseGeocodingResponse(
-    val locationName: String,
+    val city: String,
     val country: String
 )

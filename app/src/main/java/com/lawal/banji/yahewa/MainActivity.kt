@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
                 val weatherData by weatherViewModel.weatherData.observeAsState()
                 Surface(color = MaterialTheme.colorScheme.background) {
                     if (weatherData != null) {
-                        WeatherObservationDisplay(weatherData!!)
+                        WeatherDetailsDisplay(weatherData!!)
                     } else {
                         // Show a loading indicator or placeholder
                         Text(text = "Loading...")

@@ -31,8 +31,8 @@ class WeatherViewModel : ViewModel() {
             try {
                 val response = RetrofitInstance.api.getLocationName(latitude, longitude, apiKey = apiKey).execute()
                 if (response.isSuccessful && response.body() != null) {
-                    val locationName = response.body()!![0].name
-                    println("Location Name: $locationName")
+                    val location = response.body()!![0].city
+                    println("Location Name: $location")
                     // You can update LiveData or use the location name as needed
                 }
             } catch (e: Exception) {
