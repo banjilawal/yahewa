@@ -25,4 +25,19 @@ class WeatherViewModel : ViewModel() {
             }
         }
     }
+
+    fun fetchLocationName(latitude: Double, longitude: Double, apiKey: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response = RetrofitInstance.api.getLocationName(latitude, longitude, apiKey = apiKey).execute()
+                if (response.isSuccessful && response.body() != null) {
+                    val locationName = response.body()!![0].name
+                    println("Location Name: $locationName")
+                    // You can update LiveData or use the location name as needed
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
 }

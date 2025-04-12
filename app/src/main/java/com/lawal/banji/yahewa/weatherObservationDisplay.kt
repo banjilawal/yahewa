@@ -109,7 +109,7 @@ fun WeatherObservationRow(
 }
 
 @Composable
-fun WeatherObservationDisplay(weatherObservation: WeatherObservation) {
+fun WeatherObservationDisplay(weatherObservation: OpenWeatherResponse) {
     Column(modifier = Modifier.padding(16.dp)) {
         WeatherObservationRow(stringResource(id = R.string.app_name), centered = false, backgroundColor = colorResource(id = R.color.headingColor))
         WeatherObservationRow(weatherObservation.location.toString(), centered = true)

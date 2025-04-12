@@ -12,4 +12,12 @@ interface RetrofitApi {
         @Query("units") units: String = "imperial",
         @Query("appid") apiKey: String,
     ): Call<OpenWeatherResponse>
+
+    @GET("geo/1.0/reverse")
+    fun getLocationName(
+        @Query("lat") latitude: Double,
+        @Query("lon") longitude: Double,
+        @Query("limit") limit: Int = 1,
+        @Query("appid") apiKey: String
+    ): Call<List<ReverseGeocodingResponse>>
 }
