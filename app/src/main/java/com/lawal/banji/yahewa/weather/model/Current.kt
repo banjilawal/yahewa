@@ -1,6 +1,7 @@
-package com.lawal.banji.yahewa.weather
+package com.lawal.banji.yahewa.weather.model
 
 import com.google.gson.annotations.SerializedName
+import com.lawal.banji.yahewa.weather.model.free.Weather
 import java.time.LocalDateTime
 
 data class Current(
@@ -11,7 +12,7 @@ data class Current(
     @SerializedName("feels_like") val temperatureFeelsLike : Double,
     @SerializedName("pressure") val  pressure : Double,
     @SerializedName("humidity") val  percentHumidity : Int,
-   @SerializedName("dew_point")  val dewPoint: Double,
+    @SerializedName("dew_point")  val dewPoint: Double,
     @SerializedName("uvi")  val uvIndex: Double,
     @SerializedName("clouds") val  percentCloudiness : Double,
     @SerializedName("visibility") val  visibility: Double,

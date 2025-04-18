@@ -1,4 +1,4 @@
-package com.lawal.banji.yahewa.weather
+package com.lawal.banji.yahewa.weather.model
 
 data class Temperature(
     val dayTimeAverage: Double,
