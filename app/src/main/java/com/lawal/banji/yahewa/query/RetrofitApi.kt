@@ -12,7 +12,7 @@ interface RetrofitApi {
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,
         @Query("units") units: String = "imperial",
-        @Query("exclude") exclude: String = "hourly, minutely, daily, alerts",
+//        @Query("exclude") exclude: String = "hourly, minutely, daily, alerts",
         @Query("appid") apiKey: String
     ): WeatherRecord
 

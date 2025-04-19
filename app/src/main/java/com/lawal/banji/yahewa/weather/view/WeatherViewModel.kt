@@ -18,7 +18,7 @@ class WeatherViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = api.getWeatherData(latitude, longitude, apiKey = apiKey)
-                    _weatherData.postValue(response)
+                _weatherData.postValue(response)
             } catch (e: Exception) {
                 e.printStackTrace();
             }

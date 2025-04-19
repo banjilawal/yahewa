@@ -6,4 +6,5 @@ data class WeatherRecord(
     val timeZone: String,
     val timeZoneOffset: Int,
     val current: Current,
+    val temperature: Temperature
 )
