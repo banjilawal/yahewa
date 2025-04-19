@@ -28,6 +28,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 import com.lawal.banji.yahewa.R
+import com.lawal.banji.yahewa.ui.theme.DefaultCornerRadius
+import com.lawal.banji.yahewa.ui.theme.DefaultPadding
+import com.lawal.banji.yahewa.ui.theme.DefaultVerticalHeight
+import com.lawal.banji.yahewa.ui.theme.LightBlue
+import com.lawal.banji.yahewa.ui.theme.LightSalmon
+import com.lawal.banji.yahewa.ui.theme.PaleGreen
+import com.lawal.banji.yahewa.ui.theme.PowderBlue
+import com.lawal.banji.yahewa.ui.theme.SandLightest
 import com.lawal.banji.yahewa.ui.theme.Typography
 
 import com.lawal.banji.yahewa.weather.model.free.WeatherRecord
@@ -40,15 +48,15 @@ private val commonBoxModifier = Modifier
 @Composable
 fun CustomText(
     content: String,
-    padding: Dp = 5.dp,
+    padding: Dp = DefaultPadding,
     modifier: Modifier = Modifier,
     textAlign: TextAlign = TextAlign.Start, // Default text alignment
-    style: androidx.compose.ui.text.TextStyle = MaterialTheme.typography.bodyLarge // Default typography
+    style:  TextStyle = MaterialTheme.typography.bodyMedium // Default typography
 ) {
     Text(
+        style = style,
         text = content,
         modifier = modifier.fillMaxWidth().padding(padding),
-        style = style,
         textAlign = textAlign
     )
 }
@@ -57,8 +65,8 @@ fun CustomText(
 fun CustomBox(
     modifier: Modifier = Modifier,
     color: Color = Color.White,
-    cornerRadius: Dp = 5.dp,
-    padding: Dp = 16.dp,
+    cornerRadius: Dp = DefaultCornerRadius,
+    padding: Dp = DefaultPadding,
     textAlignment: Alignment = Alignment.Center, // Use androidx.compose.ui.Alignment
     content: @Composable () -> Unit
 ) {
@@ -95,7 +103,9 @@ fun WeatherDetailsDisplay(weatherRecord: WeatherRecord) {
 //    }
     Column(
         modifier = Modifier .fillMaxWidth()
-                .padding(1.dp)
+                .padding(0.dp)
+                .statusBarsPadding()
+                .background(PowderBlue)// Adds padding equal to the height of the status bar
     ) {
         Box(
             modifier = Modifier
@@ -110,50 +120,31 @@ fun WeatherDetailsDisplay(weatherRecord: WeatherRecord) {
                 style = MaterialTheme.typography.headlineLarge
             )
         }
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(DefaultVerticalHeight))
         CustomBox(cornerRadius = 5.dp) {
             CustomText("${weatherRecord.main.temperature}°")
         }
-        CustomBox(color = Color.LightGray, cornerRadius = 5.dp) {
+        CustomBox(color = Color.LightGray) {
             CustomText(style = Typography.titleLarge, content = "Feels Like: ${weatherRecord.main.temperatureFeelsLike}°")
         }
-        Spacer(modifier = Modifier.height(8.dp))
-        Box() {
-            Text(
-                text = "High: ${weatherRecord.main.highTemperature}°",
-                style = MaterialTheme.typography.bodyLarge
-            )
+        Spacer(modifier = Modifier.height(DefaultVerticalHeight))
+        CustomBox(color = SandLightest) {
+            CustomText("High: ${weatherRecord.main.highTemperature}°")
         }
-        Box() {
-            Text(
-                text = "Low: ${weatherRecord.main.lowTemperature}°",
-                style = MaterialTheme.typography.bodyLarge
-            )
+        CustomBox(color = SandLightest) {
+            CustomText("Low: ${weatherRecord.main.lowTemperature}°")
         }
-        Box() {
-            Text(
-                text = "Humidity: ${weatherRecord.main.percentHumidity}%",
-                style = MaterialTheme.typography.bodyLarge
-            )
+        CustomBox(color = LightSalmon) {
+            CustomText("Humidity: ${weatherRecord.main.percentHumidity}%",)
         }
-        Spacer(modifier = Modifier.height(8.dp))
-        Box() {
-            Text(
-                text = "Pressure: ${weatherRecord.main.pressure} hPa",
-                style = MaterialTheme.typography.bodyLarge
-            )
+        CustomBox(color = LightSalmon) {
+            CustomText( "Pressure: ${weatherRecord.main.pressure} hPa")
         }
-        Box() {
-            Text(
-                text = "Wind Speed: ${weatherRecord.wind.speed} mph",
-                style = MaterialTheme.typography.bodyLarge
-            )
+        CustomBox(color = LightBlue) {
+            CustomText("Wind Speed: ${weatherRecord.wind.speed} mph")
         }
-        Box() {
-            Text(
-                text = "Wind Direction: ${weatherRecord.wind.direction} degrees",
-                style = MaterialTheme.typography.bodyLarge
-            )
+        CustomBox(color = LightBlue) {
+            CustomText("Wind Direction: ${weatherRecord.wind.direction} °",)
         }
     }
 }
