@@ -1,5 +1,7 @@
 package com.lawal.banji.yahewa.screen
 
+import android.text.Layout
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.ui.graphics.Color
@@ -14,15 +16,19 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+
 import com.lawal.banji.yahewa.R
+import com.lawal.banji.yahewa.ui.theme.Typography
 
 import com.lawal.banji.yahewa.weather.model.free.WeatherRecord
 
@@ -34,18 +40,35 @@ private val commonBoxModifier = Modifier
 @Composable
 fun CustomText(
     content: String,
+    padding: Dp = 5.dp,
     modifier: Modifier = Modifier,
     textAlign: TextAlign = TextAlign.Start, // Default text alignment
-    fontSize: TextUnit = MaterialTheme.typography.bodyLarge.fontSize, // Default font size
     style: androidx.compose.ui.text.TextStyle = MaterialTheme.typography.bodyLarge // Default typography
 ) {
     Text(
         text = content,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().padding(padding),
         style = style,
-        fontSize = fontSize,
         textAlign = textAlign
     )
+}
+
+@Composable
+fun CustomBox(
+    modifier: Modifier = Modifier,
+    color: Color = Color.White,
+    cornerRadius: Dp = 5.dp,
+    padding: Dp = 16.dp,
+    textAlignment: Alignment = Alignment.Center, // Use androidx.compose.ui.Alignment
+    content: @Composable () -> Unit
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(padding)
+            .background(color, shape = RoundedCornerShape(cornerRadius)),
+        contentAlignment = textAlignment // Pass the correct Alignment
+    ) {  content()  }
 }
 
 @Composable
@@ -88,17 +111,11 @@ fun WeatherDetailsDisplay(weatherRecord: WeatherRecord) {
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
-        Box() {
-            Text(
-                text = "${weatherRecord.main.temperature}°",
-                style = MaterialTheme.typography.bodyLarge
-            )
+        CustomBox(cornerRadius = 5.dp) {
+            CustomText("${weatherRecord.main.temperature}°")
         }
-        Box() {
-            Text(
-                text = "Feels Like: ${weatherRecord.main.temperatureFeelsLike}°",
-                style = MaterialTheme.typography.bodyLarge
-            )
+        CustomBox(color = Color.LightGray, cornerRadius = 5.dp) {
+            CustomText(style = Typography.titleLarge, content = "Feels Like: ${weatherRecord.main.temperatureFeelsLike}°")
         }
         Spacer(modifier = Modifier.height(8.dp))
         Box() {
