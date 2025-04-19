@@ -66,12 +66,15 @@ val Maroon = Color(0xFF800000)
 val Silver = Color(0xFFDDDDDD)
 val Olive = Color(0xFF3D9970)
 
+
 // Sand/Khaki Shades
-val SandLightest = Color(0xFFFFF8E1)
+val SandLightest = Color(0xFFF3ECE3)
+val SandLighter = Color(0xFFFFF8E1)
 val SandLight = Color(0xFFF5DEB3)
 val Sand = Color(0xFFEED6A3)
 val SandDark = Color(0xFFC2B280)
-val SandDarkest = Color(0xFF9E7B4F)
+val SandDarker = Color(0xFF9E7B4F)
+val SandDarkest = Color(0xFF775E3F)
 
 // Greyscale
 val Black = Color(0xFF000000)

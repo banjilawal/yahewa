@@ -13,6 +13,13 @@ class WeatherViewModel : ViewModel() {
     private val _weatherData = MutableLiveData<WeatherRecord>()
     val weatherData: LiveData<WeatherRecord> get() = _weatherData
 
+    fun initializeWeatherData() {
+        fetchWeatherData(
+            latitude = 6.5244,
+            longitude = 3.3792,
+            apiKey = "43d92973340fa3166680bbe3af8d3943"
+        )
+    }
 
     fun fetchWeatherData(latitude: Double, longitude: Double, apiKey: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -25,6 +32,23 @@ class WeatherViewModel : ViewModel() {
         }
     }
 }
+
+//class WeatherViewModel : ViewModel() {
+//    private val _weatherData = MutableLiveData<WeatherRecord>()
+//    val weatherData: LiveData<WeatherRecord> get() = _weatherData
+//
+//
+//    fun fetchWeatherData(latitude: Double, longitude: Double, apiKey: String) {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            try {
+//                val response = api.getWeatherData(latitude, longitude, apiKey = apiKey)
+//                _weatherData.postValue(response)
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
+//        }
+//    }
+//}
 
 //    @GET("geo/1.0/reverse")
 //    suspend fun getLocationName(

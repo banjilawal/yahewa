@@ -1,10 +1,13 @@
 package com.lawal.banji.yahewa.utils
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import com.lawal.banji.yahewa.R
+import com.lawal.banji.yahewa.ui.theme.DefaultIconSize
 
 @Composable
 fun WeatherIconFromApiId(
@@ -58,6 +61,6 @@ fun WeatherIconFromApiId(
     Image(
         painter = painterResource(id = iconResId),
         contentDescription = contentDescription ?: weatherApiId,
-        modifier = modifier
+        modifier = modifier.size(DefaultIconSize * 2)// Use DefaultIconSize from your theme
     )
 }
