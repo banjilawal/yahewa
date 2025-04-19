@@ -1,7 +1,6 @@
 package com.lawal.banji.yahewa.query
 
-import com.lawal.banji.yahewa.weather.model.free.WeatherRecord
-import retrofit2.Call
+import com.lawal.banji.yahewa.weather.model.WeatherRecord
 import retrofit2.http.GET
 import retrofit2.http.Query
 

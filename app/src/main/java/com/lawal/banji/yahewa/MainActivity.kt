@@ -35,8 +35,8 @@ class MainActivity : ComponentActivity() {
             }
         }
         weatherViewModel.fetchWeatherData(
-            latitude =  61.1667 ,
-            longitude = 149.9833,
+            latitude =  32.715736 ,
+            longitude = -117.161087,
             apiKey = "43d92973340fa3166680bbe3af8d3943"
         )
     }

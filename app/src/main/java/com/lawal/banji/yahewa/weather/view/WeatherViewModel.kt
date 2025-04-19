@@ -4,9 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lawal.banji.yahewa.query.RetrofitInstance
 import com.lawal.banji.yahewa.query.RetrofitInstance.api
-import com.lawal.banji.yahewa.weather.model.free.WeatherRecord
+import com.lawal.banji.yahewa.weather.model.WeatherRecord
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -14,17 +13,28 @@ class WeatherViewModel : ViewModel() {
     private val _weatherData = MutableLiveData<WeatherRecord>()
     val weatherData: LiveData<WeatherRecord> get() = _weatherData
 
+
     fun fetchWeatherData(latitude: Double, longitude: Double, apiKey: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = api.getWeatherData(latitude, longitude, apiKey = apiKey)
                 _weatherData.postValue(response)
             } catch (e: Exception) {
-                e.printStackTrace();
+                e.printStackTrace()
             }
         }
     }
+}
 
+//    @GET("geo/1.0/reverse")
+//    suspend fun getLocationName(
+//        @Query("lat") latitude: Double,
+//        @Query("lon") longitude: Double,
+//        @Query("limit") limit: Int = 1,
+//        @Query("appid") apiKey: String
+//    ): Call<List<ReverseGeocodingResponse>>
+//    }
+//}
 //    fun fetchLocationName(latitude: Double, longitude: Double, apiKey: String) {
 //        viewModelScope.launch(Dispatchers.IO) {
 //            try {
@@ -39,4 +49,4 @@ class WeatherViewModel : ViewModel() {
 //            }
 //        }
 //    }
-}
+//}

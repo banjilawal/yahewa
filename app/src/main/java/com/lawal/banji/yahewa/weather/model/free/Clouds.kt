@@ -4,5 +4,5 @@ import com.google.gson.annotations.SerializedName
 
 data class Clouds(
     @SerializedName("all") val all: String,
-    @SerializedName("percentage") val visibility: Int
+    @SerializedName("percentage") val percentCloudiness: Int
 )
