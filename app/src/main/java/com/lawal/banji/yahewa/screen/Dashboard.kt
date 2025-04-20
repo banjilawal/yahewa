@@ -44,6 +44,7 @@ import com.lawal.banji.yahewa.utils.CustomBox
 import com.lawal.banji.yahewa.utils.CustomRow
 import com.lawal.banji.yahewa.utils.CustomText
 import com.lawal.banji.yahewa.utils.WeatherIconFromApiId
+import com.lawal.banji.yahewa.utils.customBorder
 
 import com.lawal.banji.yahewa.weather.model.WeatherRecord
 
@@ -120,7 +121,7 @@ fun WeatherDetailsDisplay(weatherRecord: WeatherRecord) {
              second row contains the "Feels Like" temperature.
              */
             Column(modifier = Modifier.fillMaxWidth().padding(DefaultPadding).weight(1.8f)) {
-                CustomRow {
+                CustomRow(modifier = Modifier.customBorder()) {
                     CustomText(
                         content = "${weatherRecord.main.temperature}°",
                         modifier = Modifier.weight(1f)

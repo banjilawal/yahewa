@@ -27,8 +27,7 @@ fun CustomRow(
     cornerRadius: Dp = DefaultCornerRadius,
     verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     horizontalAlignment: Arrangement.Horizontal = Arrangement.Start,
-    borderColor: Color = LightGray1,
-    borderWidth: Dp = 2.dp,
+
     backgroundColor: Color = Silver,
     content: @Composable RowScope.() -> Unit
 ) {
@@ -37,12 +36,7 @@ fun CustomRow(
             .fillMaxWidth()
             .background(backgroundColor)
             .padding(padding)
-            .clip(RoundedCornerShape(cornerRadius))
-            .border(
-                width = borderWidth,
-                color = borderColor,
-                shape = RoundedCornerShape(cornerRadius)
-            ),
+            .clip(RoundedCornerShape(cornerRadius)),
         verticalAlignment = verticalAlignment,
         horizontalArrangement = horizontalAlignment,
         content = content
