@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Column
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -20,19 +19,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 import com.lawal.banji.yahewa.R
 import com.lawal.banji.yahewa.ui.theme.DefaultCornerRadius
 import com.lawal.banji.yahewa.ui.theme.DefaultPadding
 import com.lawal.banji.yahewa.ui.theme.LargeCornerRadius
-import com.lawal.banji.yahewa.ui.theme.LargePadding
-import com.lawal.banji.yahewa.ui.theme.LargerPadding
-import com.lawal.banji.yahewa.ui.theme.LightGray1
 import com.lawal.banji.yahewa.ui.theme.LightGray2
 import com.lawal.banji.yahewa.ui.theme.PowderBlue
 import com.lawal.banji.yahewa.ui.theme.PowderBlueGray
@@ -43,7 +37,7 @@ import com.lawal.banji.yahewa.ui.theme.SmallerPadding
 import com.lawal.banji.yahewa.utils.CustomBox
 import com.lawal.banji.yahewa.utils.CustomRow
 import com.lawal.banji.yahewa.utils.CustomText
-import com.lawal.banji.yahewa.utils.WeatherIconFromApiId
+import com.lawal.banji.yahewa.utils.iconFromApiId
 import com.lawal.banji.yahewa.utils.customBorder
 
 import com.lawal.banji.yahewa.weather.model.WeatherRecord
@@ -120,8 +114,8 @@ fun WeatherDetailsDisplay(weatherRecord: WeatherRecord) {
              The column has two rows. First row contains current temperature and weather icon. The
              second row contains the "Feels Like" temperature.
              */
-            Column(modifier = Modifier.fillMaxWidth().padding(DefaultPadding).weight(1.8f)) {
-                CustomRow(modifier = Modifier.customBorder()) {
+            Column(modifier = Modifier.fillMaxWidth().padding(DefaultPadding).weight(2f)) {
+                CustomRow(modifier = Modifier.customBorder().weight(1.7f)) {
                     CustomText(
                         content = "${weatherRecord.main.temperature}°",
                         modifier = Modifier.weight(1f)
@@ -129,49 +123,12 @@ fun WeatherDetailsDisplay(weatherRecord: WeatherRecord) {
                         textAlign = TextAlign.Start,
                         style = MaterialTheme.typography.headlineMedium
                     )
-                    WeatherIconFromApiId(
+                    iconFromApiId(
                         weatherApiId = weatherRecord.weather[0].iconId,
-                        modifier = Modifier.size(178.dp)
-                            .clip(RoundedCornerShape(DefaultCornerRadius)) // Add rounded corners
-                            .background(color = LightGray)
-                            .padding(DefaultPadding)
-                            .then(Modifier.align(Alignment.CenterVertically)),
+                        modifier = Modifier.weight(1.4f),
                         contentDescription = weatherRecord.weather[0].description
                     )
                 }
-//                Row(
-//                    modifier = Modifier.fillMaxWidth()
-//                        .weight(1.8f)
-//                        .background(Silver)
-//                        .padding(1.dp)
-//                        .clip(RoundedCornerShape(DefaultCornerRadius) )
-//                        .border(
-//                            width = 2.dp,
-//                            color = LightGray1,
-//                            shape = RoundedCornerShape(DefaultCornerRadius)
-//                        ),
-//                    verticalAlignment = Alignment.CenterVertically
-//                ) {
-//                    // Temperature on the left
-//                    CustomText(
-//                        content = "${weatherRecord.main.temperature}°",
-//                        modifier = Modifier.weight(1f)
-//                            .clip(RoundedCornerShape(DefaultCornerRadius)), // Add rounded cor
-//                        textAlign = TextAlign.Start,
-//                        style = MaterialTheme.typography.headlineMedium
-//                    )
-//
-//                    // Weather icon on the right
-//                    WeatherIconFromApiId(
-//                        weatherApiId = weatherRecord.weather[0].iconId,
-//                        modifier = Modifier.size(178.dp)
-//                            .clip(RoundedCornerShape(DefaultCornerRadius)) // Add rounded corners
-//                            .background(color = LightGray)
-//                            .padding(DefaultPadding)
-//                            .then(Modifier.align(Alignment.CenterVertically)),
-//                        contentDescription = weatherRecord.weather[0].description
-//                    )
-//                }
 
                 // Row for Feels Like
                 Row(

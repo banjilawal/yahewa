@@ -1,19 +1,33 @@
 package com.lawal.banji.yahewa.utils
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.lawal.banji.yahewa.R
+import com.lawal.banji.yahewa.ui.theme.DefaultCornerRadius
 import com.lawal.banji.yahewa.ui.theme.DefaultIconSize
+import com.lawal.banji.yahewa.ui.theme.DefaultPadding
+import com.lawal.banji.yahewa.ui.theme.LargeIconSize
 
 @Composable
-fun WeatherIconFromApiId(
+fun iconFromApiId(
     weatherApiId: String,
-    modifier: Modifier = Modifier,
-    contentDescription: String? = null
+    modifier: Modifier = Modifier
+        .size(LargeIconSize)
+        .clip(RoundedCornerShape(DefaultCornerRadius))
+        .background(color = LightGray)
+        .padding(DefaultPadding),
+    contentDescription: String? = null,
+    alignment: Alignment = Alignment.Center
 ) {
     val iconResId = when (weatherApiId.lowercase()) {
         "01d" -> R.drawable.sunny              // Clear sky (day)
@@ -61,6 +75,6 @@ fun WeatherIconFromApiId(
     Image(
         painter = painterResource(id = iconResId),
         contentDescription = contentDescription ?: weatherApiId,
-        modifier = modifier.size(DefaultIconSize * 3)// Use DefaultIconSize from your theme
+        modifier = modifier
     )
 }
