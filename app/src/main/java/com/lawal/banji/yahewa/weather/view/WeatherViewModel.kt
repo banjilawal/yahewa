@@ -15,8 +15,8 @@ class WeatherViewModel : ViewModel() {
 
     fun initializeWeatherData() {
         fetchWeatherData(
-            latitude = 41.8781,
-            longitude = -87.6298,
+            latitude = 61.2176,
+            longitude = -149.8631,
             apiKey = "43d92973340fa3166680bbe3af8d3943"
         )
     }

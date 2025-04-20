@@ -38,6 +38,7 @@ val IndigoPurple = Color(0xFF4B0082)
 val Indigo = Color(0xFF3F51B5)
 
 // Blue Shades (Darkest to Lightest)
+val BattleShipGrayBlue = Color(0xE12B3C41)
 val NavyBlue = Color(0xFF001F3F)
 val MidnightBlue = Color(0xFF191970)
 val RoyalBlue = Color(0xFF4169E1)
@@ -105,8 +106,8 @@ val White = Color(0xFFFFFFFF)
 val Transparent = Color(0x00000000)
 
 // Other Neutrals
-val Grey = Color(0xFF9E9E9E)
-val BlueGrey = Color(0xFF607D8B)
+val Gray = Color(0xFF9E9E9E)
+val BlueGray = Color(0xFF607D8B)
 
 //val Purple80 = Color(0xFFD0BCFF)
 //val PurpleGrey80 = Color(0xFFCCC2DC)

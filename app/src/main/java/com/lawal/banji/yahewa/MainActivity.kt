@@ -11,6 +11,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.lawal.banji.yahewa.weather.view.WeatherViewModel
 import com.lawal.banji.yahewa.screen.WeatherDetailsDisplay
 import com.lawal.banji.yahewa.ui.theme.YahewaTheme
@@ -21,6 +23,10 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        WindowCompat.setDecorFitsSystemWindows(window, true)
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
+
         setContent {
             YahewaTheme {
                 val weatherData by weatherViewModel.weatherData.observeAsState()

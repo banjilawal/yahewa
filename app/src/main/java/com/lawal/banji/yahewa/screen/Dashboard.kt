@@ -30,6 +30,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 import com.lawal.banji.yahewa.R
+import com.lawal.banji.yahewa.ui.theme.BattleShipGrayBlue
+import com.lawal.banji.yahewa.ui.theme.BlueGray
 import com.lawal.banji.yahewa.ui.theme.DefaultCornerRadius
 import com.lawal.banji.yahewa.ui.theme.DefaultPadding
 import com.lawal.banji.yahewa.ui.theme.DefaultVerticalHeight
@@ -47,6 +49,7 @@ import com.lawal.banji.yahewa.ui.theme.SandLighter
 import com.lawal.banji.yahewa.ui.theme.SandLightest
 import com.lawal.banji.yahewa.ui.theme.Silver
 import com.lawal.banji.yahewa.ui.theme.SmallPadding
+import com.lawal.banji.yahewa.ui.theme.SmallerPadding
 import com.lawal.banji.yahewa.ui.theme.SmallestPadding
 import com.lawal.banji.yahewa.utils.WeatherIconFromApiId
 
@@ -118,13 +121,20 @@ fun WeatherDetailsDisplay(weatherRecord: WeatherRecord) {
                     modifier = Modifier.fillMaxWidth()
                         .weight(1.8f)
                         .background(Silver)
-                        .padding(SmallestPadding),
+                        .padding(1.dp)
+                        .clip(RoundedCornerShape(DefaultCornerRadius) )
+                        .border(
+                            width = 2.dp,
+                            color = LightGray1,
+                            shape = RoundedCornerShape(DefaultCornerRadius)
+                        ),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     // Temperature on the left
                     CustomText(
                         content = "${weatherRecord.main.temperature}°",
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier.weight(1f)
+                            .clip(RoundedCornerShape(DefaultCornerRadius)), // Add rounded cor
                         textAlign = TextAlign.Start,
                         style = MaterialTheme.typography.headlineMedium
                     )
@@ -147,11 +157,11 @@ fun WeatherDetailsDisplay(weatherRecord: WeatherRecord) {
                         .fillMaxWidth()
                         .weight(0.85f)
                         .background(color = SandLightest)
-                        .padding(0.dp)
+                        .padding(SmallPadding)
                         .border(
                             width = 1.dp,
-                            color = LightSalmon,
-                            shape = RoundedCornerShape(1.dp)
+                            color = LightGray2,
+                            shape = RoundedCornerShape(DefaultCornerRadius)
                         ),
                     horizontalArrangement = Arrangement.Center
                 ) {
@@ -159,6 +169,7 @@ fun WeatherDetailsDisplay(weatherRecord: WeatherRecord) {
                         content = "Feels Like: ${weatherRecord.main.temperatureFeelsLike}°",
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth()
+                            .padding(0.dp)
                             .then(Modifier.align(Alignment.CenterVertically)),
                         style = MaterialTheme.typography.bodySmall
                     )
@@ -167,7 +178,8 @@ fun WeatherDetailsDisplay(weatherRecord: WeatherRecord) {
     }
 
 //        Spacer(modifier = Modifier.height(DefaultVerticalHeight))
-        CustomBox(color =PowderBlue, modifier = Modifier.weight(0.9f)) {
+        CustomBox(
+            color =PowderBlue, modifier = Modifier.weight(0.9f)) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth(),
