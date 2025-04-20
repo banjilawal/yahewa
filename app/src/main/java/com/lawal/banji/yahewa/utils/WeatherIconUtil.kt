@@ -11,15 +11,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
+
 import com.lawal.banji.yahewa.R
 import com.lawal.banji.yahewa.ui.theme.DefaultCornerRadius
-import com.lawal.banji.yahewa.ui.theme.DefaultIconSize
 import com.lawal.banji.yahewa.ui.theme.DefaultPadding
 import com.lawal.banji.yahewa.ui.theme.LargeIconSize
 
 @Composable
-fun iconFromApiId(
+fun iconFromWeatherApiId(
     weatherApiId: String,
     modifier: Modifier = Modifier
         .size(LargeIconSize)

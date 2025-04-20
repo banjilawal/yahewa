@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
@@ -20,14 +21,16 @@ import com.lawal.banji.yahewa.ui.theme.DefaultPadding
 fun CustomText(
     content: String,
     padding: Dp = DefaultPadding,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier.fillMaxWidth(),
     textAlign: TextAlign = TextAlign.Start,
-    style: TextStyle = MaterialTheme.typography.bodyMedium
+    style: TextStyle = MaterialTheme.typography.bodyMedium,
+    color: Color = MaterialTheme.colorScheme.onSurface
 ) {
     Text(
         style = style,
         text = content,
-        modifier = modifier.fillMaxWidth().padding(padding),
-        textAlign = textAlign
+        modifier = modifier.padding(padding),
+        textAlign = textAlign,
+        color = color
     )
 }
