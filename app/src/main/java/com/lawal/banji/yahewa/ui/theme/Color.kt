@@ -15,12 +15,26 @@ val CoralRed     = Color(0xFFFF4040) // Lively soft red
 val Salmon       = Color(0xFFFA8072) // Pale, pinkish red
 val LightSalmon       = Color(0xFFFFA07A) // Lighter than Salmon
 val SalmonPink        = Color(0xFFFF91A4) // Pink-tinted pale salmon
+val LightSalmonPink        = Color(0xFFE7CED5)
 val MistyRose         = Color(0xFFFFE4E1) // Very light, almost white with a salmon-pink tint
 
 // Primary Colors
 val Pink = Color(0xFFE91E63)
-val Purple = Color(0xFF9C27B0)
+
+
+
+// Purples
+val Lavender  = Color(0xFFE6E6FA)
+val Thistle = Color(0xFFD8BFD8)
+val Orchid = Color(0xFFDA70D6)
+val MediumOrchid = Color(0xFFBA55D3)
+val Amethyst = Color(0xFF9966CC)
+val DarkOrchid = Color(0xFF9932CC)
+val Purple = Color(0xFF800080)
 val DeepPurple = Color(0xFF673AB7)
+val RebeccaPurple = Color(0xFF663399)
+val DarkViolet = Color(0xFF9400D3)
+val IndigoPurple = Color(0xFF4B0082)
 val Indigo = Color(0xFF3F51B5)
 
 // Blue Shades (Darkest to Lightest)
@@ -34,6 +48,7 @@ val SkyBlue = Color(0xFF87CEEB)
 val LightSkyBlue = Color(0xFF87CEFA)
 val LightBlue = Color(0xFF03A9F4)
 val PowderBlue = Color(0xFFB0E0E6)
+val PowderBlueGray = Color(0xFF98B4B9)
 
 // Cyan/Teal
 val Cyan = Color(0xFF00BCD4)

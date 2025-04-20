@@ -61,6 +61,6 @@ fun WeatherIconFromApiId(
     Image(
         painter = painterResource(id = iconResId),
         contentDescription = contentDescription ?: weatherApiId,
-        modifier = modifier.size(DefaultIconSize * 2)// Use DefaultIconSize from your theme
+        modifier = modifier.size(DefaultIconSize * 3)// Use DefaultIconSize from your theme
     )
 }

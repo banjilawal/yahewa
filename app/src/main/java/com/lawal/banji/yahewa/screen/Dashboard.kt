@@ -9,9 +9,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -19,6 +21,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -29,14 +33,21 @@ import com.lawal.banji.yahewa.R
 import com.lawal.banji.yahewa.ui.theme.DefaultCornerRadius
 import com.lawal.banji.yahewa.ui.theme.DefaultPadding
 import com.lawal.banji.yahewa.ui.theme.DefaultVerticalHeight
+import com.lawal.banji.yahewa.ui.theme.LargeCornerRadius
+import com.lawal.banji.yahewa.ui.theme.LargePadding
+import com.lawal.banji.yahewa.ui.theme.LargerPadding
 import com.lawal.banji.yahewa.ui.theme.LightGray1
 import com.lawal.banji.yahewa.ui.theme.LightGray2
 import com.lawal.banji.yahewa.ui.theme.LightGray3
 import com.lawal.banji.yahewa.ui.theme.LightSalmon
+import com.lawal.banji.yahewa.ui.theme.LightSalmonPink
 import com.lawal.banji.yahewa.ui.theme.PowderBlue
+import com.lawal.banji.yahewa.ui.theme.PowderBlueGray
 import com.lawal.banji.yahewa.ui.theme.SandLighter
 import com.lawal.banji.yahewa.ui.theme.SandLightest
+import com.lawal.banji.yahewa.ui.theme.Silver
 import com.lawal.banji.yahewa.ui.theme.SmallPadding
+import com.lawal.banji.yahewa.ui.theme.SmallestPadding
 import com.lawal.banji.yahewa.utils.WeatherIconFromApiId
 
 import com.lawal.banji.yahewa.weather.model.WeatherRecord
@@ -66,16 +77,16 @@ fun CustomText(
 @Composable
 fun CustomBox(
     modifier: Modifier = Modifier,
-    color: Color = Color.White,
+    color: Color = PowderBlue,
     cornerRadius: Dp = DefaultCornerRadius,
-    padding: Dp = SmallPadding,
+    padding: Dp = LargePadding,
     textAlignment: Alignment = Alignment.Center, // Use androidx.compose.ui.Alignment
     content: @Composable () -> Unit
 ) {
     Box(
         modifier = modifier
-            .fillMaxWidth()
-            .padding(padding)
+            .fillMaxWidth().then(Modifier.height(200.dp))
+            .padding(horizontal = LargerPadding, vertical = SmallPadding)
             .background(color, shape = RoundedCornerShape(cornerRadius)),
         contentAlignment = textAlignment // Pass the correct Alignment
     ) {  content()  }
@@ -84,52 +95,36 @@ fun CustomBox(
 @Composable
 fun WeatherDetailsDisplay(weatherRecord: WeatherRecord) {
 
-    val defaultPadding = dimensionResource(id = R.dimen.default_padding)
-    val defaultHeight = dimensionResource(id = R.dimen.default_height)
-    val defaultFontSize = dimensionResource(id = R.dimen.default_font_size).value.sp
-    val commonTextStyle = MaterialTheme.typography.bodyLarge.fontStyle
-
-
-
-//    Column(Modifier.padding(16.dp)) {
-//        val iconUrl = "https://openweathermap.org/img/wn/${weatherRecord.weather[0].iconId}@2x.png"
-//        Log.d("WeatherDetailsDisplay", "Icon URL: $iconUrl")
-//        Image(
-//            painter = rememberAsyncImagePainter(model = iconUrl),
-//            contentDescription = "Weather Icon",
-//            modifier = Modifier
-//                .size(100.dp)
-//                .padding(16.dp),
-//            contentScale = ContentScale.Fit
-//        )
-//    }
     Column(
         modifier = Modifier .fillMaxWidth()
-                .padding(0.dp)
+                .padding(horizontal = 0.dp)
                 .statusBarsPadding()
-                .background(LightGray2)// Adds padding equal to the height of the status bar
+                .clip(RoundedCornerShape(LargeCornerRadius) )
+                .background(PowderBlueGray)// Adds padding equal to the height of the status bar
     ) {
-        CustomBox(color = PowderBlue, modifier = Modifier.weight(1.28f)) {
+        CustomBox(color = PowderBlue, modifier = Modifier.weight(0.75f)) {
             CustomText(
                 content = weatherRecord.name,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.headlineLarge
             )
         }
-//        Spacer(modifier = Modifier.height(DefaultVerticalHeight))
-        CustomBox(color = LightGray3, modifier = Modifier.weight(1.7f)) {
+        CustomBox(color = Silver, modifier = Modifier.weight(1.6f)) {
             Column(
-                modifier = Modifier.fillMaxWidth().padding(DefaultPadding).weight(1.6f)
+                modifier = Modifier.fillMaxWidth().padding(DefaultPadding).weight(1.8f)
             ) {
                 // Row for Temperature and Weather Icon
                 Row(
-                    modifier = Modifier.fillMaxWidth().weight(1.8f),
+                    modifier = Modifier.fillMaxWidth()
+                        .weight(1.8f)
+                        .background(Silver)
+                        .padding(SmallestPadding),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     // Temperature on the left
                     CustomText(
                         content = "${weatherRecord.main.temperature}°",
-                        modifier = Modifier.weight(0.8f),
+                        modifier = Modifier.weight(1f),
                         textAlign = TextAlign.Start,
                         style = MaterialTheme.typography.headlineMedium
                     )
@@ -137,9 +132,11 @@ fun WeatherDetailsDisplay(weatherRecord: WeatherRecord) {
                     // Weather icon on the right
                     WeatherIconFromApiId(
                         weatherApiId = weatherRecord.weather[0].iconId,
-                        modifier = Modifier
-                            .weight(1.7f)
-                            .padding(SmallPadding),
+                        modifier = Modifier.size(178.dp)
+                            .clip(RoundedCornerShape(DefaultCornerRadius)) // Add rounded corners
+                            .background(color = LightGray)
+                            .padding(DefaultPadding)
+                            .then(Modifier.align(Alignment.CenterVertically)),
                         contentDescription = weatherRecord.weather[0].description
                     )
                 }
@@ -152,7 +149,7 @@ fun WeatherDetailsDisplay(weatherRecord: WeatherRecord) {
                         .background(color = SandLightest)
                         .padding(0.dp)
                         .border(
-                            width = 0.dp,
+                            width = 1.dp,
                             color = LightSalmon,
                             shape = RoundedCornerShape(1.dp)
                         ),
@@ -161,7 +158,8 @@ fun WeatherDetailsDisplay(weatherRecord: WeatherRecord) {
                     CustomText(
                         content = "Feels Like: ${weatherRecord.main.temperatureFeelsLike}°",
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth()
+                            .then(Modifier.align(Alignment.CenterVertically)),
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
@@ -169,16 +167,21 @@ fun WeatherDetailsDisplay(weatherRecord: WeatherRecord) {
     }
 
 //        Spacer(modifier = Modifier.height(DefaultVerticalHeight))
-        CustomBox(color = LightGray3, modifier = Modifier.weight(0.9f)) {
-            CustomText("High: ${weatherRecord.main.highTemperature}°")
+        CustomBox(color =PowderBlue, modifier = Modifier.weight(0.9f)) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                CustomText("High: ${weatherRecord.main.highTemperature}°")
+                CustomText("Low: ${weatherRecord.main.lowTemperature}°")
+                }
         }
-        CustomBox(color = LightGray3, modifier = Modifier.weight(0.9f)) {
-            CustomText("Low: ${weatherRecord.main.lowTemperature}°")
-        }
-        CustomBox(color = LightGray3, modifier = Modifier.weight(0.9f)) {
+        CustomBox(color = Silver, modifier = Modifier.weight(0.9f)) {
             CustomText("Humidity: ${weatherRecord.main.percentHumidity}%",)
         }
-        CustomBox(color = LightGray3, modifier = Modifier.weight(0.9f)) {
+        CustomBox(color = PowderBlue, modifier = Modifier.weight(0.9f)) {
             CustomText( "Pressure: ${weatherRecord.main.pressure} hPa")
         }
     }

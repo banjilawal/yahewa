@@ -65,11 +65,3 @@ class MainActivity : ComponentActivity() {
 //    }
 //}
 
-//  san diego lat:32.715736, long:-117.161087
-//  lagos lat:6.5244, long:3.3792
-//  new york lat:40.7128, long:-74.0060
-//  london lat:51.5074, long:-0.1278
-// tucson lat:32.22174, long:--110.92648
-//  chicago lat:41.8781, long:-87.6298
-// minneapolis lat:44.9778, long:-93.2650
-// anchorage lat:61.2176, long:-149.8631
