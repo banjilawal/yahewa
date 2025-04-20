@@ -41,6 +41,7 @@ import com.lawal.banji.yahewa.ui.theme.Silver
 import com.lawal.banji.yahewa.ui.theme.SmallPadding
 import com.lawal.banji.yahewa.ui.theme.SmallerPadding
 import com.lawal.banji.yahewa.utils.CustomBox
+import com.lawal.banji.yahewa.utils.CustomRow
 import com.lawal.banji.yahewa.utils.CustomText
 import com.lawal.banji.yahewa.utils.WeatherIconFromApiId
 
@@ -119,20 +120,7 @@ fun WeatherDetailsDisplay(weatherRecord: WeatherRecord) {
              second row contains the "Feels Like" temperature.
              */
             Column(modifier = Modifier.fillMaxWidth().padding(DefaultPadding).weight(1.8f)) {
-                Row(
-                    modifier = Modifier.fillMaxWidth()
-                        .weight(1.8f)
-                        .background(Silver)
-                        .padding(1.dp)
-                        .clip(RoundedCornerShape(DefaultCornerRadius) )
-                        .border(
-                            width = 2.dp,
-                            color = LightGray1,
-                            shape = RoundedCornerShape(DefaultCornerRadius)
-                        ),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    // Temperature on the left
+                CustomRow {
                     CustomText(
                         content = "${weatherRecord.main.temperature}°",
                         modifier = Modifier.weight(1f)
@@ -140,8 +128,6 @@ fun WeatherDetailsDisplay(weatherRecord: WeatherRecord) {
                         textAlign = TextAlign.Start,
                         style = MaterialTheme.typography.headlineMedium
                     )
-
-                    // Weather icon on the right
                     WeatherIconFromApiId(
                         weatherApiId = weatherRecord.weather[0].iconId,
                         modifier = Modifier.size(178.dp)
@@ -152,6 +138,39 @@ fun WeatherDetailsDisplay(weatherRecord: WeatherRecord) {
                         contentDescription = weatherRecord.weather[0].description
                     )
                 }
+//                Row(
+//                    modifier = Modifier.fillMaxWidth()
+//                        .weight(1.8f)
+//                        .background(Silver)
+//                        .padding(1.dp)
+//                        .clip(RoundedCornerShape(DefaultCornerRadius) )
+//                        .border(
+//                            width = 2.dp,
+//                            color = LightGray1,
+//                            shape = RoundedCornerShape(DefaultCornerRadius)
+//                        ),
+//                    verticalAlignment = Alignment.CenterVertically
+//                ) {
+//                    // Temperature on the left
+//                    CustomText(
+//                        content = "${weatherRecord.main.temperature}°",
+//                        modifier = Modifier.weight(1f)
+//                            .clip(RoundedCornerShape(DefaultCornerRadius)), // Add rounded cor
+//                        textAlign = TextAlign.Start,
+//                        style = MaterialTheme.typography.headlineMedium
+//                    )
+//
+//                    // Weather icon on the right
+//                    WeatherIconFromApiId(
+//                        weatherApiId = weatherRecord.weather[0].iconId,
+//                        modifier = Modifier.size(178.dp)
+//                            .clip(RoundedCornerShape(DefaultCornerRadius)) // Add rounded corners
+//                            .background(color = LightGray)
+//                            .padding(DefaultPadding)
+//                            .then(Modifier.align(Alignment.CenterVertically)),
+//                        contentDescription = weatherRecord.weather[0].description
+//                    )
+//                }
 
                 // Row for Feels Like
                 Row(
