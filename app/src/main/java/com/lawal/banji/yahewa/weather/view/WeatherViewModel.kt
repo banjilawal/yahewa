@@ -42,4 +42,3 @@ class WeatherViewModel : ViewModel() {
 //  chicago lat:41.8781, long:-87.6298
 // minneapolis lat:44.9778, long:-93.2650
 // anchorage lat:61.2176, long:-149.8631
-/

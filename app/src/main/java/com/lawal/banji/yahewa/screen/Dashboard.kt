@@ -1,6 +1,5 @@
 package com.lawal.banji.yahewa.screen
 
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -9,8 +8,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.layout.Column
 
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -24,35 +21,27 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color.Companion.LightGray
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 import com.lawal.banji.yahewa.R
-import com.lawal.banji.yahewa.ui.theme.BattleShipGrayBlue
-import com.lawal.banji.yahewa.ui.theme.BlueGray
 import com.lawal.banji.yahewa.ui.theme.DefaultCornerRadius
 import com.lawal.banji.yahewa.ui.theme.DefaultPadding
-import com.lawal.banji.yahewa.ui.theme.DefaultVerticalHeight
 import com.lawal.banji.yahewa.ui.theme.LargeCornerRadius
 import com.lawal.banji.yahewa.ui.theme.LargePadding
 import com.lawal.banji.yahewa.ui.theme.LargerPadding
 import com.lawal.banji.yahewa.ui.theme.LightGray1
 import com.lawal.banji.yahewa.ui.theme.LightGray2
-import com.lawal.banji.yahewa.ui.theme.LightGray3
-import com.lawal.banji.yahewa.ui.theme.LightSalmon
-import com.lawal.banji.yahewa.ui.theme.LightSalmonPink
 import com.lawal.banji.yahewa.ui.theme.PowderBlue
 import com.lawal.banji.yahewa.ui.theme.PowderBlueGray
-import com.lawal.banji.yahewa.ui.theme.SandLighter
 import com.lawal.banji.yahewa.ui.theme.SandLightest
 import com.lawal.banji.yahewa.ui.theme.Silver
 import com.lawal.banji.yahewa.ui.theme.SmallPadding
 import com.lawal.banji.yahewa.ui.theme.SmallerPadding
-import com.lawal.banji.yahewa.ui.theme.SmallestPadding
+import com.lawal.banji.yahewa.utils.CustomBox
+import com.lawal.banji.yahewa.utils.CustomText
 import com.lawal.banji.yahewa.utils.WeatherIconFromApiId
 
 import com.lawal.banji.yahewa.weather.model.WeatherRecord
@@ -60,42 +49,6 @@ import com.lawal.banji.yahewa.weather.model.WeatherRecord
 private val commonBoxModifier = Modifier
     .fillMaxWidth()
     .padding(8.dp)
-
-
-
-@Composable
-fun CustomText(
-    content: String,
-    padding: Dp = DefaultPadding,
-    modifier: Modifier = Modifier,
-    textAlign: TextAlign = TextAlign.Start, // Default text alignment
-    style:  TextStyle = MaterialTheme.typography.bodyMedium // Default typography
-) {
-    Text(
-        style = style,
-        text = content,
-        modifier = modifier.fillMaxWidth().padding(padding),
-        textAlign = textAlign
-    )
-}
-
-@Composable
-fun CustomBox(
-    modifier: Modifier = Modifier,
-    color: Color = PowderBlue,
-    cornerRadius: Dp = DefaultCornerRadius,
-    padding: Dp = LargePadding,
-    textAlignment: Alignment = Alignment.Center, // Use androidx.compose.ui.Alignment
-    content: @Composable () -> Unit
-) {
-    Box(
-        modifier = modifier
-            .fillMaxWidth().then(Modifier.height(200.dp))
-            .padding(horizontal = LargerPadding, vertical = SmallPadding)
-            .background(color, shape = RoundedCornerShape(cornerRadius)),
-        contentAlignment = textAlignment // Pass the correct Alignment
-    ) {  content()  }
-}
 
 @Composable
 fun WeatherDetailsDisplay(weatherRecord: WeatherRecord) {
@@ -129,6 +82,16 @@ fun WeatherDetailsDisplay(weatherRecord: WeatherRecord) {
             }
         }
 
+        /*
+        * Node Type: CustomBox
+         * Description: Displays the name of the city or location.
+         * Color: PowderBlue
+         * Modifier: weight(0.75f)
+         * Text Style: headlineLarge
+         * Text Alignment: Center
+         *
+         * Child Node Type: CustomText
+        * */
         CustomBox(color = PowderBlue, modifier = Modifier.weight(0.75f)) {
             CustomText(
                 content = weatherRecord.name,
@@ -136,11 +99,26 @@ fun WeatherDetailsDisplay(weatherRecord: WeatherRecord) {
                 style = MaterialTheme.typography.headlineLarge
             )
         }
+
+        /*
+        * Node Type: CustomBox
+         * Description: Displays the weather information.
+         * Color: Silver
+         * Modifier: weight(1.6f)
+         * Text Style: headlineMedium
+         * Text Alignment: Start
+         * Weather Icon: Displays the weather icon based on the API ID.
+         * Feels Like: Displays the "Feels Like" temperature.
+         *
+         * Child Node Type: Column
+        * */
         CustomBox(color = Silver, modifier = Modifier.weight(1.6f)) {
-            Column(
-                modifier = Modifier.fillMaxWidth().padding(DefaultPadding).weight(1.8f)
-            ) {
-                // Row for Temperature and Weather Icon
+
+            /*
+             The column has two rows. First row contains current temperature and weather icon. The
+             second row contains the "Feels Like" temperature.
+             */
+            Column(modifier = Modifier.fillMaxWidth().padding(DefaultPadding).weight(1.8f)) {
                 Row(
                     modifier = Modifier.fillMaxWidth()
                         .weight(1.8f)
@@ -201,7 +179,6 @@ fun WeatherDetailsDisplay(weatherRecord: WeatherRecord) {
             }
     }
 
-//        Spacer(modifier = Modifier.height(DefaultVerticalHeight))
         CustomBox(
             color =PowderBlue, modifier = Modifier.weight(0.9f)) {
             Column(
