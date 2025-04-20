@@ -5,7 +5,7 @@
     <string name="white_space">\u0020</string>
     <string name="degree_symbol">&#176;</string>
     <string name="default_temperature_scale">F</string>
-    <string name="location">St Paul, MN</string>
+    <string name="default_location">St Paul, MN</string>
     <string name="current_temperature">72&#176; F</string>
     <string name="feels_like_temperature">Feels like 78&#176; F</string>
     <string name="low_temperature">Low 65&#176; F</string>

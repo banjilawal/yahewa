@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.layout.Column
+
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -24,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -105,6 +107,28 @@ fun WeatherDetailsDisplay(weatherRecord: WeatherRecord) {
                 .clip(RoundedCornerShape(LargeCornerRadius) )
                 .background(PowderBlueGray)// Adds padding equal to the height of the status bar
     ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(DefaultPadding)
+        ) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.TopStart) // Align to the top-right corner
+                    .background(
+                        color = Color.DarkGray,
+                        shape = RoundedCornerShape(SmallPadding)
+                    )
+                    .padding(horizontal = DefaultPadding, vertical = SmallerPadding)
+            ) {
+                Text(
+                    text =  stringResource(id = R.string.app_name),
+                    color = Silver,
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
+        }
+
         CustomBox(color = PowderBlue, modifier = Modifier.weight(0.75f)) {
             CustomText(
                 content = weatherRecord.name,
