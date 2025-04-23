@@ -13,7 +13,7 @@ class WeatherViewModel : ViewModel() {
     private val _weatherData = MutableLiveData<WeatherRecord>()
     val weatherData: LiveData<WeatherRecord> get() = _weatherData
 
-    fun initializeWeatherData() {
+    init {
         fetchWeatherData(
             latitude = 43.038902,
             longitude = -87.906471,

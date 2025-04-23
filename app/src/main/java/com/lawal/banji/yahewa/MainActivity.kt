@@ -4,18 +4,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import com.lawal.banji.yahewa.weather.view.WeatherViewModel
 import com.lawal.banji.yahewa.screen.WeatherDetailsDisplay
 import com.lawal.banji.yahewa.ui.theme.YahewaTheme
+import com.lawal.banji.yahewa.weather.view.WeatherViewModel
 
 class MainActivity : ComponentActivity() {
 
@@ -40,8 +38,6 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-        // Let the ViewModel handle initialization
-        weatherViewModel.initializeWeatherData()
     }
 }
 
