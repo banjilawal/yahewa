@@ -109,6 +109,10 @@ val Transparent = Color(0x00000000)
 val Gray = Color(0xFF9E9E9E)
 val BlueGray = Color(0xFF607D8B)
 
+val DefaultBoxColor = PowderBlue
+val DefaultIconBackgroundColor = Lavender
+val DefaultDisplayBackgroundColor = PowderBlueGray
+
 //val Purple80 = Color(0xFFD0BCFF)
 //val PurpleGrey80 = Color(0xFFCCC2DC)
 //val Pink80 = Color(0xFFEFB8C8)
