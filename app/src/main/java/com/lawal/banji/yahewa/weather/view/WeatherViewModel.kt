@@ -4,28 +4,41 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lawal.banji.yahewa.query.RetrofitInstance.api
+import com.lawal.banji.yahewa.repo.WeatherRepository
+import com.lawal.banji.yahewa.utils.AppDefault
 import com.lawal.banji.yahewa.weather.model.WeatherRecord
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class WeatherViewModel : ViewModel() {
-    private val _weatherData = MutableLiveData<WeatherRecord>()
-    val weatherData: LiveData<WeatherRecord> get() = _weatherData
+class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() {
+    private val _weatherRecord = MutableLiveData<WeatherRecord>()
+    val weatherRecord: LiveData<WeatherRecord> get() = _weatherRecord
 
     init {
-        fetchWeatherData(
-            latitude = 43.038902,
-            longitude = -87.906471,
-            apiKey = "43d92973340fa3166680bbe3af8d3943"
-        )
+        viewModelScope.launch {
+            fetchForDefaultLocation()
+        }
     }
+
+    private suspend fun fetchForDefaultLocation() {
+        try {
+            val response = repository.fetchRecordByCoordinate(
+                latitude = AppDefault.LATITUDE,
+                longitude = AppDefault.LONGITUDE,
+                apiKey = AppDefault.API_KEY
+            )
+            _weatherRecord.postValue(response)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
 
     fun fetchWeatherData(latitude: Double, longitude: Double, apiKey: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response = api.getWeatherData(latitude, longitude, apiKey = apiKey)
-                _weatherData.postValue(response)
+                val response = repository.fetchRecordByCoordinate(latitude = latitude, longitude = longitude, apiKey = apiKey)
+                _weatherRecord.postValue(response)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
