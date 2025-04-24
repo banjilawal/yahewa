@@ -4,14 +4,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+
+import com.lawal.banji.yahewa.repo.Result
 import com.lawal.banji.yahewa.repo.WeatherRepository
 import com.lawal.banji.yahewa.utils.AppDefault
 import com.lawal.banji.yahewa.weather.model.WeatherRecord
-import kotlinx.coroutines.Dispatchers
+
 import kotlinx.coroutines.launch
 
 class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() {
     private val _weatherRecord = MutableLiveData<WeatherRecord>()
+
+    private val _errorMessage = MutableLiveData<String>()
+
     val weatherRecord: LiveData<WeatherRecord> get() = _weatherRecord
 
     init {
@@ -21,29 +26,25 @@ class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() 
     }
 
     private suspend fun fetchForDefaultLocation() {
-        try {
-            val response = repository.fetchRecordByCoordinate(
-                latitude = AppDefault.LATITUDE,
-                longitude = AppDefault.LONGITUDE,
-                apiKey = AppDefault.API_KEY
-            )
-            _weatherRecord.postValue(response)
-        } catch (e: Exception) {
-            e.printStackTrace()
+        when (val result = repository.fetchRecordByCoordinate(
+            latitude = AppDefault.LATITUDE,
+            longitude = AppDefault.LONGITUDE,
+            apiKey = AppDefault.API_KEY
+        )) {
+            is Result.Success -> _weatherRecord.postValue(result.data)
+            is Result.Error -> _errorMessage.postValue("Error: ${result.exception.message}")
         }
     }
 
-
     fun fetchWeatherData(latitude: Double, longitude: Double, apiKey: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val response = repository.fetchRecordByCoordinate(latitude = latitude, longitude = longitude, apiKey = apiKey)
-                _weatherRecord.postValue(response)
-            } catch (e: Exception) {
-                e.printStackTrace()
+        viewModelScope.launch {
+            when (val result = repository.fetchRecordByCoordinate(latitude, longitude, apiKey)) {
+                is Result.Success -> _weatherRecord.postValue(result.data)
+                is Result.Error -> _errorMessage.postValue("Error: ${result.exception.message}")
             }
         }
     }
+
 }
 
 //  san diego lat:32.715736, long:-117.161087

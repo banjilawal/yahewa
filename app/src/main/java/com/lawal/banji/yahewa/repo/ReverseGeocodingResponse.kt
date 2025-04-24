@@ -1,4 +1,4 @@
-package com.lawal.banji.yahewa.query
+package com.lawal.banji.yahewa.repo
 
 data class ReverseGeocodingResponse(
     val city: String,

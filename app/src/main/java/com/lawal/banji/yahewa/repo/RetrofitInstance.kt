@@ -1,4 +1,4 @@
-package com.lawal.banji.yahewa.query
+package com.lawal.banji.yahewa.repo
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

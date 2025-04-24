@@ -1,4 +1,4 @@
-package com.lawal.banji.yahewa.query
+package com.lawal.banji.yahewa.repo
 
 import com.lawal.banji.yahewa.weather.model.WeatherRecord
 import retrofit2.http.GET
