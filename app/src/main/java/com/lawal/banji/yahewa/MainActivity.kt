@@ -1,8 +1,11 @@
 package com.lawal.banji.yahewa
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -10,41 +13,43 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import com.lawal.banji.yahewa.display.CurrentWeatherDisplay
 import com.lawal.banji.yahewa.repo.WeatherRepository
-import com.lawal.banji.yahewa.screen.WeatherDetailsDisplay
 import com.lawal.banji.yahewa.ui.theme.YahewaTheme
 import com.lawal.banji.yahewa.weather.view.WeatherViewModel
 import com.lawal.banji.yahewa.weather.view.WeatherViewModelFactory
 
 class MainActivity : ComponentActivity() {
 
-    private lateinit var weatherViewModel: WeatherViewModel
+    private val weatherViewModel: WeatherViewModel by viewModels {
+        WeatherViewModelFactory(WeatherRepository())
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Initialize the ViewModel
-        weatherViewModel = WeatherViewModelFactory(WeatherRepository())
-            .create(WeatherViewModel::class.java)
-
+        val isDarkTheme = (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
         WindowCompat.setDecorFitsSystemWindows(window, true)
-        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = !isDarkTheme
 
         setContent {
             YahewaTheme {
                 val weatherRecord by weatherViewModel.weatherRecord.observeAsState()
+                val errorMessage by weatherViewModel.errorMessage.observeAsState()
+
                 Surface(color = MaterialTheme.colorScheme.background) {
-                    if (weatherRecord != null) {
-                        WeatherDetailsDisplay(weatherRecord!!)
-                    } else {
-                        // Show a loading indicator or placeholder
-                        Text(text = "Loading...")
+                    when {
+                        weatherRecord != null -> CurrentWeatherDisplay(weatherRecord!!)
+                        errorMessage != null -> Text("Error: $errorMessage")
+                        else -> CircularProgressIndicator()
                     }
                 }
             }
         }
     }
 }
+
+
 
 //class MainActivity : ComponentActivity() {
 //

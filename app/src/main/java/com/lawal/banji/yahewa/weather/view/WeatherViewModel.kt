@@ -13,9 +13,11 @@ import com.lawal.banji.yahewa.weather.model.WeatherRecord
 import kotlinx.coroutines.launch
 
 class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() {
+
     private val _weatherRecord = MutableLiveData<WeatherRecord>()
 
     private val _errorMessage = MutableLiveData<String>()
+    val errorMessage: LiveData<String> get() = _errorMessage
 
     val weatherRecord: LiveData<WeatherRecord> get() = _weatherRecord
 
