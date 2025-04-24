@@ -21,5 +21,5 @@ data class WeatherRecord(
     @SerializedName("visibility") val visibility: Int,
     @SerializedName("dt") val unixTime: Long,
     @SerializedName("timezone") val timezone: Int,
-    @SerializedName("name") val name: String,
+    @SerializedName("name") val city: String,
 )

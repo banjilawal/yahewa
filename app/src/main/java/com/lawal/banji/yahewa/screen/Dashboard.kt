@@ -1,14 +1,12 @@
 package com.lawal.banji.yahewa.screen
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.layout.Column
 
 
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -25,19 +23,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 import com.lawal.banji.yahewa.R
-import com.lawal.banji.yahewa.ui.theme.BlueGray
 import com.lawal.banji.yahewa.ui.theme.DefaultCornerRadius
 import com.lawal.banji.yahewa.ui.theme.DefaultPadding
 import com.lawal.banji.yahewa.ui.theme.LargeCornerRadius
 import com.lawal.banji.yahewa.ui.theme.Lavender
-import com.lawal.banji.yahewa.ui.theme.LightGray2
 import com.lawal.banji.yahewa.ui.theme.PowderBlue
 import com.lawal.banji.yahewa.ui.theme.PowderBlueGray
 import com.lawal.banji.yahewa.ui.theme.SandLightest
 import com.lawal.banji.yahewa.ui.theme.Silver
 import com.lawal.banji.yahewa.ui.theme.SmallPadding
 import com.lawal.banji.yahewa.ui.theme.SmallerPadding
-import com.lawal.banji.yahewa.ui.theme.SmallestPadding
 import com.lawal.banji.yahewa.utils.CustomBox
 import com.lawal.banji.yahewa.utils.CustomRow
 import com.lawal.banji.yahewa.utils.CustomText
@@ -102,7 +97,7 @@ fun WeatherDetailsDisplay(weatherRecord: WeatherRecord) {
         * */
         CustomBox(color = PowderBlue, modifier = Modifier.weight(0.75f)) {
             CustomText(
-                content = weatherRecord.name,
+                content = weatherRecord.city,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.headlineLarge
             )
