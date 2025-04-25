@@ -4,31 +4,28 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import com.lawal.banji.yahewa.R
 import com.lawal.banji.yahewa.ui.theme.Lavender
 import com.lawal.banji.yahewa.ui.theme.SandLight
-import com.lawal.banji.yahewa.utils.TextBox
 import com.lawal.banji.yahewa.viewmodel.ForecastState
 import com.lawal.banji.yahewa.viewmodel.ForecastViewModel
 
 @Composable
-fun TestScreen(viewModel: ForecastViewModel) {
+fun HomeScreen(viewModel: ForecastViewModel) {
 
     val forecastState = viewModel.forecastState.collectAsState().value
 
 
     Scaffold(
+        modifier = Modifier.fillMaxSize().statusBarsPadding(),
         topBar = {
-            TextBox(
-                text = stringResource(id = R.string.app_name),
-                boxColor = SandLight,
-            )
+            Text(modifier = Modifier.background(SandLight), text = stringResource(id = com.lawal.banji.yahewa.R.string.app_name))
         },
         bottomBar = {},
     ) { innerPadding ->
@@ -43,12 +40,14 @@ fun TestScreen(viewModel: ForecastViewModel) {
                     Text(text = "Loading forecast...")
                 }
                 is ForecastState.Error -> {
-                    val errorMessage = (forecastState as ForecastState.Error).message
+                    val errorMessage = "Yahewa forecast state error: ${(forecastState as ForecastState.Error).message}"
                     Text(text = errorMessage)
                 }
                 is ForecastState.Success -> {
                     val forecast = forecastState.forecast
                     Text(text = forecast.city)
+                    Text(text = "Icon ID ${forecast.weather[0].iconId}")
+                    Text(text = "Weather ${forecast.weather[0].description}")
                     Text(text = "Temperature ${forecast.main.temperature}")
                     Text(text = "Low ${forecast.main.lowTemperature}")
                     Text(text = "High  ${forecast.main.highTemperature}")

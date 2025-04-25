@@ -13,7 +13,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import com.lawal.banji.yahewa.destination.TestScreen
+import com.lawal.banji.yahewa.destination.HomeScreen
 import com.lawal.banji.yahewa.repo.ForecastRepository
 import com.lawal.banji.yahewa.ui.theme.YahewaTheme
 import com.lawal.banji.yahewa.viewmodel.ForecastState
@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
                         is ForecastState.Loading -> { CircularProgressIndicator() }
                             is  ForecastState.Success -> {
                                 val forecast = (forecastState as ForecastState.Success).forecast
-                                TestScreen(forecastViewModel)
+                                HomeScreen(forecastViewModel)
                             }
                         is ForecastState.Error -> {
                             val errorMessage = (forecastState as ForecastState.Error).message

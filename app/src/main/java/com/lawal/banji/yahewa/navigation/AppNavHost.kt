@@ -6,12 +6,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 
 @Composable
-fun AppRouter(navController: NavHostController, startDestination: String) {
+fun AppNavHost(navController: NavHostController, startDestination: String) {
 
     NavHost(
         navController = navController,
         startDestination = startDestination
     ) {
-        composable("test") {  }
+        composable("home") {  }
     }
 }
