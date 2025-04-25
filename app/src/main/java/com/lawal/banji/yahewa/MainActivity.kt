@@ -5,18 +5,17 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import com.lawal.banji.yahewa.destination.HomeScreen
+import androidx.navigation.compose.rememberNavController
+import com.lawal.banji.yahewa.navigation.AppNavHost
+import com.lawal.banji.yahewa.navigation.Screens
 import com.lawal.banji.yahewa.repo.ForecastRepository
 import com.lawal.banji.yahewa.ui.theme.YahewaTheme
-import com.lawal.banji.yahewa.viewmodel.ForecastState
 import com.lawal.banji.yahewa.viewmodel.ForecastViewModel
 import com.lawal.banji.yahewa.viewmodel.WeatherViewModelFactory
 
@@ -38,17 +37,13 @@ class MainActivity : ComponentActivity() {
                 val forecastState by forecastViewModel.forecastState.collectAsState()
 
                 Surface(color = MaterialTheme.colorScheme.background) {
-                    when (forecastState) {
-                        is ForecastState.Loading -> { CircularProgressIndicator() }
-                            is  ForecastState.Success -> {
-                                val forecast = (forecastState as ForecastState.Success).forecast
-                                HomeScreen(forecastViewModel)
-                            }
-                        is ForecastState.Error -> {
-                            val errorMessage = (forecastState as ForecastState.Error).message
-                            Text(text = errorMessage)
-                        }
-                    }
+                    val navController = rememberNavController() // Create the NavController
+                    AppNavHost(
+                        navController = navController,       // Pass the NavController to the NavHost
+                        forecastViewModel = forecastViewModel, // Pass the ViewModel for the forecast state
+                        startDestination = Screens.Home.route // Define the starting route
+                    )
+
                 }
             }
         }
