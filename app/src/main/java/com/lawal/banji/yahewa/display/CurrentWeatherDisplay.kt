@@ -21,25 +21,24 @@ import com.lawal.banji.yahewa.ui.theme.DefaultCornerRadius
 import com.lawal.banji.yahewa.ui.theme.DefaultDisplayBackgroundColor
 import com.lawal.banji.yahewa.ui.theme.DefaultPadding
 import com.lawal.banji.yahewa.weather.model.WeatherRecord
+import com.lawal.banji.yahewa.weather.view.WeatherViewModel
 
 @Composable
 fun CurrentWeatherDisplay(
-    weatherRecord: WeatherRecord?,
+    weatherData: WeatherData,
     padding: Dp = DefaultPadding,
     cornerRadius: Dp = DefaultCornerRadius,
     backgroundColor: Color = DefaultDisplayBackgroundColor,
     modifier: Modifier = Modifier
 ) {
     // Safely handle null `weatherRecord`
-    if (weatherRecord == null) {
+    if (viewModel.weatherRecord == null) {
         Text(
             text = "Weather data is not available",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(padding)
         )
-        return
-    }
 
     Column(
         modifier = modifier
@@ -50,7 +49,7 @@ fun CurrentWeatherDisplay(
             .background(backgroundColor)
     ) {
         // Location Display
-        LocationBox(city = weatherRecord.city)
+        LocationBox(city = weatherRecord)
 
         // Temperature and Icon (Safe access for list)
         Row(

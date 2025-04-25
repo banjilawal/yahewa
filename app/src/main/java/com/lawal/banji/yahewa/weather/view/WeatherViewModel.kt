@@ -1,25 +1,25 @@
 package com.lawal.banji.yahewa.weather.view
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-
 import com.lawal.banji.yahewa.repo.Result
 import com.lawal.banji.yahewa.repo.WeatherRepository
 import com.lawal.banji.yahewa.utils.AppDefault
 import com.lawal.banji.yahewa.weather.model.WeatherRecord
-
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() {
 
-    private val _weatherRecord = MutableLiveData<WeatherRecord>()
+    private val _zipcode = MutableStateFlow<String>("")
+    val zipcode: StateFlow<String> get() = _zipcode
 
-    private val _errorMessage = MutableLiveData<String>()
-    val errorMessage: LiveData<String> get() = _errorMessage
+    private val _weatherRecord = MutableStateFlow<WeatherRecord?>(null)
+    val weatherRecord: StateFlow<WeatherRecord?> get() = _weatherRecord
 
-    val weatherRecord: LiveData<WeatherRecord> get() = _weatherRecord
+    private val _errorMessage =MutableStateFlow<String>("")
+    val errorMessage:  StateFlow<String> get() = _errorMessage
 
     init {
         viewModelScope.launch {
@@ -33,28 +33,17 @@ class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() 
             longitude = AppDefault.LONGITUDE,
             apiKey = AppDefault.API_KEY
         )) {
-            is Result.Success -> _weatherRecord.postValue(result.data)
-            is Result.Error -> _errorMessage.postValue("Error: ${result.exception.message}")
+            is Result.Success -> _weatherRecord.value = result.data
+            is Result.Error -> _errorMessage.value = "Error: ${result.exception.message}"
         }
     }
 
     fun fetchWeatherData(latitude: Double, longitude: Double, apiKey: String) {
         viewModelScope.launch {
             when (val result = repository.fetchRecordByCoordinate(latitude, longitude, apiKey)) {
-                is Result.Success -> _weatherRecord.postValue(result.data)
-                is Result.Error -> _errorMessage.postValue("Error: ${result.exception.message}")
+                is Result.Success -> _weatherRecord.value = result.data
+                is Result.Error -> _errorMessage.value = "Error: ${result.exception.message}"
             }
         }
     }
-
 }
-
-//  san diego lat:32.715736, long:-117.161087
-// milwaukee lat:43.038902, long:-87.906471
-//  lagos lat:6.5244, long:3.3792
-//  new york lat:40.7128, long:-74.0060
-//  london lat:51.5074, long:-0.1278
-// tucson lat:32.22174, long:--110.92648
-//  chicago lat:41.8781, long:-87.6298
-// minneapolis lat:44.9778, long:-93.2650
-// anchorage lat:61.2176, long:-149.8631
