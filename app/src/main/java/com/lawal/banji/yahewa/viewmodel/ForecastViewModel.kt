@@ -16,12 +16,14 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
 
 
     init {
-        viewModelScope.launch {
-            fetchForecastByCoordinates(
-                latitude = AppDefault.LATITUDE,
-                longitude = AppDefault.LONGITUDE,
-                apiKey = AppDefault.API_KEY
-            )
+        if (_forecastState.value is ForecastState.Loading) {
+            viewModelScope.launch {
+                fetchForecastByCoordinates(
+                    latitude = AppDefault.LATITUDE,
+                    longitude = AppDefault.LONGITUDE,
+                    apiKey = AppDefault.API_KEY
+                )
+            }
         }
     }
 
