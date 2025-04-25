@@ -12,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.lawal.banji.yahewa.R
 import com.lawal.banji.yahewa.ui.theme.Lavender
+import com.lawal.banji.yahewa.ui.theme.SandLight
+import com.lawal.banji.yahewa.utils.TextBox
 import com.lawal.banji.yahewa.viewmodel.ForecastState
 import com.lawal.banji.yahewa.viewmodel.ForecastViewModel
 
@@ -23,7 +25,10 @@ fun TestScreen(viewModel: ForecastViewModel) {
 
     Scaffold(
         topBar = {
-            Text(text = stringResource(id = R.string.app_name))
+            TextBox(
+                text = stringResource(id = R.string.app_name),
+                boxColor = SandLight,
+            )
         },
         bottomBar = {},
     ) { innerPadding ->

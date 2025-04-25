@@ -1,93 +1,93 @@
-package com.lawal.banji.yahewa.display
-
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.shape.RoundedCornerShape
-
-import androidx.compose.material3.Text
-
-
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.Dp
-import com.lawal.banji.yahewa.ui.theme.DefaultCornerRadius
-import com.lawal.banji.yahewa.ui.theme.DefaultDisplayBackgroundColor
-import com.lawal.banji.yahewa.ui.theme.DefaultPadding
-
-@Composable
-fun CurrentWeatherDisplay(
-    weatherData: WeatherData,
-    padding: Dp = DefaultPadding,
-    cornerRadius: Dp = DefaultCornerRadius,
-    backgroundColor: Color = DefaultDisplayBackgroundColor,
-    modifier: Modifier = Modifier
-) {
-    // Safely handle null `weatherRecord`
-    if (viewModel.weatherRecord == null) {
-        Text(
-            text = "Weather data is not available",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(padding)
-        )
-
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(padding)
-            .statusBarsPadding()
-            .clip(RoundedCornerShape(cornerRadius))
-            .background(backgroundColor)
-    ) {
-        // Location Display
-        LocationBox(city = weatherRecord)
-
-        // Temperature and Icon (Safe access for list)
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            TemperatureBox(temperature = weatherRecord.main.temperature)
-
-            // Safely display icon only if `weather` list is not empty
-            val iconId = weatherRecord.weather.getOrNull(0)?.iconId
-            if (iconId != null) {
-                IconBox(iconId = iconId)
-            }
-        }
-
-        // Feels Like Temperature
-//        TemperatureBox(
-//            temperature = weatherRecord.current.temperatureFeelsLike,
-//            information = "Feels Like:"
+//package com.lawal.banji.yahewa.display
+//
+//import androidx.compose.foundation.background
+//import androidx.compose.foundation.layout.Arrangement
+//import androidx.compose.foundation.layout.Column
+//import androidx.compose.foundation.layout.Row
+//import androidx.compose.foundation.layout.fillMaxWidth
+//import androidx.compose.foundation.layout.padding
+//import androidx.compose.foundation.layout.statusBarsPadding
+//import androidx.compose.foundation.shape.RoundedCornerShape
+//
+//import androidx.compose.material3.Text
+//
+//
+//import androidx.compose.runtime.Composable
+//import androidx.compose.ui.Modifier
+//import androidx.compose.ui.draw.clip
+//import androidx.compose.ui.graphics.Color
+//import androidx.compose.ui.unit.Dp
+//import com.lawal.banji.yahewa.ui.theme.DefaultCornerRadius
+//import com.lawal.banji.yahewa.ui.theme.DefaultDisplayBackgroundColor
+//import com.lawal.banji.yahewa.ui.theme.DefaultPadding
+//
+//@Composable
+//fun CurrentWeatherDisplay(
+//    weatherData: WeatherData,
+//    padding: Dp = DefaultPadding,
+//    cornerRadius: Dp = DefaultCornerRadius,
+//    backgroundColor: Color = DefaultDisplayBackgroundColor,
+//    modifier: Modifier = Modifier
+//) {
+//    // Safely handle null `weatherRecord`
+//    if (viewModel.weatherRecord == null) {
+//        Text(
+//            text = "Weather data is not available",
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(padding)
 //        )
-
-        // High and Low Temperatures
-//        Column(
+//
+//    Column(
+//        modifier = modifier
+//            .fillMaxWidth()
+//            .padding(padding)
+//            .statusBarsPadding()
+//            .clip(RoundedCornerShape(cornerRadius))
+//            .background(backgroundColor)
+//    ) {
+//        // Location Display
+//        LocationBox(city = weatherRecord)
+//
+//        // Temperature and Icon (Safe access for list)
+//        Row(
 //            modifier = Modifier.fillMaxWidth(),
-//            verticalArrangement = Arrangement.SpaceBetween
+//            horizontalArrangement = Arrangement.SpaceBetween
 //        ) {
-//            TemperatureBox(temperature = weatherRecord.main.lowTemperature, information = "Low:")
-//            TemperatureBox(temperature = weatherRecord.main.highTemperature, information = "High:")
+//            TemperatureBox(temperature = weatherRecord.main.temperature)
+//
+//            // Safely display icon only if `weather` list is not empty
+//            val iconId = weatherRecord.weather.getOrNull(0)?.iconId
+//            if (iconId != null) {
+//                IconBox(iconId = iconId)
+//            }
 //        }
-
-        // Humidity and Pressure Information
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-                HumidityBox(percentHumidity = weatherRecord.main.percentHumidity)
-                PressureBox(pressure = weatherRecord.main.pressure)
-        }
-    }
-}
+//
+//        // Feels Like Temperature
+////        TemperatureBox(
+////            temperature = weatherRecord.current.temperatureFeelsLike,
+////            information = "Feels Like:"
+////        )
+//
+//        // High and Low Temperatures
+////        Column(
+////            modifier = Modifier.fillMaxWidth(),
+////            verticalArrangement = Arrangement.SpaceBetween
+////        ) {
+////            TemperatureBox(temperature = weatherRecord.main.lowTemperature, information = "Low:")
+////            TemperatureBox(temperature = weatherRecord.main.highTemperature, information = "High:")
+////        }
+//
+//        // Humidity and Pressure Information
+//        Row(
+//            modifier = Modifier.fillMaxWidth(),
+//            horizontalArrangement = Arrangement.SpaceEvenly
+//        ) {
+//                HumidityBox(percentHumidity = weatherRecord.main.percentHumidity)
+//                PressureBox(pressure = weatherRecord.main.pressure)
+//        }
+//    }
+//}
 
 
 
