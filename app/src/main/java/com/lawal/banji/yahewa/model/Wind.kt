@@ -1,4 +1,4 @@
-package com.lawal.banji.yahewa.weather.model.free
+package com.lawal.banji.yahewa.model
 
 import com.google.gson.annotations.SerializedName
 

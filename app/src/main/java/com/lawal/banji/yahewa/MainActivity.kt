@@ -16,8 +16,8 @@ import androidx.core.view.WindowInsetsControllerCompat
 import com.lawal.banji.yahewa.display.CurrentWeatherDisplay
 import com.lawal.banji.yahewa.repo.ForecastRepository
 import com.lawal.banji.yahewa.ui.theme.YahewaTheme
-import com.lawal.banji.yahewa.weather.view.ForecastViewModel
-import com.lawal.banji.yahewa.weather.view.WeatherViewModelFactory
+import com.lawal.banji.yahewa.viewmodel.ForecastViewModel
+import com.lawal.banji.yahewa.viewmodel.WeatherViewModelFactory
 
 class MainActivity : ComponentActivity() {
 

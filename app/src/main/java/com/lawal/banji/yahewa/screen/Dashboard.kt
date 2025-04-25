@@ -39,7 +39,7 @@ import com.lawal.banji.yahewa.utils.CustomText
 import com.lawal.banji.yahewa.utils.iconFromWeatherApiId
 import com.lawal.banji.yahewa.utils.customBorder
 
-import com.lawal.banji.yahewa.weather.model.Forecast
+import com.lawal.banji.yahewa.model.Forecast
 
 private val commonBoxModifier = Modifier
     .fillMaxWidth()

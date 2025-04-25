@@ -1,7 +1,7 @@
-package com.lawal.banji.yahewa.weather.model.commercial
+package com.lawal.banji.yahewa.model.commercial
 
 import com.google.gson.annotations.SerializedName
-import com.lawal.banji.yahewa.weather.model.free.Weather
+import com.lawal.banji.yahewa.model.Weather
 import java.time.LocalDateTime
 
 data class Current(

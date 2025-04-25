@@ -15,7 +15,7 @@ import com.lawal.banji.yahewa.R
 
 import com.lawal.banji.yahewa.display.CurrentWeatherDisplay
 import com.lawal.banji.yahewa.ui.theme.Lavender
-import com.lawal.banji.yahewa.weather.view.ForecastViewModel
+import com.lawal.banji.yahewa.viewmodel.ForecastViewModel
 
 @Composable
 fun TestScreen(viewModel: ForecastViewModel) {

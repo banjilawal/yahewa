@@ -1,11 +1,11 @@
 package com.lawal.banji.yahewa.repo
 
+import com.lawal.banji.yahewa.model.Forecast
 import com.lawal.banji.yahewa.repo.RetrofitInstance.api
-import com.lawal.banji.yahewa.weather.model.Forecast
 
 class ForecastRepository {
 
-        suspend fun fetchRecordByCoordinate(
+        suspend fun fetchByCoordinates(
                 latitude: Double,
                 longitude: Double,
                 apiKey: String

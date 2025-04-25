@@ -1,13 +1,7 @@
-package com.lawal.banji.yahewa.weather.model
+package com.lawal.banji.yahewa.model
 
 import com.google.gson.annotations.SerializedName
-import com.lawal.banji.yahewa.weather.model.commercial.Current
-import com.lawal.banji.yahewa.weather.model.free.Clouds
-import com.lawal.banji.yahewa.weather.model.free.Coordinates
-import com.lawal.banji.yahewa.weather.model.free.Main
-import com.lawal.banji.yahewa.weather.model.free.Sys
-import com.lawal.banji.yahewa.weather.model.free.Weather
-import com.lawal.banji.yahewa.weather.model.free.Wind
+import com.lawal.banji.yahewa.model.commercial.Current
 
 data class Forecast(
     val coord: Coordinates,

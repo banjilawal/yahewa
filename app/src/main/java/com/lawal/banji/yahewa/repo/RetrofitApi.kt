@@ -1,6 +1,6 @@
 package com.lawal.banji.yahewa.repo
 
-import com.lawal.banji.yahewa.weather.model.Forecast
+import com.lawal.banji.yahewa.model.Forecast
 import retrofit2.http.GET
 import retrofit2.http.Query
 

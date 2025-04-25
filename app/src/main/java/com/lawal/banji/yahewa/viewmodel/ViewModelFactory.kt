@@ -1,4 +1,4 @@
-package com.lawal.banji.yahewa.weather.view
+package com.lawal.banji.yahewa.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
