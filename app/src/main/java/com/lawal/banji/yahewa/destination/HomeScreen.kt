@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,7 +26,10 @@ fun HomeScreen(
     Scaffold(
         modifier = Modifier.fillMaxSize().statusBarsPadding(),
         topBar = {
-            Text(modifier = Modifier.background(SandLight).fillMaxWidth(), text = stringResource(id = com.lawal.banji.yahewa.R.string.app_name))
+            Text(
+                modifier = Modifier.background(SandLight).fillMaxWidth(),
+                style  = MaterialTheme.typography.headlineLarge,
+                text = stringResource(id = com.lawal.banji.yahewa.R.string.app_name))
         },
         bottomBar = {},
     ) { innerPadding ->
@@ -45,14 +49,14 @@ fun HomeScreen(
                 }
                 is ForecastState.Success -> {
                     val forecast = forecastState.forecast
-                    Text(text = forecast.city)
-                    Text(text = "Icon ID ${forecast.weather[0].iconId}")
+                    Text(text = forecast.city,  style = MaterialTheme.typography.bodyMedium,)
+                    Text(text = "Icon ID ${forecast.weather[0].iconId}",  style = MaterialTheme.typography.bodyMedium)
                     Text(text = "Weather ${forecast.weather[0].description}")
-                    Text(text = "Temperature ${forecast.main.temperature}")
-                    Text(text = "Low ${forecast.main.lowTemperature}")
-                    Text(text = "High  ${forecast.main.highTemperature}")
-                    Text(text = "Humidity ${forecast.main.percentHumidity}")
-                    Text(text = "Pressure ${forecast.main.pressure}")
+                    Text(text = "Temperature ${forecast.main.temperature}",  style = MaterialTheme.typography.bodyMedium)
+                    Text(text = "Low ${forecast.main.lowTemperature}",  style = MaterialTheme.typography.bodyMedium)
+                    Text(text = "High  ${forecast.main.highTemperature}",  style = MaterialTheme.typography.bodyMedium)
+                    Text(text = "Humidity ${forecast.main.percentHumidity}",  style = MaterialTheme.typography.bodyMedium)
+                    Text(text = "Pressure ${forecast.main.pressure}",  style = MaterialTheme.typography.bodyMedium)
                 }
             }
         }
