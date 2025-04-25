@@ -9,13 +9,14 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import com.lawal.banji.yahewa.display.CurrentWeatherDisplay
+import com.lawal.banji.yahewa.destination.TestScreen
 import com.lawal.banji.yahewa.repo.ForecastRepository
 import com.lawal.banji.yahewa.ui.theme.YahewaTheme
+import com.lawal.banji.yahewa.viewmodel.ForecastState
 import com.lawal.banji.yahewa.viewmodel.ForecastViewModel
 import com.lawal.banji.yahewa.viewmodel.WeatherViewModelFactory
 
@@ -34,46 +35,22 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             YahewaTheme {
-                val weatherRecord by forecastViewModel.forecast.observeAsState()
-                val errorMessage by forecastViewModel.errorMessage.observeAsState()
+                val forecastState by forecastViewModel.forecastState.collectAsState()
 
                 Surface(color = MaterialTheme.colorScheme.background) {
-                    when {
-                        weatherRecord != null -> CurrentWeatherDisplay(weatherRecord!!)
-                        errorMessage != null -> Text("Error: $errorMessage")
-                        else -> CircularProgressIndicator()
+                    when (forecastState) {
+                        is ForecastState.Loading -> { CircularProgressIndicator() }
+                            is  ForecastState.Success -> {
+                                val forecast = (forecastState as ForecastState.Success).forecast
+                                TestScreen(forecastViewModel)
+                            }
+                        is ForecastState.Error -> {
+                            val errorMessage = (forecastState as ForecastState.Error).message
+                            Text(text = errorMessage)
+                        }
                     }
                 }
             }
         }
     }
 }
-
-
-
-//class MainActivity : ComponentActivity() {
-//
-//    private val weatherViewModel: WeatherViewModel by viewModels()
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContent {
-//            YahewaTheme {
-//                val weatherData by weatherViewModel.weatherData.observeAsState()
-//                Surface(color = MaterialTheme.colorScheme.background) {
-//                    if (weatherData != null) {
-//                        WeatherDetailsDisplay(weatherData!!)
-//                    } else {
-//                        // Show a loading indicator or placeholder
-//                        Text(text = "Loading...")
-//                    }
-//                }
-//            }
-//        }
-//        weatherViewModel.fetchWeatherData(
-//            latitude =  6.5244 ,
-//            longitude = .3792,
-//            apiKey = "43d92973340fa3166680bbe3af8d3943"
-//        )
-//    }
-//}
-
