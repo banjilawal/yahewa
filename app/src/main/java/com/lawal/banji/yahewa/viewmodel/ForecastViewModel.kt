@@ -20,8 +20,8 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
         viewModelScope.launch {
             val location = randomLocation()
             fetchForecastByCoordinates(
-                latitude = location.latitude,
-                longitude = location.longitude,
+                latitude = AppDefault.LATITUDE,
+                longitude = AppDefault.LONGITUDE,
                 apiKey = AppDefault.API_KEY
             )
         }

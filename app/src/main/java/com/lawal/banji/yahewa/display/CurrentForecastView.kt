@@ -21,9 +21,8 @@ fun CurrentForecastView(forecast: Forecast) {
             .fillMaxSize()
             .background(Lavender)
     ) {
-        item { Text(text = forecast.city, style = MaterialTheme.typography.bodyLarge) }
+        item { Text(text = "City: ${forecast.city}", style = MaterialTheme.typography.bodyLarge) }
         item { Text(text = "Icon ID: ${forecast.weather[0].iconId}", style = MaterialTheme.typography.bodyLarge)  }
-        item { Text(text = "Weather: ${forecast.weather[0].description}", style = MaterialTheme.typography.bodyLarge)  }
         item { Text(text = "Temperature: ${forecast.main.temperature}°C", style = MaterialTheme.typography.bodyLarge)  }
         item { Text(text = "Low: ${forecast.main.lowTemperature}°C", style = MaterialTheme.typography.bodyLarge) }
         item { Text(text = "High: ${forecast.main.highTemperature}°C", style = MaterialTheme.typography.bodyLarge)  }
