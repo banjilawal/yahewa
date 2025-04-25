@@ -39,14 +39,14 @@ import com.lawal.banji.yahewa.utils.CustomText
 import com.lawal.banji.yahewa.utils.iconFromWeatherApiId
 import com.lawal.banji.yahewa.utils.customBorder
 
-import com.lawal.banji.yahewa.weather.model.WeatherRecord
+import com.lawal.banji.yahewa.weather.model.Forecast
 
 private val commonBoxModifier = Modifier
     .fillMaxWidth()
     .padding(8.dp)
 
 @Composable
-fun WeatherDetailsDisplay(weatherRecord: WeatherRecord) {
+fun WeatherDetailsDisplay(forecast: Forecast) {
 
     Column(
         modifier = Modifier .fillMaxWidth()
@@ -97,7 +97,7 @@ fun WeatherDetailsDisplay(weatherRecord: WeatherRecord) {
         * */
         CustomBox(color = PowderBlue, modifier = Modifier.weight(0.75f)) {
             CustomText(
-                content = weatherRecord.city,
+                content = forecast.city,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.headlineLarge
             )
@@ -136,16 +136,16 @@ fun WeatherDetailsDisplay(weatherRecord: WeatherRecord) {
                 CustomRow(modifier = Modifier.customBorder().weight(1.7f)) {
                     // Current temperature
                     CustomText(
-                        content = "${weatherRecord.main.temperature}°",
+                        content = "${forecast.main.temperature}°",
                         style = MaterialTheme.typography.headlineMedium,
                         modifier = Modifier.weight(1f)
                             .clip(RoundedCornerShape(DefaultCornerRadius))
                     )
                     // Weather icon
                     iconFromWeatherApiId(
-                        weatherApiId = weatherRecord.weather[0].iconId,
+                        weatherApiId = forecast.weather[0].iconId,
                         modifier = Modifier.weight(1.4f).background(Lavender).fillMaxSize(1.0f),
-                        contentDescription = weatherRecord.weather[0].description
+                        contentDescription = forecast.weather[0].description
                     )
                 }
                 // Row for Feels Like
@@ -158,7 +158,7 @@ fun WeatherDetailsDisplay(weatherRecord: WeatherRecord) {
                         padding = 0.dp,
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.bodySmall,
-                        content = "Feels Like: ${weatherRecord.main.temperatureFeelsLike}°"
+                        content = "Feels Like: ${forecast.main.temperatureFeelsLike}°"
                     )
                 }
             }
@@ -181,19 +181,19 @@ fun WeatherDetailsDisplay(weatherRecord: WeatherRecord) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 // High temperature
-                CustomText("High: ${weatherRecord.main.highTemperature}°")
+                CustomText("High: ${forecast.main.highTemperature}°")
                 // Low temperature
-                CustomText("Low: ${weatherRecord.main.lowTemperature}°")
+                CustomText("Low: ${forecast.main.lowTemperature}°")
                 }
         }
 
         // Row containing humidity.  The humidity is stored in a CustomBox
         CustomBox(color = Silver, modifier = Modifier.weight(0.9f)) {
-            CustomText("Humidity: ${weatherRecord.main.percentHumidity}%",)
+            CustomText("Humidity: ${forecast.main.percentHumidity}%",)
         }
         // Row containing pressure. The pressure is stored in a CustomBox
         CustomBox(color = PowderBlue, modifier = Modifier.weight(0.9f)) {
-            CustomText( "Pressure: ${weatherRecord.main.pressure} hPa")
+            CustomText( "Pressure: ${forecast.main.pressure} hPa")
         }
     }
 }

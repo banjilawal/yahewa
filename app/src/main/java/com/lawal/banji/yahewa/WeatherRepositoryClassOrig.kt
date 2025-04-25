@@ -4,7 +4,7 @@
 //import retrofit2.Callback
 //import retrofit2.Response
 //
-//class WeatherRepository(private val apiKey: String) {
+//class ForecastRepository(private val apiKey: String) {
 //
 //    fun getCurrentWeather(city: String, callback: (OpenWeatherResponse?) -> Unit) {
 //        val call = RetrofitInstance.api.getCurrentWeather(city, apiKey)

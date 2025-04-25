@@ -9,7 +9,7 @@ import com.lawal.banji.yahewa.weather.model.free.Sys
 import com.lawal.banji.yahewa.weather.model.free.Weather
 import com.lawal.banji.yahewa.weather.model.free.Wind
 
-data class WeatherRecord(
+data class Forecast(
     val coord: Coordinates,
     val weather: List<Weather>,
     val base: String,

@@ -15,10 +15,10 @@ import com.lawal.banji.yahewa.R
 
 import com.lawal.banji.yahewa.display.CurrentWeatherDisplay
 import com.lawal.banji.yahewa.ui.theme.Lavender
-import com.lawal.banji.yahewa.weather.view.WeatherViewModel
+import com.lawal.banji.yahewa.weather.view.ForecastViewModel
 
 @Composable
-fun TestScreen(viewModel: WeatherViewModel) {
+fun TestScreen(viewModel: ForecastViewModel) {
     Scaffold(
         topBar = {},
         bottomBar = {},
@@ -29,7 +29,7 @@ fun TestScreen(viewModel: WeatherViewModel) {
                 .padding(innerPadding)
                 .background(Lavender)
         ) {
-            if (viewModel.weatherRecord != null) {
+            if (viewModel.forecast != null) {
                 CurrentWeatherDisplay(
                     weatherRecord = weatherRecord,
                     modifier = Modifier.fillMaxSize()

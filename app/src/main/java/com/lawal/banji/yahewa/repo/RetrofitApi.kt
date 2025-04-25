@@ -1,19 +1,19 @@
 package com.lawal.banji.yahewa.repo
 
-import com.lawal.banji.yahewa.weather.model.WeatherRecord
+import com.lawal.banji.yahewa.weather.model.Forecast
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface RetrofitApi {
 
     @GET("weather")
-    suspend fun getWeatherData(
+    suspend fun getForecastByCoordinates(
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,
         @Query("units") units: String = "imperial",
 //        @Query("exclude") exclude: String = "hourly, minutely, daily, alerts",
         @Query("appid") apiKey: String
-    ): WeatherRecord
+    ): Forecast
 
 //    @GET("geo/1.0/reverse")
 //    suspend fun getLocationName(

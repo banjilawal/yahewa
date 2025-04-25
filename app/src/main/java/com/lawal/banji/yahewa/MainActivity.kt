@@ -14,15 +14,15 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.lawal.banji.yahewa.display.CurrentWeatherDisplay
-import com.lawal.banji.yahewa.repo.WeatherRepository
+import com.lawal.banji.yahewa.repo.ForecastRepository
 import com.lawal.banji.yahewa.ui.theme.YahewaTheme
-import com.lawal.banji.yahewa.weather.view.WeatherViewModel
+import com.lawal.banji.yahewa.weather.view.ForecastViewModel
 import com.lawal.banji.yahewa.weather.view.WeatherViewModelFactory
 
 class MainActivity : ComponentActivity() {
 
-    private val weatherViewModel: WeatherViewModel by viewModels {
-        WeatherViewModelFactory(WeatherRepository())
+    private val forecastViewModel: ForecastViewModel by viewModels {
+        WeatherViewModelFactory(ForecastRepository())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,8 +34,8 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             YahewaTheme {
-                val weatherRecord by weatherViewModel.weatherRecord.observeAsState()
-                val errorMessage by weatherViewModel.errorMessage.observeAsState()
+                val weatherRecord by forecastViewModel.forecast.observeAsState()
+                val errorMessage by forecastViewModel.errorMessage.observeAsState()
 
                 Surface(color = MaterialTheme.colorScheme.background) {
                     when {

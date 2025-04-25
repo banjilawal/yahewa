@@ -2,16 +2,16 @@ package com.lawal.banji.yahewa.weather.view
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.lawal.banji.yahewa.repo.WeatherRepository
+import com.lawal.banji.yahewa.repo.ForecastRepository
 
 class WeatherViewModelFactory(
-    private val repository: WeatherRepository
+    private val repository: ForecastRepository
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(WeatherViewModel::class.java)) {
-            return WeatherViewModel(repository) as T
+        if (modelClass.isAssignableFrom(ForecastViewModel::class.java)) {
+            return ForecastViewModel(repository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

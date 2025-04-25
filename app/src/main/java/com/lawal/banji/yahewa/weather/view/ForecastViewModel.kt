@@ -2,21 +2,21 @@ package com.lawal.banji.yahewa.weather.view
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lawal.banji.yahewa.repo.Result
-import com.lawal.banji.yahewa.repo.WeatherRepository
+import com.lawal.banji.yahewa.repo.ForecastRepository
+import com.lawal.banji.yahewa.repo.QueryResult
 import com.lawal.banji.yahewa.utils.AppDefault
-import com.lawal.banji.yahewa.weather.model.WeatherRecord
+import com.lawal.banji.yahewa.weather.model.Forecast
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() {
+class ForecastViewModel(private val repository: ForecastRepository) : ViewModel() {
 
     private val _zipcode = MutableStateFlow<String>("")
     val zipcode: StateFlow<String> get() = _zipcode
 
-    private val _weatherRecord = MutableStateFlow<WeatherRecord?>(null)
-    val weatherRecord: StateFlow<WeatherRecord?> get() = _weatherRecord
+    private val _forecast = MutableStateFlow<Forecast?>(null)
+    val forecast: StateFlow<Forecast?> get() = _forecast
 
     private val _errorMessage =MutableStateFlow<String>("")
     val errorMessage:  StateFlow<String> get() = _errorMessage
@@ -33,16 +33,16 @@ class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() 
             longitude = AppDefault.LONGITUDE,
             apiKey = AppDefault.API_KEY
         )) {
-            is Result.Success -> _weatherRecord.value = result.data
-            is Result.Error -> _errorMessage.value = "Error: ${result.exception.message}"
+            is QueryResult.Success -> _forecast.value = result.data
+            is QueryResult.Error -> _errorMessage.value = "Error: ${result.exception.message}"
         }
     }
 
     fun fetchWeatherData(latitude: Double, longitude: Double, apiKey: String) {
         viewModelScope.launch {
             when (val result = repository.fetchRecordByCoordinate(latitude, longitude, apiKey)) {
-                is Result.Success -> _weatherRecord.value = result.data
-                is Result.Error -> _errorMessage.value = "Error: ${result.exception.message}"
+                is QueryResult.Success -> _forecast.value = result.data
+                is QueryResult.Error -> _errorMessage.value = "Error: ${result.exception.message}"
             }
         }
     }

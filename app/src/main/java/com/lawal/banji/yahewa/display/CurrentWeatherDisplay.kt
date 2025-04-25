@@ -20,8 +20,6 @@ import androidx.compose.ui.unit.Dp
 import com.lawal.banji.yahewa.ui.theme.DefaultCornerRadius
 import com.lawal.banji.yahewa.ui.theme.DefaultDisplayBackgroundColor
 import com.lawal.banji.yahewa.ui.theme.DefaultPadding
-import com.lawal.banji.yahewa.weather.model.WeatherRecord
-import com.lawal.banji.yahewa.weather.view.WeatherViewModel
 
 @Composable
 fun CurrentWeatherDisplay(
