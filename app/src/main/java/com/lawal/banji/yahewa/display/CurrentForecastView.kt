@@ -17,6 +17,7 @@ import com.lawal.banji.yahewa.model.Forecast
 import com.lawal.banji.yahewa.ui.theme.DefaultPadding
 import com.lawal.banji.yahewa.ui.theme.LargeIconSize
 import com.lawal.banji.yahewa.ui.theme.SmallPadding
+import com.lawal.banji.yahewa.ui.theme.SmallerPadding
 import com.lawal.banji.yahewa.ui.theme.White
 import com.lawal.banji.yahewa.utils.iconFromWeatherApiId
 
@@ -89,9 +90,29 @@ fun CurrentForecastView(forecast: Forecast) {
                 }
             }
         }
-            item { Text(text = lowTemperature, style = MaterialTheme.typography.bodyMedium) }
-            item { Text(text = highTemperature, style = MaterialTheme.typography.bodyMedium)  }
-            item { Text(text = humidity, style = MaterialTheme.typography.bodyMedium)  }
-            item { Text(text = pressure, style = MaterialTheme.typography.bodyMedium) }
+            item {
+                Text(
+                    text = lowTemperature,
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(SmallerPadding))
+            }
+        item {
+            Text(
+                text = highTemperature,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(SmallerPadding))
+        }
+        item {
+            Text(
+                text = humidity,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(SmallerPadding))
+        }
+        item {
+            Text(
+                text = pressure,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(SmallerPadding))
+        }
         }
 }
