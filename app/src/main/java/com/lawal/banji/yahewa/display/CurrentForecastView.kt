@@ -9,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import com.lawal.banji.yahewa.model.Forecast
 import com.lawal.banji.yahewa.ui.theme.DefaultPadding
 import com.lawal.banji.yahewa.ui.theme.White
@@ -22,8 +23,8 @@ fun CurrentForecastView(forecast: Forecast) {
     val temperatureFeelsLike = "Feels like ${forecast.main.temperatureFeelsLike}°"
     val lowTemperature = "Low ${forecast.main.lowTemperature}°"
     val highTemperature = "High ${forecast.main.highTemperature}°"
-    val humidity = "% Humidity ${forecast.main.percentHumidity}"
-    val pressure = "Pressure ${forecast.main.pressure} inHg"
+    val humidity = "Humidity ${forecast.main.percentHumidity} %"
+    val pressure = "Pressure ${forecast.main.pressure} hPa"
     val iconId = forecast.weather[0].iconId
     val description = forecast.weather[0].description
 
@@ -34,18 +35,26 @@ fun CurrentForecastView(forecast: Forecast) {
             .fillMaxSize()
             .background(White)
     ) {
-            item { Text(text = city, style = MaterialTheme.typography.bodyMedium) }
+            // Row containing City
+            item {
+                // City needs to be centered. Fills the width of it's center
+                Text(
+                    text = city,
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.fillMaxSize().padding(DefaultPadding),
+                    textAlign = TextAlign.Center
+                )
+            }
             item {
                 LazyRow(){
-                    item{ Text(text  = currentTemperature) }
+                    item { Text(text  = currentTemperature) }
                     item{ iconFromWeatherApiId(iconId) }
                 }
             }
-        item { Text(text = temperatureFeelsLike, style = MaterialTheme.typography.bodyMedium) }
+             item { Text(text = temperatureFeelsLike, style = MaterialTheme.typography.bodyMedium) }
             item { Text(text = lowTemperature, style = MaterialTheme.typography.bodyMedium) }
             item { Text(text = highTemperature, style = MaterialTheme.typography.bodyMedium)  }
             item { Text(text = humidity, style = MaterialTheme.typography.bodyMedium)  }
             item { Text(text = pressure, style = MaterialTheme.typography.bodyMedium) }
         }
-
 }
