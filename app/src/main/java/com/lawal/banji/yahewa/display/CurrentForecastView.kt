@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import com.lawal.banji.yahewa.model.Forecast
 import com.lawal.banji.yahewa.ui.theme.DefaultPadding
+import com.lawal.banji.yahewa.ui.theme.LargeIconSize
 import com.lawal.banji.yahewa.ui.theme.SmallPadding
 import com.lawal.banji.yahewa.ui.theme.White
 import com.lawal.banji.yahewa.utils.iconFromWeatherApiId
@@ -83,7 +84,7 @@ fun CurrentForecastView(forecast: Forecast) {
 //                        .padding(SmallPadding)
                         .align(CenterVertically)
                 ) {
-                    iconFromWeatherApiId(iconId)
+                    iconFromWeatherApiId(iconId, backgroundColor = White, iconSize = LargeIconSize)
                 }
             }
         }
