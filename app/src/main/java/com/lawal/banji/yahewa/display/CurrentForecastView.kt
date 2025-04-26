@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import com.lawal.banji.yahewa.model.Forecast
 import com.lawal.banji.yahewa.ui.theme.DefaultPadding
 import com.lawal.banji.yahewa.ui.theme.LargeIconSize
@@ -45,7 +46,7 @@ fun CurrentForecastView(forecast: Forecast) {
                 Text(
                     text = city,
                     style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.fillMaxSize().padding(DefaultPadding),
+                    modifier = Modifier.fillMaxSize().padding(bottom = 0.dp),
                     textAlign = TextAlign.Center
                 )
             }
@@ -54,7 +55,7 @@ fun CurrentForecastView(forecast: Forecast) {
             androidx.compose.foundation.layout.Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(SmallPadding),
+                    .padding(top = 0.dp, bottom = 0.dp),
                 verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
             ) {
                 // Column for temperature data
@@ -67,7 +68,7 @@ fun CurrentForecastView(forecast: Forecast) {
                         text = currentTemperature,
                         style = MaterialTheme.typography.titleMedium,
                         textAlign = TextAlign.Center, // Align to start for compact content
-                        modifier = Modifier.fillMaxWidth().padding(bottom = SmallPadding)
+                        modifier = Modifier.fillMaxWidth().padding(bottom = DefaultPadding)
                     )
                     Text(
                         text = temperatureFeelsLike,
@@ -80,7 +81,7 @@ fun CurrentForecastView(forecast: Forecast) {
                 // Weather icon
                 Box(
                     modifier = Modifier
-                        .weight(0.4f) // Icon takes 30% of the width
+                        .weight(0.4f)
 //                        .padding(SmallPadding)
                         .align(CenterVertically)
                 ) {
@@ -88,15 +89,6 @@ fun CurrentForecastView(forecast: Forecast) {
                 }
             }
         }
-
-
-//            item {
-//                LazyRow(){
-//                    item { Text(text  = currentTemperature) }
-//                    item{ iconFromWeatherApiId(iconId) }
-//                }
-//            }
-//             item { Text(text = temperatureFeelsLike, style = MaterialTheme.typography.bodyMedium) }
             item { Text(text = lowTemperature, style = MaterialTheme.typography.bodyMedium) }
             item { Text(text = highTemperature, style = MaterialTheme.typography.bodyMedium)  }
             item { Text(text = humidity, style = MaterialTheme.typography.bodyMedium)  }
