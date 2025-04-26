@@ -1,17 +1,20 @@
 package com.lawal.banji.yahewa.display
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import com.lawal.banji.yahewa.model.Forecast
 import com.lawal.banji.yahewa.ui.theme.DefaultPadding
+import com.lawal.banji.yahewa.ui.theme.SmallPadding
 import com.lawal.banji.yahewa.ui.theme.White
 import com.lawal.banji.yahewa.utils.iconFromWeatherApiId
 
@@ -45,13 +48,54 @@ fun CurrentForecastView(forecast: Forecast) {
                     textAlign = TextAlign.Center
                 )
             }
-            item {
-                LazyRow(){
-                    item { Text(text  = currentTemperature) }
-                    item{ iconFromWeatherApiId(iconId) }
+        // Row containing the temperature and weather icon
+        item {
+            androidx.compose.foundation.layout.Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(SmallPadding),
+                verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+            ) {
+                // Column for temperature data
+                androidx.compose.foundation.layout.Column(
+                    modifier = Modifier
+                        .weight(0.6f) // Reduce weight so the column doesn't use too much space
+                        .padding(SmallPadding)
+                ) {
+                    Text(
+                        text = currentTemperature,
+                        style = MaterialTheme.typography.titleMedium,
+                        textAlign = TextAlign.Center, // Align to start for compact content
+                        modifier = Modifier.fillMaxWidth().padding(bottom = SmallPadding)
+                    )
+                    Text(
+                        text = temperatureFeelsLike,
+                        style = MaterialTheme.typography.bodySmall, // Keep font size consistent
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth().padding(bottom = DefaultPadding)
+                    )
+                }
+
+                // Weather icon
+                Box(
+                    modifier = Modifier
+                        .weight(0.4f) // Icon takes 30% of the width
+                        .padding(SmallPadding)
+                        .align(CenterVertically)
+                ) {
+                    iconFromWeatherApiId(iconId)
                 }
             }
-             item { Text(text = temperatureFeelsLike, style = MaterialTheme.typography.bodyMedium) }
+        }
+
+
+//            item {
+//                LazyRow(){
+//                    item { Text(text  = currentTemperature) }
+//                    item{ iconFromWeatherApiId(iconId) }
+//                }
+//            }
+//             item { Text(text = temperatureFeelsLike, style = MaterialTheme.typography.bodyMedium) }
             item { Text(text = lowTemperature, style = MaterialTheme.typography.bodyMedium) }
             item { Text(text = highTemperature, style = MaterialTheme.typography.bodyMedium)  }
             item { Text(text = humidity, style = MaterialTheme.typography.bodyMedium)  }
