@@ -19,6 +19,7 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
     init {
         viewModelScope.launch {
             val location = randomLocation()
+            println("Location: ${location.name} (${location.latitude}, ${location.longitude})")
             fetchForecastByCoordinates(
                 latitude = AppDefault.LATITUDE,
                 longitude = AppDefault.LONGITUDE,
@@ -27,7 +28,7 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
         }
     }
 
-    fun fetchForecastByCoordinates(latitude: Double, longitude: Double, apiKey: String) {
+    private fun fetchForecastByCoordinates(latitude: Double, longitude: Double, apiKey: String) {
         viewModelScope.launch {
             when (val queryResult = repository.fetchByCoordinates(
                 latitude = latitude,

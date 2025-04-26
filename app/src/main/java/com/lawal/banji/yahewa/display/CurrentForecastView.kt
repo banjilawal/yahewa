@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import com.lawal.banji.yahewa.model.Forecast
 import com.lawal.banji.yahewa.ui.theme.DefaultPadding
 import com.lawal.banji.yahewa.ui.theme.Lavender
+import com.lawal.banji.yahewa.utils.iconFromWeatherApiId
 
 
 @Composable
@@ -23,6 +24,13 @@ fun CurrentForecastView(forecast: Forecast) {
     ) {
         item { Text(text = "City: ${forecast.city}", style = MaterialTheme.typography.bodyLarge) }
         item { Text(text = "Icon ID: ${forecast.weather[0].iconId}", style = MaterialTheme.typography.bodyLarge)  }
+        item {
+           iconFromWeatherApiId(
+                weatherApiId = forecast.weather[0].iconId,
+                modifier = Modifier.background(Lavender).fillMaxSize(1.0f),
+                contentDescription = forecast.weather[0].description
+           )
+        }
         item { Text(text = "Temperature: ${forecast.main.temperature}°C", style = MaterialTheme.typography.bodyLarge)  }
         item { Text(text = "Low: ${forecast.main.lowTemperature}°C", style = MaterialTheme.typography.bodyLarge) }
         item { Text(text = "High: ${forecast.main.highTemperature}°C", style = MaterialTheme.typography.bodyLarge)  }
