@@ -80,7 +80,7 @@ fun CurrentForecastView(forecast: Forecast) {
                 Box(
                     modifier = Modifier
                         .weight(0.4f) // Icon takes 30% of the width
-                        .padding(SmallPadding)
+//                        .padding(SmallPadding)
                         .align(CenterVertically)
                 ) {
                     iconFromWeatherApiId(iconId)
