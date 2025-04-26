@@ -1,7 +1,7 @@
 package com.lawal.banji.yahewa.repo
 
 import com.lawal.banji.yahewa.model.Forecast
-import com.lawal.banji.yahewa.model.GeoLocation
+import com.lawal.banji.yahewa.model.City
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -22,5 +22,5 @@ interface RetrofitApi {
         @Query("lon") longitude: Double,
         @Query("limit") limit: Int = 1,
         @Query("appid") apiKey: String
-    ): GeoLocation
+    ): City
 }

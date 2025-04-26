@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.lawal.banji.yahewa.repo.ForecastRepository
 import com.lawal.banji.yahewa.repo.QueryResult
 import com.lawal.banji.yahewa.utils.AppDefault
-import com.lawal.banji.yahewa.utils.randomLocation
+import com.lawal.banji.yahewa.utils.getRandomCity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -18,7 +18,7 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
 
     init {
         viewModelScope.launch {
-            val location = randomLocation()
+            val location = getRandomCity()
             println("Location: ${location.name} (${location.latitude}, ${location.longitude})")
             fetchForecastByCoordinates(
                 latitude = location.latitude, //AppDefault.LATITUDE,

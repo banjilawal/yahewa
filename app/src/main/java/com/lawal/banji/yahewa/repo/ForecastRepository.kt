@@ -22,7 +22,7 @@ class ForecastRepository {
 //                latitude: Double,
 //                longitude: Double,
 //                apiKey: String
-//        ): QueryResult<GeoLocation> {
+//        ): QueryResult<City> {
 //                return try {
 //                        val locations = api.getLocationName(
 //                                latitude = latitude,

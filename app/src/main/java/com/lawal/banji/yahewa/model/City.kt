@@ -1,6 +1,6 @@
 package com.lawal.banji.yahewa.model
 
-data class GeoLocation(
+data class City(
     val name: String,
     val state: String? = null,
     val country: String?= null,
