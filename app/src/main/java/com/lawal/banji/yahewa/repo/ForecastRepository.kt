@@ -17,4 +17,22 @@ class ForecastRepository {
                         QueryResult.Error(e)
                 }
         }
+
+//        suspend fun fetchLocationByCoordinates(
+//                latitude: Double,
+//                longitude: Double,
+//                apiKey: String
+//        ): QueryResult<City> {
+//                return try {
+//                        val locations = api.getLocationName(
+//                                latitude = latitude,
+//                                longitude = longitude,
+//                                apiKey = apiKey
+//                        )
+//                        val location = locations.firstOrNull() ?: throw Exception("No location found")
+//                        QueryResult.Success(location)
+//                } catch (e: Exception) {
+//                        QueryResult.Error(e)
+//                }
+//        }
 }

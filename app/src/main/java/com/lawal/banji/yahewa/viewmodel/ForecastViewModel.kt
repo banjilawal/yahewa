@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.lawal.banji.yahewa.repo.ForecastRepository
 import com.lawal.banji.yahewa.repo.QueryResult
 import com.lawal.banji.yahewa.utils.AppDefault
+import com.lawal.banji.yahewa.utils.randomLocation
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -16,18 +17,18 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
 
 
     init {
-        if (_forecastState.value is ForecastState.Loading) {
-            viewModelScope.launch {
-                fetchForecastByCoordinates(
-                    latitude = AppDefault.LATITUDE,
-                    longitude = AppDefault.LONGITUDE,
-                    apiKey = AppDefault.API_KEY
-                )
-            }
+        viewModelScope.launch {
+            val location = randomLocation()
+            println("Location: ${location.name} (${location.latitude}, ${location.longitude})")
+            fetchForecastByCoordinates(
+                latitude = location.latitude, //AppDefault.LATITUDE,
+                longitude = location.longitude, //AppDefault.LONGITUDE,
+                apiKey = AppDefault.API_KEY
+            )
         }
     }
 
-    fun fetchForecastByCoordinates(latitude: Double, longitude: Double, apiKey: String) {
+    private fun fetchForecastByCoordinates(latitude: Double, longitude: Double, apiKey: String) {
         viewModelScope.launch {
             when (val queryResult = repository.fetchByCoordinates(
                 latitude = latitude,
