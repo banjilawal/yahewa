@@ -22,9 +22,4 @@ val locations = setOf(
 
 fun randomLocation(): Location {
     return locations.random()
-//    val index = (0..locations.size).shuffled().last()
-//    println("Index: $index")
-//    val location = locations.elementAt(index)
-//    println("Location: $location")
-//    return location
 }
