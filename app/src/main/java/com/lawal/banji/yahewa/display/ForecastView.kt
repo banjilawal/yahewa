@@ -23,7 +23,7 @@ import com.lawal.banji.yahewa.utils.iconFromWeatherApiId
 
 
 @Composable
-fun CurrentForecastView(forecast: Forecast) {
+fun ForecastView(forecast: Forecast) {
     val city = forecast.city
     val state = forecast.state
     val country = forecast.sys.country

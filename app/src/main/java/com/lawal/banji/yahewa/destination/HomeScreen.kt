@@ -9,7 +9,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.lawal.banji.yahewa.display.CurrentForecastView
+import com.lawal.banji.yahewa.display.ForecastView
 import com.lawal.banji.yahewa.input.ZipcodeInput
 import com.lawal.banji.yahewa.navigation.NavigationEvent
 import com.lawal.banji.yahewa.ui.theme.White
@@ -42,7 +42,7 @@ fun HomeScreen(
                     Text(text = errorMessage)
                 }
                 is ForecastState.Success -> {
-                   CurrentForecastView(forecastState.forecast)
+                   ForecastView(forecastState.forecast)
                 }
             }
         }
