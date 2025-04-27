@@ -19,7 +19,27 @@ val cities = setOf(
     City(name = "Atlanta", latitude = 33.753746, longitude = -84.386330),
     City(name = "New Orleans", latitude = 29.951065, longitude = -90.071533),
     City(name = "Miami", latitude = 25.7617, longitude = -80.1918),
-    City(name = "Anchorage", latitude = 61.2176, longitude = -149.8631)
+    City(name = "Anchorage", latitude = 61.2176, longitude = -149.8631),
+    City(name = "Denver", latitude = 39.7392, longitude = -104.9903),
+    City(name = "Dallas", latitude = 32.7767, longitude = -96.7970),
+    City(name = "Houston", latitude = 29.7604, longitude = -95.3698),
+    City(name = "San Francisco", latitude = 37.7749, longitude = -122.4194),
+    City(name = "Detroit", latitude = 42.3314, longitude = -83.0458),
+    City(name = "Baltimore", latitude = 39.2904, longitude = -76.6122),
+    City(name = "Philadelphia", latitude = 39.9526, longitude = -75.1652),
+    City(name = "Washington", latitude = 38.9072, longitude = -77.0369),
+    City(name = "Charlotte", latitude = 35.2271, longitude = -80.8431),
+    City(name = "Cleveland", latitude = 41.4995, longitude = -81.6954),
+    City(name = "Orlando", latitude = 28.5383, longitude = -81.3792),
+    City(name = "Kansas City", latitude = 39.0997, longitude = -94.5786),
+    City(name = "Salt Lake City", latitude = 40.7608, longitude = -111.8910),
+    City(name = "Nashville", latitude = 36.1627, longitude = -86.7816),
+    City(name = "Columbus", latitude = 39.9612, longitude = -82.9988),
+    City(name = "Pittsburgh", latitude = 40.4406, longitude = -79.9959),
+    City(name = "Oklahoma City", latitude = 35.4444, longitude = -97.5309),
+    City(name = "Portland", latitude = 45.5200, longitude = -122.6850),
+    City(name = "Las Vegas", latitude = 36.1667, longitude = -115.1333),
+    City(name = "Duluth", latitude = 46.7867, longitude = -92.1005),
 )
 
 fun getRandomCity(): City {
