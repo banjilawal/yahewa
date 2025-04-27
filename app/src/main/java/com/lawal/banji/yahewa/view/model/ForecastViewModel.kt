@@ -15,6 +15,9 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
     private val _forecastState = MutableStateFlow<ForecastState>(ForecastState.Loading)
     val forecastState: StateFlow<ForecastState> get() = _forecastState
 
+    private  val _cityLookupState = MutableStateFlow<CityLookupState>(CityLookupState.Loading)
+    val city: StateFlow<CityLookupState> get() = _cityLookupState
+
 
     init {
         viewModelScope.launch {
@@ -42,4 +45,19 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
             }
         }
     }
+
+    fun fetchCity(latitude: Double, longitude: Double, apiKey: String) {
+        viewModelScope.launch {
+            _cityLookupState.value = CityLookupState.Loading // Set loading state for city lookup
+            when (val queryResult = repository.fetchReverseGeoCoding(latitude, longitude, apiKey)) {
+                is QueryResult.Success -> {
+                    _cityLookupState.value = CityLookupState.Success(queryResult.data) // Set success state
+                }
+                is QueryResult.Error -> {
+                    _cityLookupState.value = CityLookupState.Error("Error fetching city: ${queryResult.exception.message}")
+                }
+            }
+        }
+    }
+
 }
