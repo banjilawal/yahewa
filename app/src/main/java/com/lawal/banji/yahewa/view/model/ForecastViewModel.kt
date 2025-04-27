@@ -24,12 +24,12 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
     init {
         viewModelScope.launch {
             val location = getRandomCity()
-            println("Location: ${location.name} (${location.latitude}, ${location.longitude})")
+            println("Location: ${location.name} (${location.coordinates.latitude}, ${location.coordinates.longitude})")
 
             // Fetch the forecast
             fetchForecastByCoordinates(
-                latitude = location.latitude,
-                longitude = location.longitude,
+                latitude = location.coordinates.latitude,
+                longitude = location.coordinates.longitude,
                 apiKey = AppDefault.API_KEY
             )
         }
