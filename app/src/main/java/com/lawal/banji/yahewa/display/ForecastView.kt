@@ -26,7 +26,7 @@ import com.lawal.banji.yahewa.utils.iconFromWeatherApiId
 fun CurrentForecastView(forecast: Forecast) {
     val city = forecast.city
     val state = forecast.state
-    val country = forecast.country
+    val country = forecast.sys.country
     val currentTemperature = "${forecast.main.temperature}°"
     val temperatureFeelsLike = "Feels like ${forecast.main.temperatureFeelsLike}°"
     val lowTemperature = "Low ${forecast.main.lowTemperature}°"
@@ -38,7 +38,7 @@ fun CurrentForecastView(forecast: Forecast) {
     val description = forecast.weather[0].description
     val weather = forecast.weather[0]
 
-    val location = if (state != null) "$city, $state" else city
+    val location = if (state != null) "$city, $state" else "$city, $country"
 
     LazyColumn(
         modifier = Modifier
