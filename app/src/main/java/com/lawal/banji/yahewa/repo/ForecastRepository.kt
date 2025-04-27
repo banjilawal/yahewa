@@ -18,6 +18,11 @@ class ForecastRepository {
         suspend fun fetchReverseGeoCoding(latitude: Double, longitude: Double, apiKey: String):  QueryResult<City> {
                 return try {
                         val result = api.getReverseGeoEncoding(latitude = latitude, longitude = longitude, apiKey = apiKey)
+
+
+                        // Print the JSON response to the console
+                        println("Reverse Geocoding JSON Response: $result")
+
                         QueryResult.Success(result)
                 } catch (e: Exception) {
                         QueryResult.Error(e)

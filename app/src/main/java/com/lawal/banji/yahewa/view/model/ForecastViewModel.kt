@@ -16,17 +16,29 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
     val forecastState: StateFlow<ForecastState> get() = _forecastState
 
     private val _cityLookupState = MutableStateFlow<CityLookupState>(CityLookupState.Loading)
-    val city: StateFlow<CityLookupState> get() = _cityLookupState
+    val cityLookupState: StateFlow<CityLookupState> get() = _cityLookupState
 
     init {
         viewModelScope.launch {
             val location = getRandomCity()
             println("Location: ${location.name} (${location.latitude}, ${location.longitude})")
+
+            // Fetch the forecast
             fetchForecastByCoordinates(
-                latitude = location.latitude, //AppDefault.LATITUDE,
-                longitude = location.longitude, //AppDefault.LONGITUDE,
+                latitude = location.latitude,
+                longitude = location.longitude,
                 apiKey = AppDefault.API_KEY
             )
+//
+//            // Fetch the city
+//            fetchCity(
+//                latitude = location.latitude,
+//                longitude = location.longitude,
+//                apiKey = AppDefault.API_KEY
+//            )
+//
+//            // Update the forecast state with city data
+//            updateForecastWithCityState()
         }
     }
 
@@ -48,11 +60,13 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
 
     fun fetchCity(latitude: Double, longitude: Double, apiKey: String) {
         viewModelScope.launch {
+            println("FETCHING CITY")
             _cityLookupState.value = CityLookupState.Loading // Set loading state for city lookup
             when (val queryResult = repository.fetchReverseGeoCoding(latitude, longitude, apiKey)) {
                 is QueryResult.Success -> {
                     _cityLookupState.value =
                         CityLookupState.Success(queryResult.data) // Set success state
+                    println("City Lookup Success: ${queryResult.data.name} (${queryResult.data.country}, ${queryResult.data.state})")
                 }
 
                 is QueryResult.Error -> {
@@ -63,32 +77,38 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
         }
     }
 
-    private fun updateStateAndCountry(latitude: Double, longitude: Double, apiKey: String) {
-        viewModelScope.launch {
-            fetchCity(latitude, longitude, apiKey) // Fetch the city
+    private suspend fun updateForecastWithCityState() {
+        // Wait for forecast and city states to complete
+        if (_forecastState.value is ForecastState.Success) {
+            val forecast = (_forecastState.value as ForecastState.Success).forecast
 
-            // If forecast has already been fetched and is in success state
-            if (_forecastState.value is ForecastState.Success) {
-                val forecast = (_forecastState.value as ForecastState.Success).forecast
+            // Check city lookup state
+            when (val cityLookup = _cityLookupState.value) {
+                is CityLookupState.Success -> {
+                    val state = cityLookup.city.state
+                    val country = cityLookup.city.country
 
-                // Check city lookup state for success
-                if (_cityLookupState.value is CityLookupState.Success) {
-                    val city = (_cityLookupState.value as CityLookupState.Success).city
+                    // Print state and country when available
+                    println("City State: ${state ?: "Not available"}")
+                    println("City Country: ${country ?: "Not available"}")
 
-                    // Update `forecast.state` if `city.state` is not null
-                    city.state?.let {
+                    // Update forecast.state if state is not null
+                    state?.let {
                         forecast.state = it
-                    }
+                        println("Updated Forecast State: ${forecast.state}")
 
-                    // Update `forecast.country` if `city.country` is not null
-                    city.country?.let {
-                        forecast.country = it
+                        // Update forecast state after modifying it
+                        _forecastState.value = ForecastState.Success(forecast)
                     }
+                }
 
-                    // Push updated state back to forecast
-                    _forecastState.value = ForecastState.Success(forecast)
+                else -> {
+                    // Handle the case when city lookup is not a success
+                    println("CityLookupState is not Success.")
                 }
             }
         }
     }
+
 }
+

@@ -25,16 +25,21 @@ import com.lawal.banji.yahewa.utils.iconFromWeatherApiId
 @Composable
 fun CurrentForecastView(forecast: Forecast) {
     val city = forecast.city
+    val state = forecast.state
+    val country = forecast.country
     val currentTemperature = "${forecast.main.temperature}°"
     val temperatureFeelsLike = "Feels like ${forecast.main.temperatureFeelsLike}°"
     val lowTemperature = "Low ${forecast.main.lowTemperature}°"
     val highTemperature = "High ${forecast.main.highTemperature}°"
     val humidity = "Humidity ${forecast.main.percentHumidity} %"
     val pressure = "Pressure ${forecast.main.pressure} hPa"
+
     val iconId = forecast.weather[0].iconId
     val description = forecast.weather[0].description
-
     val weather = forecast.weather[0]
+
+    val location = if (state != null) "$city, $state" else city
+
     LazyColumn(
         modifier = Modifier
             .padding(DefaultPadding)
@@ -45,7 +50,7 @@ fun CurrentForecastView(forecast: Forecast) {
             item {
                 // City needs to be centered. Fills the width of it's center
                 Text(
-                    text = city,
+                    text = location,
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.fillMaxSize().padding(bottom = 0.dp),
                     textAlign = TextAlign.Center
