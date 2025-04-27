@@ -1,9 +1,11 @@
 package com.lawal.banji.yahewa.model
 
+import com.google.gson.annotations.SerializedName
+
 data class City(
-    val name: String,
-    val state: String? = null,
-    val country: String?= null,
-    val latitude: Double,
-    val longitude: Double
+    @SerializedName("name") val name: String,
+    @SerializedName("state") val state: String? = null,
+    @SerializedName("country") val country: String? = null,
+    @SerializedName("lon") val longitude: Double,
+    @SerializedName("lat") val latitude: Double
 )

@@ -13,7 +13,7 @@ import com.lawal.banji.yahewa.display.CurrentForecastView
 import com.lawal.banji.yahewa.navigation.NavigationEvent
 import com.lawal.banji.yahewa.ui.theme.White
 import com.lawal.banji.yahewa.utils.HeadingBox
-import com.lawal.banji.yahewa.viewmodel.ForecastState
+import com.lawal.banji.yahewa.view.model.ForecastState
 
 
 @Composable

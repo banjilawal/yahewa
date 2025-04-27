@@ -1,4 +1,4 @@
-package com.lawal.banji.yahewa.viewmodel
+package com.lawal.banji.yahewa.view.model
 
 import com.lawal.banji.yahewa.model.Forecast
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.lawal.banji.yahewa.destination.HomeScreen
-import com.lawal.banji.yahewa.viewmodel.ForecastViewModel
+import com.lawal.banji.yahewa.view.model.ForecastViewModel
 
 @Composable
 fun AppNavHost(

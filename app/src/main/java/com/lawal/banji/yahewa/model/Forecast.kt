@@ -16,4 +16,7 @@ data class Forecast(
     @SerializedName("dt") val unixTime: Long,
     @SerializedName("timezone") val timezone: Int,
     @SerializedName("name") val city: String,
+
+    var state: String? = null,
+    var country: String? = null,
 )

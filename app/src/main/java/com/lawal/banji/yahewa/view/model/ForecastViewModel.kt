@@ -1,4 +1,4 @@
-package com.lawal.banji.yahewa.viewmodel
+package com.lawal.banji.yahewa.view.model
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -35,8 +35,10 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
                 longitude = longitude,
                 apiKey = apiKey
             )) {
-                is QueryResult.Success -> _forecastState.value = ForecastState.Success(queryResult.data)
-                is QueryResult.Error -> _forecastState.value = ForecastState.Error("Error: ${queryResult.exception.message}")
+                is QueryResult.Success -> _forecastState.value =
+                    ForecastState.Success(queryResult.data)
+                is QueryResult.Error -> _forecastState.value =
+                    ForecastState.Error("Error: ${queryResult.exception.message}")
             }
         }
     }

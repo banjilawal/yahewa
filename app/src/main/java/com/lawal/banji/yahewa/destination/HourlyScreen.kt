@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import com.lawal.banji.yahewa.navigation.NavigationEvent
 import com.lawal.banji.yahewa.ui.theme.Cerulean
 import com.lawal.banji.yahewa.ui.theme.Orange
-import com.lawal.banji.yahewa.viewmodel.ForecastState
+import com.lawal.banji.yahewa.view.model.ForecastState
 
 @Composable
 fun HourlyScreen(

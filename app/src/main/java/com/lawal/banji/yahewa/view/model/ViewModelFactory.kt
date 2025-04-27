@@ -1,4 +1,4 @@
-package com.lawal.banji.yahewa.viewmodel
+package com.lawal.banji.yahewa.view.model
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

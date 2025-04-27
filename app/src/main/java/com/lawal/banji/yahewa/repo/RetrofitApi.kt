@@ -1,7 +1,7 @@
 package com.lawal.banji.yahewa.repo
 
-import com.lawal.banji.yahewa.model.Forecast
 import com.lawal.banji.yahewa.model.City
+import com.lawal.banji.yahewa.model.Forecast
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -17,7 +17,7 @@ interface RetrofitApi {
     ): Forecast
 
     @GET("geo/1.0/reverse")
-    suspend fun getLocationName(
+    suspend fun getReverseGeoEncoding(
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,
         @Query("limit") limit: Int = 1,
