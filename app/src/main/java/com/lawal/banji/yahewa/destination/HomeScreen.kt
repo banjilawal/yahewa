@@ -10,20 +10,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.lawal.banji.yahewa.display.CurrentForecastView
+import com.lawal.banji.yahewa.input.ZipcodeInput
 import com.lawal.banji.yahewa.navigation.NavigationEvent
 import com.lawal.banji.yahewa.ui.theme.White
-import com.lawal.banji.yahewa.utils.HeadingBox
 import com.lawal.banji.yahewa.view.model.ForecastState
 
 
 @Composable
 fun HomeScreen(
     forecastState: ForecastState,
-    onNavigate: (NavigationEvent) -> Unit = {} //
+    onNavigate: (NavigationEvent) -> Unit = {},
+    onZipcodeEntered: (String) -> Unit
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize().statusBarsPadding(),
-        topBar = { HeadingBox() },
+        topBar = { ZipcodeInput(onZipcodeEntered = onZipcodeEntered) },
         bottomBar = {},
     ) { innerPadding ->
         Column(

@@ -21,7 +21,10 @@ fun AppNavHost(
         composable(Screens.Home.route) {
             HomeScreen(
                 forecastState = forecastViewModel.forecastState.collectAsState().value,
-                onNavigate = {}
+                onNavigate = {},
+                onZipcodeEntered = { zipcode ->
+                    forecastViewModel.setZipcode(zipcode)
+                }
             )
         }
     }

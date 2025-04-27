@@ -12,7 +12,8 @@ import kotlinx.coroutines.launch
 
 class ForecastViewModel(private val repository: ForecastRepository) : ViewModel() {
 
-    private var previousZipcode: String? = null
+    private var _zipcode: MutableStateFlow<String?> = MutableStateFlow(null)
+    val zipcode: StateFlow<String?> get() = _zipcode
 
     private val _forecastState = MutableStateFlow<ForecastState>(ForecastState.Loading)
     val forecastState: StateFlow<ForecastState> get() = _forecastState
@@ -34,6 +35,14 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
         }
     }
 
+    // Public method to set the zip code so the ViewModel can handle fetching
+    fun setZipcode(newZipcode: String) {
+        if (newZipcode != _zipcode.value) {
+            _zipcode.value = newZipcode
+            fetchForecastByZipcode(newZipcode, AppDefault.API_KEY)
+        }
+    }
+
     private fun fetchForecastByCoordinates(latitude: Double, longitude: Double, apiKey: String) {
         viewModelScope.launch {
             when (val queryResult = repository.fetchByCoordinates(
@@ -50,20 +59,11 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
         }
     }
 
-    fun fetchForecastByZipcode(zipcode: String, apiKey: String) {
-        if (zipcode == previousZipcode) return
-
-        previousZipcode = zipcode
+    private fun fetchForecastByZipcode(zipcode: String, apiKey: String) {
         viewModelScope.launch {
-            when (val queryResult = repository.fetchByZipcode(
-                zipcode = zipcode,
-                apiKey = apiKey
-            )) {
-                is QueryResult.Success -> _forecastState.value =
-                    ForecastState.Success(queryResult.data)
-
-                is QueryResult.Error -> _forecastState.value =
-                    ForecastState.Error("Error: ${queryResult.exception.message}")
+            when (val queryResult = repository.fetchByZipcode(zipcode, apiKey)) {
+                is QueryResult.Success -> _forecastState.value = ForecastState.Success(queryResult.data)
+                is QueryResult.Error -> _forecastState.value = ForecastState.Error(queryResult.exception.message ?: "Unknown Error")
             }
         }
     }
