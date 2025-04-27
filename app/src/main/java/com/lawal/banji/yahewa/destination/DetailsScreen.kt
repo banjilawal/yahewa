@@ -9,6 +9,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.lawal.banji.yahewa.display.ForecastDetailsView
 import com.lawal.banji.yahewa.input.ZipcodeInput
 import com.lawal.banji.yahewa.navigation.NavigationEvent
 import com.lawal.banji.yahewa.ui.theme.Orange
@@ -17,6 +18,7 @@ import com.lawal.banji.yahewa.view.model.ForecastState
 @Composable
 fun DetailsScreen(
     forecastState: ForecastState,
+    itemId: String,
     onNavigate: (NavigationEvent) -> Unit = {},
     onZipcodeEntered: (String) -> Unit
 ) {
@@ -31,9 +33,10 @@ fun DetailsScreen(
                 .padding(innerPadding)
                 .background(Orange)
         ) {
+            Text(text = "Details for item $itemId")
             when (forecastState) {
                 is ForecastState.Loading -> {
-                    Text(text = "Loading forecast...")
+                    Text(text = "Loading forecast details...")
                 }
                 is ForecastState.Error -> {
                     val errorMessage = "Yahewa forecast state error: ${(forecastState as ForecastState.Error).message}"
@@ -41,7 +44,7 @@ fun DetailsScreen(
                 }
                 is ForecastState.Success -> {
                     val forecast = forecastState.forecast
-                    Text(text = "cloudiness ${forecast.clouds.all}")
+                    ForecastDetailsView(forecast = forecastState.forecast) { }
                 }
             }
         }
