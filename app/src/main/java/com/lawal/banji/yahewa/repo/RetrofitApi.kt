@@ -12,7 +12,13 @@ interface RetrofitApi {
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,
         @Query("units") units: String = "imperial",
-//        @Query("exclude") exclude: String = "hourly, minutely, daily, alerts",
+        @Query("appid") apiKey: String
+    ): Forecast
+
+    @GET("weather")
+    suspend fun getForecastByZipcode(
+        @Query("zip") zipcode: String,
+        @Query("units") units: String = "imperial",
         @Query("appid") apiKey: String
     ): Forecast
 
