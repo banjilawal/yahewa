@@ -1,4 +1,4 @@
-package com.lawal.banji.yahewa.model.daily
+package com.lawal.banji.yahewa.model
 
 import com.google.gson.annotations.SerializedName
 
