@@ -17,6 +17,9 @@ fun AppNavHost(
     forecastViewModel: ForecastViewModel,
     startDestination: String = Screens.Home.route
 ) {
+    // Collect forecast state once, at the top level
+    val forecastState = forecastViewModel.forecastState.collectAsState().value
+
     NavHost(
         navController = navController,
         startDestination = startDestination
@@ -24,15 +27,11 @@ fun AppNavHost(
         // HomeScreen Composable
         composable(Screens.Home.route) {
             HomeScreen(
-                forecastState = forecastViewModel.forecastState.collectAsState().value,
+                forecastState = forecastState,
                 onNavigate = { itemId ->
-                    if (itemId != null) {
-                        // Navigate to DetailsScreen with a valid itemId
-                        navController.navigate(Screens.Details.createRoute(itemId.toString()))
-                    } else {
-                        // Handle invalid itemId (log error or show Snackbar)
-                        throw IllegalArgumentException("itemId cannot be null or blank.")
-                    }
+                    itemId?.let {
+                        navController.navigate(Screens.Details.createRoute(it.toString()))
+                    } ?: navController.popBackStack() // Handle null gracefully
                 },
                 onZipcodeEntered = { zipcode -> forecastViewModel.setZipcode(zipcode) }
             )
@@ -45,16 +44,20 @@ fun AppNavHost(
                 navArgument("itemId") { type = NavType.StringType }
             )
         ) { backStackEntry ->
-            // Safely retrieve the itemId argument
             val itemId = backStackEntry.arguments?.getString("itemId")
-                ?: throw IllegalArgumentException("Missing 'itemId' argument in route.")
+            if (itemId == null) {
+                // Handle missing itemId gracefully
+                navController.popBackStack()
+                return@composable
+            }
 
             DetailsScreen(
-                forecastState = forecastViewModel.forecastState.collectAsState().value,
-                onNavigate = {},
+                forecastState = forecastState,
+                itemId = itemId, // Pass the itemId argument
                 onZipcodeEntered = { zipcode -> forecastViewModel.setZipcode(zipcode) }
             )
         }
     }
 }
+
 
