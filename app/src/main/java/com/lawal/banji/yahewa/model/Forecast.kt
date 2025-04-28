@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import com.lawal.banji.yahewa.model.commercial.Current
 
 data class Forecast(
-    val coord: Coordinates,
+    val coordinates: Coordinates,
     val weather: List<Weather>,
     val base: String,
     val main: Main,
@@ -16,7 +16,5 @@ data class Forecast(
     @SerializedName("dt") val unixTime: Long,
     @SerializedName("timezone") val timezone: Int,
     @SerializedName("name") val city: String,
-
-    var state: String? = null,
-    var country: String? = null,
+    var state: String? = null
 )

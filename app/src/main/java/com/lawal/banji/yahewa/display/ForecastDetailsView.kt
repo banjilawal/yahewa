@@ -37,7 +37,7 @@ fun ForecastDetailsView(forecast: Forecast) {
     val wind = "wind $windSpeed m/s ${windDirection}°"
     val location = if (state != null) "$city, $state" else "$city, $country"
     val heading  = "$location Weather Details"
-    val coordinates = "latitude: ${forecast.coord.latitude} longitude  ${forecast.coord.longitude}"
+    val coordinates = "latitude: ${forecast.coordinates.latitude} longitude  ${forecast.coordinates.longitude}"
 
     LazyColumn(
         modifier = Modifier

@@ -3,8 +3,8 @@ package com.lawal.banji.yahewa.model
 import com.google.gson.annotations.SerializedName
 
 data class DailyForecast (
-    @SerializedName("sunrise") val sunrise: Double,
-    @SerializedName("sunset") val sunset: Double,
+    @SerializedName("sunrise") val sunrise: Long,
+    @SerializedName("sunset") val sunset: Long,
     @SerializedName("pressure") val pressure: Double,
     @SerializedName("humidity") val humidity: Double,
     @SerializedName("speed") val windSpeed: Double,
