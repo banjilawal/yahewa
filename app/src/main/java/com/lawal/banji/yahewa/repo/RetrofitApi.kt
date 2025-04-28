@@ -2,6 +2,7 @@ package com.lawal.banji.yahewa.repo
 
 import com.lawal.banji.yahewa.model.City
 import com.lawal.banji.yahewa.model.Forecast
+import com.lawal.banji.yahewa.model.ForecastResponse
 import com.lawal.banji.yahewa.utils.AppDefault
 import retrofit2.http.GET
 import retrofit2.http.Query

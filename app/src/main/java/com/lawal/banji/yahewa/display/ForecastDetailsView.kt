@@ -25,16 +25,19 @@ fun ForecastDetailsView(forecast: Forecast) {
     val state = forecast.state
     val country = forecast.sys.country
 
-    val description = forecast.weather[0].description
-    val windSpeed = forecast.wind.speed
-    val windDirection = forecast.wind.direction
-    val windGust = forecast.wind.gust
-    val percentCloudiness = "${forecast.clouds.all} % cloudiness"
-    val visibility = "${forecast.visibility} visibility"
-    val sunrise = "${forecast.sys.sunrise} sunrise"
-    val sunset = "${forecast.sys.sunset} sunset"
+    val description = forecast.weather.getOrNull(0)?.description ?: "No description available"
 
-    val wind = "wind $windSpeed m/s ${windDirection}°"
+    val latitude = forecast.coordinates?.latitude ?: "Unknown Latitude"
+    val longitude = forecast.coordinates?.longitude ?: "Unknown Longitude"
+
+    val windSpeed = forecast.wind.speed ?: "Unknown speed"
+    val windDirection = forecast.wind.direction ?: "Unknown direction"
+    val windGust = forecast.wind.gust ?: "Unknown gust"
+    val percentCloudiness = "${forecast.clouds?.all ?: "N/A"} % cloudiness"
+    val visibility = forecast.visibility?.toString() ?: "N/A visibility"
+    val sunrise = forecast.sys.sunrise?.let { "$it sunrise" } ?: "No sunrise data"
+    val sunset = forecast.sys.sunset?.let { "$it sunset" } ?: "No sunset data"
+
     val location = if (state != null) "$city, $state" else "$city, $country"
     val heading  = "$location Weather Details"
     val coordinates = "latitude: ${forecast.coordinates.latitude} longitude  ${forecast.coordinates.longitude}"

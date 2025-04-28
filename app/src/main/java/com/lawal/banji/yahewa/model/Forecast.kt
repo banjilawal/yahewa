@@ -1,19 +1,16 @@
 package com.lawal.banji.yahewa.model
 
 import com.google.gson.annotations.SerializedName
-import com.lawal.banji.yahewa.model.commercial.Current
 
 data class Forecast(
-    val coordinates: Coordinates,
-    val weather: List<Weather>,
-    val base: String,
-    val main: Main,
-    val sys: Sys,
-    val wind: Wind,
-    val current: Current,
-    val clouds: Clouds,
+    @SerializedName("coord") val coordinates: Coordinates,
+    @SerializedName("weather") val weather: List<Weather>,
+    @SerializedName("main") val main: Main,
     @SerializedName("visibility") val visibility: Int,
+    @SerializedName("wind") val wind: Wind,
+    @SerializedName("clouds") val clouds: Clouds,
     @SerializedName("dt") val unixTime: Long,
+    @SerializedName("sys") val  sys: Sys,
     @SerializedName("timezone") val timezone: Int,
     @SerializedName("name") val city: String,
     var state: String? = null
