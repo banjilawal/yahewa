@@ -10,9 +10,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import com.lawal.banji.yahewa.display.ForecastDetailsView
 import com.lawal.banji.yahewa.input.ZipcodeInput
-import com.lawal.banji.yahewa.ui.theme.Orange
 import com.lawal.banji.yahewa.view.model.ForecastState
 
 @Composable
@@ -33,10 +33,10 @@ fun DetailsScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .background(Orange) // Consider switching to MaterialTheme for proper color usage
+                .background(Color.LightGray) // Consider switching to MaterialTheme for proper color usage
         ) {
             // Display the itemId at the top
-            Text(text = "Details for item $itemId")
+//            Text(text = "Details for item $itemId")
 
             // Render different states of the forecast
             when (forecastState) {

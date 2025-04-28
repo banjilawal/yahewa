@@ -2,6 +2,7 @@ package com.lawal.banji.yahewa.display
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
@@ -9,14 +10,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.lawal.banji.yahewa.model.Forecast
+import com.lawal.banji.yahewa.ui.theme.DefaultBoxColor
+import com.lawal.banji.yahewa.ui.theme.DefaultHeadingColor
 import com.lawal.banji.yahewa.ui.theme.DefaultPadding
+import com.lawal.banji.yahewa.ui.theme.PowderBlueGray
+import com.lawal.banji.yahewa.ui.theme.SandLighter
 import com.lawal.banji.yahewa.ui.theme.SmallerPadding
-import com.lawal.banji.yahewa.ui.theme.White
 
 @Composable
 fun ForecastDetailsView(forecast: Forecast) {
+
+    val city = forecast.city
+    val state = forecast.state
+    val country = forecast.sys.country
 
     val description = forecast.weather[0].description
     val windSpeed = forecast.wind.speed
@@ -28,21 +35,47 @@ fun ForecastDetailsView(forecast: Forecast) {
     val sunset = "${forecast.sys.sunset} sunset"
 
     val wind = "wind $windSpeed m/s ${windDirection}°"
+    val location = if (state != null) "$city, $state" else "$city, $country"
+    val heading  = "$location Weather Details"
+    val coordinates = "latitude: ${forecast.coord.latitude} longitude  ${forecast.coord.longitude}"
 
     LazyColumn(
         modifier = Modifier
             .padding(DefaultPadding)
             .fillMaxSize()
-            .background(White)
+            .background(PowderBlueGray)
     ) {
-        // Row containing City
+        item {
+            // City needs to be centered. Fills the width of it's center
+            Text(
+                text = heading,
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.fillMaxWidth()
+                    .padding(DefaultPadding).
+                    background(DefaultHeadingColor),
+                textAlign = TextAlign.Center
+            )
+        }
+        item {
+            // City needs to be centered. Fills the width of it's center
+            Text(
+                text = coordinates,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.fillMaxWidth()
+                    .padding(DefaultPadding).
+                    background(DefaultBoxColor),
+                textAlign = TextAlign.Start
+            )
+        }
         item {
             // City needs to be centered. Fills the width of it's center
             Text(
                 text = "$sunrise $sunset",
                 style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.fillMaxSize().padding(bottom = 0.dp),
-                textAlign = TextAlign.Center
+                modifier = Modifier.fillMaxWidth()
+                    .padding(DefaultPadding).
+                    background(SandLighter),
+                textAlign = TextAlign.Start
             )
         }
         item {
