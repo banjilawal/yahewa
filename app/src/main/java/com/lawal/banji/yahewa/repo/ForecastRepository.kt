@@ -2,6 +2,7 @@ package com.lawal.banji.yahewa.repo
 
 import com.lawal.banji.yahewa.model.City
 import com.lawal.banji.yahewa.model.Forecast
+import com.lawal.banji.yahewa.model.ForecastResponse
 import com.lawal.banji.yahewa.repo.RetrofitInstance.api
 
 class ForecastRepository {
@@ -18,6 +19,13 @@ class ForecastRepository {
                         val result = api.getForecastByZipcode(zipcode = zipcode, apiKey = apiKey)
                         QueryResult.Success(result)
                 } catch (e: Exception) {  QueryResult.Error(e)  }
+        }
+
+        suspend fun fetchForecasts(latitude: Double, longitude: Double, count: Int, apiKey:String): QueryResult<ForecastResponse> {
+                return try {
+                        val result = api.getForecasts(latitude = latitude, longitude = longitude, count = count , apiKey = apiKey)
+                        QueryResult.Success(result)
+                } catch (e: Exception) { QueryResult.Error(e)  }
         }
 
         suspend fun fetchReverseGeoCoding(latitude: Double, longitude: Double, apiKey: String):  QueryResult<City> {
