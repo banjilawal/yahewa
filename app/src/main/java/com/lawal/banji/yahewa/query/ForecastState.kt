@@ -1,4 +1,4 @@
-package com.lawal.banji.yahewa.view.model
+package com.lawal.banji.yahewa.query
 
 import com.lawal.banji.yahewa.model.Forecast
 

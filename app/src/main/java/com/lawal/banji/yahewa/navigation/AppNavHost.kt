@@ -1,5 +1,7 @@
 package com.lawal.banji.yahewa.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Scaffold
@@ -16,6 +18,7 @@ import com.lawal.banji.yahewa.destination.DetailsScreen
 import com.lawal.banji.yahewa.destination.HomeScreen
 import com.lawal.banji.yahewa.view.model.ForecastViewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AppNavHost(
     navController: NavHostController,

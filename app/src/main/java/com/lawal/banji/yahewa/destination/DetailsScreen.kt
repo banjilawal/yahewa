@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.lawal.banji.yahewa.display.ForecastDetailsView
 import com.lawal.banji.yahewa.input.ZipcodeInput
-import com.lawal.banji.yahewa.view.model.ForecastState
+import com.lawal.banji.yahewa.query.ForecastState
 
 @Composable
 fun DetailsScreen(

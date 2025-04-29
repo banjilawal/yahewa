@@ -13,7 +13,7 @@ import com.lawal.banji.yahewa.display.ForecastView
 import com.lawal.banji.yahewa.input.ZipcodeInput
 import com.lawal.banji.yahewa.navigation.NavigationEvent
 import com.lawal.banji.yahewa.ui.theme.White
-import com.lawal.banji.yahewa.view.model.ForecastState
+import com.lawal.banji.yahewa.query.ForecastState
 
 
 @Composable

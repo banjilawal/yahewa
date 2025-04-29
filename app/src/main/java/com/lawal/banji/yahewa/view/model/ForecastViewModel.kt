@@ -4,8 +4,11 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.lawal.banji.yahewa.query.CityLookupState
+import com.lawal.banji.yahewa.query.ForecastResponseState
+import com.lawal.banji.yahewa.query.ForecastState
 import com.lawal.banji.yahewa.repo.ForecastRepository
-import com.lawal.banji.yahewa.repo.QueryResult
+import com.lawal.banji.yahewa.query.QueryResult
 import com.lawal.banji.yahewa.utils.AppDefault
 import com.lawal.banji.yahewa.utils.convertLongToLocalDateTime
 import com.lawal.banji.yahewa.utils.getRandomCity

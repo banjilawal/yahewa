@@ -3,6 +3,7 @@ package com.lawal.banji.yahewa.repo
 import com.lawal.banji.yahewa.model.City
 import com.lawal.banji.yahewa.model.Forecast
 import com.lawal.banji.yahewa.model.ForecastResponse
+import com.lawal.banji.yahewa.query.QueryResult
 import com.lawal.banji.yahewa.repo.RetrofitInstance.api
 
 class ForecastRepository {
@@ -28,7 +29,7 @@ class ForecastRepository {
                 } catch (e: Exception) { QueryResult.Error(e)  }
         }
 
-        suspend fun fetchReverseGeoCoding(latitude: Double, longitude: Double, apiKey: String):  QueryResult<City> {
+        suspend fun fetchReverseGeoCoding(latitude: Double, longitude: Double, apiKey: String): QueryResult<City> {
                 return try {
                         val result = api.getReverseGeoEncoding(latitude = latitude, longitude = longitude, apiKey = apiKey)
                         // Print the JSON response to the console
