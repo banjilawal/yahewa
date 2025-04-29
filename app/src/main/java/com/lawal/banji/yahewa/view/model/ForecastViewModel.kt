@@ -2,7 +2,6 @@ package com.lawal.banji.yahewa.view.model
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lawal.banji.yahewa.model.DailyForecast
 import com.lawal.banji.yahewa.repo.ForecastRepository
 import com.lawal.banji.yahewa.repo.QueryResult
 import com.lawal.banji.yahewa.utils.AppDefault
@@ -13,9 +12,8 @@ import kotlinx.coroutines.launch
 
 class ForecastViewModel(private val repository: ForecastRepository) : ViewModel() {
 
-    private val _forecastList = MutableStateFlow<List<DailyForecast>>(emptyList())
-    val forecastList: StateFlow<List<DailyForecast>> = _forecastList
-
+    private val _forecastListState = MutableStateFlow<ForecastListState>(ForecastListState.Loading)
+    val forecastListState: StateFlow<ForecastListState> get() = _forecastListState
 
     private val _forecastState = MutableStateFlow<ForecastState>(ForecastState.Loading)
     val forecastState: StateFlow<ForecastState> get() = _forecastState
@@ -72,5 +70,22 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
             }
         }
     }
-}
 
+    fun fetchForecastList(latitude: Double, longitude: Double, apiKey: String) {
+        viewModelScope.launch {
+            _forecastListState.value = ForecastListState.Loading
+            when (val queryResult = repository.fetchForecasts(
+                longitude = longitude,
+                latitude = latitude,
+                count = AppDefault.NUMBER_OF_FORECASTS,
+                apiKey = apiKey)
+            ) {
+                is QueryResult.Success -> { _forecastListState.value = ForecastListState.Success(queryResult.data.forecastList) }
+                is QueryResult.Error -> {
+                    _forecastListState.value = ForecastListState.Error("Failed to fetch forecast data: ${queryResult.exception.message}")
+                }
+            }
+        }
+    }
+
+}
