@@ -2,6 +2,7 @@ package com.lawal.banji.yahewa.view.model
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.lawal.banji.yahewa.model.DailyForecast
 import com.lawal.banji.yahewa.repo.ForecastRepository
 import com.lawal.banji.yahewa.repo.QueryResult
 import com.lawal.banji.yahewa.utils.AppDefault
@@ -12,11 +13,15 @@ import kotlinx.coroutines.launch
 
 class ForecastViewModel(private val repository: ForecastRepository) : ViewModel() {
 
-    private var _zipcode: MutableStateFlow<String?> = MutableStateFlow(null)
-    val zipcode: StateFlow<String?> get() = _zipcode
+    private val _forecastList = MutableStateFlow<List<DailyForecast>>(emptyList())
+    val forecastList: StateFlow<List<DailyForecast>> = _forecastList
+
 
     private val _forecastState = MutableStateFlow<ForecastState>(ForecastState.Loading)
     val forecastState: StateFlow<ForecastState> get() = _forecastState
+
+    private var _zipcode: MutableStateFlow<String?> = MutableStateFlow(null)
+    val zipcode: StateFlow<String?> get() = _zipcode
 
     private val _cityLookupState = MutableStateFlow<CityLookupState>(CityLookupState.Loading)
     val cityLookupState: StateFlow<CityLookupState> get() = _cityLookupState
