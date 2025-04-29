@@ -46,16 +46,16 @@ fun ForecastView(forecast: Forecast) {
             .fillMaxSize()
             .background(White)
     ) {
-            // Row containing City
-            item {
-                // City needs to be centered. Fills the width of it's center
-                Text(
-                    text = location,
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.fillMaxSize().padding(bottom = 0.dp),
-                    textAlign = TextAlign.Center
-                )
-            }
+        // Row containing City
+        item {
+            // City needs to be centered. Fills the width of it's center
+            Text(
+                text = location,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.fillMaxSize().padding(bottom = 0.dp),
+                textAlign = TextAlign.Center
+            )
+        }
         // Row containing the temperature and weather icon
         item {
             androidx.compose.foundation.layout.Row(
@@ -95,29 +95,33 @@ fun ForecastView(forecast: Forecast) {
                 }
             }
         }
-            item {
-                Text(
-                    text = lowTemperature,
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(SmallerPadding))
-            }
+        item {
+            Text(
+                text = lowTemperature,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(SmallerPadding)
+            )
+        }
         item {
             Text(
                 text = highTemperature,
                 style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(SmallerPadding))
+                modifier = Modifier.padding(SmallerPadding)
+            )
         }
         item {
             Text(
                 text = humidity,
                 style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(SmallerPadding))
+                modifier = Modifier.padding(SmallerPadding)
+            )
         }
         item {
             Text(
                 text = pressure,
                 style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(SmallerPadding))
+                modifier = Modifier.padding(SmallerPadding)
+            )
         }
-        }
+    }
 }
