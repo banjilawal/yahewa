@@ -12,8 +12,9 @@ import kotlinx.coroutines.launch
 
 class ForecastViewModel(private val repository: ForecastRepository) : ViewModel() {
 
-    private val _forecastListState = MutableStateFlow<ForecastListState>(ForecastListState.Loading)
-    val forecastListState: StateFlow<ForecastListState> get() = _forecastListState
+    private val _forecastResponseState =
+        MutableStateFlow<ForecastResponseState>(ForecastResponseState.Loading)
+    val forecastResponseState: StateFlow<ForecastResponseState> get() = _forecastResponseState
 
     private val _forecastState = MutableStateFlow<ForecastState>(ForecastState.Loading)
     val forecastState: StateFlow<ForecastState> get() = _forecastState
@@ -27,7 +28,7 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
     init {
         viewModelScope.launch {
             val location = getRandomCity()
-            println("Location: ${location.name} (${location.coordinates.latitude}, ${location.coordinates.longitude})")
+//            println("Location: ${location.name} (${location.coordinates.latitude}, ${location.coordinates.longitude})")
 
             // Fetch the forecast
             fetchForecastByCoordinates(
@@ -53,11 +54,14 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
                 longitude = longitude,
                 apiKey = apiKey
             )) {
-                is QueryResult.Success -> _forecastState.value =
-                    ForecastState.Success(queryResult.data)
+                is QueryResult.Success -> _ {
+                    forecastState.value = ForecastState.Success(queryResult.data)
+                }
 
-                is QueryResult.Error -> _forecastState.value =
-                    ForecastState.Error("Error: ${queryResult.exception.message}")
+                is QueryResult.Error -> {
+                    _forecastState.value =
+                        ForecastState.Error("Error: ${queryResult.exception.message}")
+                }
             }
         }
     }
@@ -65,27 +69,44 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
     private fun fetchForecastByZipcode(zipcode: String, apiKey: String) {
         viewModelScope.launch {
             when (val queryResult = repository.fetchByZipcode(zipcode, apiKey)) {
-                is QueryResult.Success -> _forecastState.value = ForecastState.Success(queryResult.data)
-                is QueryResult.Error -> _forecastState.value = ForecastState.Error(queryResult.exception.message ?: "Unknown Error")
-            }
-        }
-    }
+                is QueryResult.Success -> {
+                    _forecastState.value = ForecastState.Success(queryResult.data)
+                    val latitude = queryResult.data.coordinates.latitude
+                    val longitude = queryResult.data.coordinates.longitude
+                    fetchForecastList(latitude, longitude, apiKey)
+                }
 
-    fun fetchForecastList(latitude: Double, longitude: Double, apiKey: String) {
-        viewModelScope.launch {
-            _forecastListState.value = ForecastListState.Loading
-            when (val queryResult = repository.fetchForecasts(
-                longitude = longitude,
-                latitude = latitude,
-                count = AppDefault.NUMBER_OF_FORECASTS,
-                apiKey = apiKey)
-            ) {
-                is QueryResult.Success -> { _forecastListState.value = ForecastListState.Success(queryResult.data.forecastList) }
                 is QueryResult.Error -> {
-                    _forecastListState.value = ForecastListState.Error("Failed to fetch forecast data: ${queryResult.exception.message}")
+                    _forecastState.value =
+                        ForecastState.Error(queryResult.exception.message ?: "Unknown Error")
                 }
             }
         }
     }
 
+    private fun fetchForecastList(latitude: Double, longitude: Double, apiKey: String) {
+        viewModelScope.launch {
+            when (val queryResult = repository.fetchForecasts(
+                longitude = longitude,
+                latitude = latitude,
+                count = AppDefault.NUMBER_OF_FORECASTS,
+                apiKey = apiKey
+            )
+            ) {
+                is QueryResult.Success -> {
+                    _forecastResponseState.value = ForecastResponseState.Success(queryResult.data)
+                    val country = queryResult.data.city.country
+                    val = queryResult.data.forecastList[0].sunset
+                    val maxTemperature = queryResult.data.forecastList[0].temperature.maxTemperature
+                    val sunset = queryResult.data.forecastList[0].sunset
+                    println("Country:$country maxTemp:$maxTemperature sunset:  $sunset")
+                }
+
+                is QueryResult.Error -> {
+                    _forecastResponseState.value =
+                        ForecastResponseState.Error("Failed to fetch forecast data: ${queryResult.exception.message}")
+                }
+            }
+        }
+    }
 }
