@@ -1,5 +1,7 @@
 package com.lawal.banji.yahewa.display
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,7 +19,9 @@ import com.lawal.banji.yahewa.ui.theme.DefaultPadding
 import com.lawal.banji.yahewa.ui.theme.PowderBlueGray
 import com.lawal.banji.yahewa.ui.theme.SandLighter
 import com.lawal.banji.yahewa.ui.theme.SmallerPadding
+import com.lawal.banji.yahewa.utils.convertLongToLocalDateTime
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ForecastDetailsView(forecast: Forecast) {
 
@@ -35,8 +39,8 @@ fun ForecastDetailsView(forecast: Forecast) {
     val windGust = forecast.wind.gust ?: "Unknown gust"
     val percentCloudiness = "${forecast.clouds?.all ?: "N/A"} % cloudiness"
     val visibility = forecast.visibility?.toString() ?: "N/A visibility"
-    val sunrise = forecast.sys.sunrise?.let { "$it sunrise" } ?: "No sunrise data"
-    val sunset = forecast.sys.sunset?.let { "$it sunset" } ?: "No sunset data"
+    val sunrise = "sunrise: ${convertLongToLocalDateTime(forecast.sys.sunrise)}" //?.let { "$it sunrise" } ?: "No sunrise data"
+    val sunset = "sunset: ${convertLongToLocalDateTime(forecast.sys.sunset)}"  //?.let { "$it sunset" } ?: "No sunset data"
 
     val location = if (state != null) "$city, $state" else "$city, $country"
     val heading  = "$location Weather Details"

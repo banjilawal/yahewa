@@ -1,10 +1,13 @@
 package com.lawal.banji.yahewa.view.model
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lawal.banji.yahewa.repo.ForecastRepository
 import com.lawal.banji.yahewa.repo.QueryResult
 import com.lawal.banji.yahewa.utils.AppDefault
+import com.lawal.banji.yahewa.utils.convertLongToLocalDateTime
 import com.lawal.banji.yahewa.utils.getRandomCity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -40,6 +43,7 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
     }
 
     // Public method to set the zip code so the ViewModel can handle fetching
+    @RequiresApi(Build.VERSION_CODES.O)
     fun setZipcode(newZipcode: String) {
         if (newZipcode != _zipcode.value) {
             _zipcode.value = newZipcode
@@ -66,6 +70,7 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun fetchForecastByZipcode(zipcode: String, apiKey: String) {
         viewModelScope.launch {
             when (val queryResult = repository.fetchByZipcode(zipcode, apiKey)) {
@@ -84,6 +89,7 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun fetchForecastList(latitude: Double, longitude: Double, apiKey: String) {
         viewModelScope.launch {
             when (val queryResult = repository.fetchForecasts(
@@ -96,7 +102,7 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
                 is QueryResult.Success -> {
                     _forecastResponseState.value = ForecastResponseState.Success(queryResult.data)
                     val country = queryResult.data.city.country
-                    val sunset  = queryResult.data.forecastList[0].sunset
+                    val sunset  = convertLongToLocalDateTime(queryResult.data.forecastList[0].sunset)
                     val maxTemperature = queryResult.data.forecastList[0].temperatures.max
                     println("Country:$country maxTemp:$maxTemperature sunset:  $sunset")
                 }
