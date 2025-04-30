@@ -35,35 +35,20 @@ fun AppNavHost(
             FloatingActionButton(
                 onClick = {
                     val currentRoute = navController.currentBackStackEntry?.destination?.route
-                    // Handle FAB navigation logic
-                    when (currentRoute) {
-                        Screens.Home.route -> {
-                            // Navigate to DetailsScreen with a sample itemId
-                            navController.navigate(Screens.Details.createRoute(itemId = "12345"))
-                        }
-
-                        Screens.Details.route -> {
-                            // Navigate to PredictionsScreen
-                            navController.navigate(Screens.Predictions.route)
-                        }
-
-                        else -> {
-                            // Navigate back to HomeScreen
-                            navController.navigate(Screens.Home.route) {
-                                popUpTo(Screens.Home.route) { inclusive = true }
-                            }
+                    // Toggle logic: Navigate to Predictions if on Home, otherwise to Home
+                    if (currentRoute == Screens.Home.route) {
+                        navController.navigate(Screens.Predictions.route)
+                    } else {
+                        navController.navigate(Screens.Home.route) {
+                            popUpTo(Screens.Home.route) { inclusive = true }
                         }
                     }
                 }
             ) {
-                // Change Button Text/Icon based on Current Route
+                // Set Button Text based on Current Route
                 val currentRoute = navController.currentBackStackEntry?.destination?.route
                 Text(
-                    when (currentRoute) {
-                        Screens.Home.route -> "Details"
-                        Screens.Details.route -> "Predictions"
-                        else -> "Home"
-                    }
+                    if (currentRoute == Screens.Home.route) "Predictions" else "Home"
                 )
             }
         }
@@ -108,10 +93,9 @@ fun AppNavHost(
                 PredictionsScreen(
                     forecastResponseState = forecastResponseState,
                     onNavigate = {
-                        // Directly handle navigation without unnecessary indirection
+                        // Direct navigation handling
                         navController.popBackStack()
                     }
-
                 )
             }
         }
