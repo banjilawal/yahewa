@@ -1,5 +1,7 @@
 package com.lawal.banji.yahewa.display
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -7,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +23,7 @@ import com.lawal.banji.yahewa.ui.theme.SmallPadding
 import com.lawal.banji.yahewa.ui.theme.SmallerPadding
 import com.lawal.banji.yahewa.ui.theme.White
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PredictionGroupView(predictionGroup: PredictionGroup) {
     val city = predictionGroup.city.name
@@ -34,14 +38,14 @@ fun PredictionGroupView(predictionGroup: PredictionGroup) {
             .fillMaxSize()
             .background(White)
     ) {
-        // Box containing City information
+        // City information
         item {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(SmallPadding)
                     .background(LightGray)
-                    .padding(DefaultPadding) // Inner padding
+                    .padding(DefaultPadding)
             ) {
                 Column {
                     Text(
@@ -71,14 +75,14 @@ fun PredictionGroupView(predictionGroup: PredictionGroup) {
             }
         }
 
-        // Box containing the number of forecasts
+        // Forecast count
         item {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(SmallPadding)
                     .background(LightGray)
-                    .padding(DefaultPadding) // Inner padding
+                    .padding(DefaultPadding)
             ) {
                 Text(
                     text = numOfForecasts,
@@ -88,5 +92,12 @@ fun PredictionGroupView(predictionGroup: PredictionGroup) {
                 )
             }
         }
+
+        // **This is where the `items` function goes**
+        items(predictionGroup.predictions) { weatherPrediction ->
+            // Render the prediction item using PredictionView
+            PredictionView(weatherPrediction = weatherPrediction)
+        }
     }
 }
+
