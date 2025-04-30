@@ -8,3 +8,4 @@ sealed class Screens(val route: String) {
     object Predictions : Screens("predictions") // Add Predictions route
 }
 
+

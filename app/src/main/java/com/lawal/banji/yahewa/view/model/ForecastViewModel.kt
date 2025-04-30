@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.lawal.banji.yahewa.query.CityLookupState
 import com.lawal.banji.yahewa.query.ForecastResponseState
 import com.lawal.banji.yahewa.query.ForecastState
-import com.lawal.banji.yahewa.repo.ForecastRepository
 import com.lawal.banji.yahewa.query.QueryResult
+import com.lawal.banji.yahewa.repo.ForecastRepository
 import com.lawal.banji.yahewa.utils.AppDefault
 import com.lawal.banji.yahewa.utils.convertLongToLocalDateTime
 import com.lawal.banji.yahewa.utils.getRandomCity
@@ -81,7 +81,7 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
                     _forecastState.value = ForecastState.Success(queryResult.data)
                     val latitude = queryResult.data.coordinates.latitude
                     val longitude = queryResult.data.coordinates.longitude
-                    fetchForecastList(latitude, longitude, apiKey)
+//                    fetchForecastList(latitude, longitude, apiKey)
                 }
 
                 is QueryResult.Error -> {

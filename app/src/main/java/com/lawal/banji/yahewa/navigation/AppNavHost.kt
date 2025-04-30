@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.lawal.banji.yahewa.destination.DetailsScreen
 import com.lawal.banji.yahewa.destination.HomeScreen
+import com.lawal.banji.yahewa.destination.PredictionsScreen
 import com.lawal.banji.yahewa.view.model.ForecastViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -25,52 +26,65 @@ fun AppNavHost(
     forecastViewModel: ForecastViewModel,
     startDestination: String = Screens.Home.route
 ) {
-    // Collect forecast state once, at the top level
+    // Collect forecast states
     val forecastState = forecastViewModel.forecastState.collectAsState().value
+    val forecastResponseState = forecastViewModel.forecastResponseState.collectAsState().value
 
     Scaffold(
         floatingActionButton = {
-            // Floating Action Button for navigation
-            // Use dynamic text/actions based on the current destination
             FloatingActionButton(
                 onClick = {
                     val currentRoute = navController.currentBackStackEntry?.destination?.route
-                    if (currentRoute == Screens.Home.route) {
-                        // Navigate to DetailsScreen with a sample itemId
-                        navController.navigate(Screens.Details.createRoute(itemId = "12345"))
-                    } else {
-                        // Navigate back to HomeScreen
-                        navController.navigate(Screens.Home.route) {
-                            popUpTo(Screens.Home.route) { inclusive = true }
+                    // Handle FAB navigation logic
+                    when (currentRoute) {
+                        Screens.Home.route -> {
+                            // Navigate to DetailsScreen with a sample itemId
+                            navController.navigate(Screens.Details.createRoute(itemId = "12345"))
+                        }
+
+                        Screens.Details.route -> {
+                            // Navigate to PredictionsScreen
+                            navController.navigate(Screens.Predictions.route)
+                        }
+
+                        else -> {
+                            // Navigate back to HomeScreen
+                            navController.navigate(Screens.Home.route) {
+                                popUpTo(Screens.Home.route) { inclusive = true }
+                            }
                         }
                     }
                 }
             ) {
-                // Change button text/icon based on the current route
+                // Change Button Text/Icon based on Current Route
                 val currentRoute = navController.currentBackStackEntry?.destination?.route
-                Text(if (currentRoute == Screens.Home.route) "Details" else "Home")
+                Text(
+                    when (currentRoute) {
+                        Screens.Home.route -> "Details"
+                        Screens.Details.route -> "Predictions"
+                        else -> "Home"
+                    }
+                )
             }
         }
     ) { innerPadding ->
         NavHost(
             navController = navController,
             startDestination = startDestination,
-            modifier = Modifier.padding(innerPadding) // Handle padding for the inner content
+            modifier = Modifier.padding(innerPadding)
         ) {
-            // HomeScreen Composable
+            // HomeScreen
             composable(Screens.Home.route) {
                 HomeScreen(
                     forecastState = forecastState,
                     onNavigate = { itemId ->
-                        itemId?.let {
-                            navController.navigate(Screens.Details.createRoute(it.toString()))
-                        } ?: navController.popBackStack() // Handle null gracefully
+                        navController.navigate(Screens.Details.createRoute(itemId.toString()))
                     },
                     onZipcodeEntered = { zipcode -> forecastViewModel.setZipcode(zipcode) }
                 )
             }
 
-            // DetailsScreen Composable
+            // DetailsScreen
             composable(
                 route = Screens.Details.route,
                 arguments = listOf(
@@ -79,8 +93,7 @@ fun AppNavHost(
             ) { backStackEntry ->
                 val itemId = backStackEntry.arguments?.getString("itemId")
                 if (itemId == null) {
-                    // Handle missing itemId gracefully
-                    navController.popBackStack()
+                    navController.popBackStack() // Handle missing itemId gracefully
                     return@composable
                 }
                 DetailsScreen(
@@ -90,10 +103,21 @@ fun AppNavHost(
                 )
             }
 
+            // PredictionsScreen
+            composable(Screens.Predictions.route) {
+                PredictionsScreen(
+                    forecastResponseState = forecastResponseState,
+                    onNavigate = {
+                        // Directly handle navigation without unnecessary indirection
+                        navController.popBackStack()
+                    }
 
+                )
+            }
         }
     }
 }
+
 
 
 
