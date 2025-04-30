@@ -5,8 +5,8 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lawal.banji.yahewa.query.CityLookupState
-import com.lawal.banji.yahewa.query.ForecastResponseState
 import com.lawal.banji.yahewa.query.ForecastState
+import com.lawal.banji.yahewa.query.PredictionGroupState
 import com.lawal.banji.yahewa.query.QueryResult
 import com.lawal.banji.yahewa.repo.ForecastRepository
 import com.lawal.banji.yahewa.utils.AppDefault
@@ -16,11 +16,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
+@RequiresApi(Build.VERSION_CODES.O)
 class ForecastViewModel(private val repository: ForecastRepository) : ViewModel() {
 
-    private val _forecastResponseState =
-        MutableStateFlow<ForecastResponseState>(ForecastResponseState.Loading)
-    val forecastResponseState: StateFlow<ForecastResponseState> get() = _forecastResponseState
+    private val _predictionGroupState =
+        MutableStateFlow<PredictionGroupState>(PredictionGroupState.Loading)
+    val predictionGroupState: StateFlow<PredictionGroupState> get() = _predictionGroupState
 
     private val _forecastState = MutableStateFlow<ForecastState>(ForecastState.Loading)
     val forecastState: StateFlow<ForecastState> get() = _forecastState
@@ -64,7 +65,7 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
             )) {
                 is QueryResult.Success -> {
                     _forecastState.value = ForecastState.Success(queryResult.data)
-                    fetchForecastList(latitude, longitude, apiKey)
+                    fetchPredictionGroup(latitude, longitude, apiKey)
                 }
 
                 is QueryResult.Error -> {
@@ -95,7 +96,7 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun fetchForecastList(latitude: Double, longitude: Double, apiKey: String) {
+    private fun fetchPredictionGroup(latitude: Double, longitude: Double, apiKey: String) {
         viewModelScope.launch {
             when (val queryResult = repository.fetchForecasts(
                 longitude = longitude,
@@ -105,7 +106,7 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
             )
             ) {
                 is QueryResult.Success -> {
-                    _forecastResponseState.value = ForecastResponseState.Success(queryResult.data)
+                    _predictionGroupState.value = PredictionGroupState.Success(queryResult.data)
                     val country = queryResult.data.city.country
                     val sunset  = convertLongToLocalDateTime(queryResult.data.forecastList[0].sunset)
                     val maxTemperature = queryResult.data.forecastList[0].temperatures.max
@@ -113,8 +114,8 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
                 }
 
                 is QueryResult.Error -> {
-                    _forecastResponseState.value =
-                        ForecastResponseState.Error("Failed to fetch forecast data: ${queryResult.exception.message}")
+                    _predictionGroupState.value =
+                        PredictionGroupState.Error("Failed to fetch forecast data: ${queryResult.exception.message}")
                 }
             }
         }
