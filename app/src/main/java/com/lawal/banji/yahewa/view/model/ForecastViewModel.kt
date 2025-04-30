@@ -54,6 +54,7 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun fetchForecastByCoordinates(latitude: Double, longitude: Double, apiKey: String) {
         viewModelScope.launch {
             when (val queryResult = repository.fetchByCoordinates(
@@ -63,6 +64,7 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
             )) {
                 is QueryResult.Success -> {
                     _forecastState.value = ForecastState.Success(queryResult.data)
+                    fetchForecastList(latitude, longitude, apiKey)
                 }
 
                 is QueryResult.Error -> {
@@ -107,7 +109,7 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
                     val country = queryResult.data.city.country
                     val sunset  = convertLongToLocalDateTime(queryResult.data.forecastList[0].sunset)
                     val maxTemperature = queryResult.data.forecastList[0].temperatures.max
-                    println("Country:$country maxTemp:$maxTemperature sunset:  $sunset")
+                    println("fetchedforecasts for Country:$country maxTemp:$maxTemperature sunset:  $sunset")
                 }
 
                 is QueryResult.Error -> {
