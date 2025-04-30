@@ -43,6 +43,7 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
                 longitude = location.coordinates.longitude,
                 apiKey = AppDefault.API_KEY
             )
+            fetchPredictionGroup(location.coordinates.latitude, location.coordinates.longitude, AppDefault.API_KEY)
         }
     }
 
@@ -84,7 +85,7 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
                     _forecastState.value = ForecastState.Success(queryResult.data)
                     val latitude = queryResult.data.coordinates.latitude
                     val longitude = queryResult.data.coordinates.longitude
-                    fetchForecastList(latitude, longitude, apiKey)
+                    fetchPredictionGroup(latitude, longitude, apiKey)
                 }
 
                 is QueryResult.Error -> {
