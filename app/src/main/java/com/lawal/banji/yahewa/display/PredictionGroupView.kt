@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.text.style.TextAlign
 import com.lawal.banji.yahewa.model.PredictionGroup
-
 import com.lawal.banji.yahewa.ui.theme.DefaultPadding
 import com.lawal.banji.yahewa.ui.theme.SmallPadding
 import com.lawal.banji.yahewa.ui.theme.SmallerPadding
@@ -93,11 +91,11 @@ fun PredictionGroupView(predictionGroup: PredictionGroup) {
             }
         }
 
-        // **This is where the `items` function goes**
-        items(predictionGroup.predictions) { weatherPrediction ->
-            // Render the prediction item using PredictionView
-            PredictionView(weatherPrediction = weatherPrediction)
-        }
+//        // **This is where the `items` function goes**
+//        items(predictionGroup.predictions) { weatherPrediction ->
+//            // Render the prediction item using PredictionView
+//            PredictionView(weatherPrediction = weatherPrediction)
+//        }
     }
 }
 
