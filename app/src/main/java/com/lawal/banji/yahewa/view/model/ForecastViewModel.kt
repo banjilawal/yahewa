@@ -83,7 +83,7 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
                     _forecastState.value = ForecastState.Success(queryResult.data)
                     val latitude = queryResult.data.coordinates.latitude
                     val longitude = queryResult.data.coordinates.longitude
-//                    fetchForecastList(latitude, longitude, apiKey)
+                    fetchForecastList(latitude, longitude, apiKey)
                 }
 
                 is QueryResult.Error -> {
@@ -109,7 +109,7 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
                     val country = queryResult.data.city.country
                     val sunset  = convertLongToLocalDateTime(queryResult.data.forecastList[0].sunset)
                     val maxTemperature = queryResult.data.forecastList[0].temperatures.max
-                    println("fetchedforecasts for Country:$country maxTemp:$maxTemperature sunset:  $sunset")
+                    println("fetched for Country:$country maxTemp:$maxTemperature sunset:  $sunset")
                 }
 
                 is QueryResult.Error -> {
