@@ -2,7 +2,7 @@ package com.lawal.banji.yahewa.repo
 
 import com.lawal.banji.yahewa.model.City
 import com.lawal.banji.yahewa.model.Forecast
-import com.lawal.banji.yahewa.model.ForecastResponse
+import com.lawal.banji.yahewa.model.PredictionGroup
 import com.lawal.banji.yahewa.utils.AppDefault
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -39,7 +39,7 @@ interface RetrofitApi {
         @Query("units") units: String = AppDefault.DEFAULT_MEASUREMENT_SYSTEM,
         @Query("cnt") count: Int = AppDefault.NUMBER_OF_FORECASTS,
         @Query("appid") apiKey: String = AppDefault.API_KEY
-    ): ForecastResponse
+    ): PredictionGroup
 }
 
 

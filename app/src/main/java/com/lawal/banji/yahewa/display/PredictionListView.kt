@@ -13,19 +13,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.text.style.TextAlign
-import com.lawal.banji.yahewa.model.ForecastResponse
+import com.lawal.banji.yahewa.model.PredictionGroup
+
 import com.lawal.banji.yahewa.ui.theme.DefaultPadding
 import com.lawal.banji.yahewa.ui.theme.SmallPadding
 import com.lawal.banji.yahewa.ui.theme.SmallerPadding
 import com.lawal.banji.yahewa.ui.theme.White
 
 @Composable
-fun ForecastListView(forecastResponse: ForecastResponse) {
-    val city = forecastResponse.city.name
-    val country = forecastResponse.city.country
-    val latitude = "Latitude: ${forecastResponse.city.coordinates.latitude}"
-    val longitude = "Longitude: ${forecastResponse.city.coordinates.longitude}"
-    val numOfForecasts = "Forecast Count: ${forecastResponse.numberOfForecasts}"
+fun PredictionGroupView(predictionGroup: PredictionGroup) {
+    val city = predictionGroup.city.name
+    val country = predictionGroup.city.country
+    val latitude = "Latitude: ${predictionGroup.city.coordinates.latitude}"
+    val longitude = "Longitude: ${predictionGroup.city.coordinates.longitude}"
+    val numOfForecasts = "Forecast Count: ${predictionGroup.numberOfForecasts}"
 
     LazyColumn(
         modifier = Modifier

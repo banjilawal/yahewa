@@ -2,7 +2,7 @@ package com.lawal.banji.yahewa.repo
 
 import com.lawal.banji.yahewa.model.City
 import com.lawal.banji.yahewa.model.Forecast
-import com.lawal.banji.yahewa.model.ForecastResponse
+import com.lawal.banji.yahewa.model.PredictionGroup
 import com.lawal.banji.yahewa.query.QueryResult
 import com.lawal.banji.yahewa.repo.RetrofitInstance.api
 
@@ -22,7 +22,7 @@ class ForecastRepository {
                 } catch (e: Exception) {  QueryResult.Error(e)  }
         }
 
-        suspend fun fetchForecasts(latitude: Double, longitude: Double, count: Int, apiKey:String): QueryResult<ForecastResponse> {
+        suspend fun fetchForecasts(latitude: Double, longitude: Double, count: Int, apiKey:String): QueryResult<PredictionGroup> {
                 return try {
                         val result = api.getForecasts(latitude = latitude, longitude = longitude, count = count , apiKey = apiKey)
                         QueryResult.Success(result)

@@ -9,14 +9,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.lawal.banji.yahewa.display.ForecastListView
+import com.lawal.banji.yahewa.display.PredictionGroupView
 import com.lawal.banji.yahewa.navigation.NavigationEvent
-import com.lawal.banji.yahewa.query.ForecastResponseState
+import com.lawal.banji.yahewa.query.PredictionGroupState
 import com.lawal.banji.yahewa.ui.theme.White
 
 @Composable
 fun PredictionsScreen(
-    forecastResponseState: ForecastResponseState, // Updated state type
+    predictionGroupState: PredictionGroupState, // Updated state type
     onNavigate: (NavigationEvent) -> Unit = {},
 ) {
     Scaffold(
@@ -32,16 +32,16 @@ fun PredictionsScreen(
                 .padding(innerPadding)
                 .background(White)
         ) {
-            when (forecastResponseState) {
-                is ForecastResponseState.Loading -> {
+            when (predictionGroupState) {
+                is PredictionGroupState.Loading -> {
                     Text(text = "Loading forecast predictions...")
                 }
-                is ForecastResponseState.Error -> {
-                    val errorMessage = "Prediction error: ${(forecastResponseState as ForecastResponseState.Error).message}"
+                is PredictionGroupState.Error -> {
+                    val errorMessage = "WeatherPrediction error: ${(predictionGroupState as PredictionGroupState.Error).message}"
                     Text(text = errorMessage)
                 }
-                is ForecastResponseState.Success -> {
-                    ForecastListView(forecastResponseState.forecastResponse) // Pass the forecast response
+                is PredictionGroupState.Success -> {
+                    PredictionGroupView(predictionGroupState.predictionGroup) // Pass the forecast response
                 }
             }
         }
