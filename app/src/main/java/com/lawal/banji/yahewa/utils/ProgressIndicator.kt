@@ -10,18 +10,4 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
-@Composable
-fun LoadingAnimation() {
-    val loading = remember { mutableStateOf(true) }
 
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        if (loading.value) {
-            CircularProgressIndicator()
-        } else {
-            Text(text = "Content Loaded!")
-        }
-    }
-}

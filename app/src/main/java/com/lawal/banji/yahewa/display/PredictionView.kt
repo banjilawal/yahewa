@@ -28,9 +28,9 @@ import com.lawal.banji.yahewa.utils.iconFromWeatherApiId
 @Composable
 fun PredictionView(weatherPrediction: com.lawal.banji.yahewa.model.WeatherPrediction) {
 
-    val maxTemp = weatherPrediction.temperatures.max
-    val minTemp = weatherPrediction.temperatures.min
-    val probabilityOfPrecipitation = "$weatherPrediction.probabilityOfPrecipitation chance of rain"
+    val maxTemp = weatherPrediction.temperature.max
+    val minTemp = weatherPrediction.temperature.min
+    val precipitationProbability = "$weatherPrediction.probabilityOfPrecipitation % chance of rain"
     val sunrise  = "sunrise: ${convertLongToLocalDateTime(weatherPrediction.sunrise)}"
     val sunset  = "sunset: ${convertLongToLocalDateTime(weatherPrediction.sunset)}"
     val humidity = "Humidity ${weatherPrediction.humidity} %"
@@ -87,7 +87,7 @@ fun PredictionView(weatherPrediction: com.lawal.banji.yahewa.model.WeatherPredic
         }
         item {
             Text(
-                text = probabilityOfPrecipitation,
+                text = precipitationProbability,
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(SmallerPadding)
             )

@@ -17,17 +17,3 @@ import com.lawal.banji.yahewa.ui.theme.DefaultCornerRadius
 import com.lawal.banji.yahewa.ui.theme.DefaultHeadingColor
 import com.lawal.banji.yahewa.ui.theme.DefaultPadding
 
-@Composable
-fun HeadingBox(
-    title: String = stringResource(id = R.string.app_name),
-    style: TextStyle =  MaterialTheme.typography.headlineLarge,
-    boxColor: Color = DefaultHeadingColor,
-    padding: Dp = DefaultPadding,
-    cornerRadius: Dp = DefaultCornerRadius,
-    boxModifier: Modifier = Modifier.fillMaxWidth(),
-    textModifier: Modifier = Modifier,
-) {
-    Box(modifier = boxModifier.background(boxColor).padding(padding)) {
-        Text(modifier = textModifier, style = style, text = title)
-    }
-}

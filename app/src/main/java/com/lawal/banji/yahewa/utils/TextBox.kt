@@ -21,35 +21,3 @@ import com.lawal.banji.yahewa.ui.theme.DefaultPadding
 import com.lawal.banji.yahewa.ui.theme.LargerPadding
 import com.lawal.banji.yahewa.ui.theme.SmallPadding
 
-@Composable
-fun TextBox(
-    text: String,
-    textModifier: Modifier = Modifier,
-    cornerRadius: Dp = DefaultCornerRadius,
-    textAlignment: TextAlign = TextAlign.Center,
-    style: TextStyle = MaterialTheme.typography.bodyMedium,
-    textColor: Color = MaterialTheme.colorScheme.onSurface,
-    textPadding: PaddingValues = PaddingValues(DefaultPadding),
-    boxModifier: Modifier = Modifier,
-    boxColor: Color = DefaultBoxColor,
-    boxAlignment: Alignment = Alignment.Center,
-    boxCornerRadius: Dp = DefaultCornerRadius,
-    boxPadding: PaddingValues = PaddingValues(horizontal = LargerPadding, vertical = SmallPadding)
-) {
-    Box(
-        modifier = boxModifier
-            .fillMaxWidth()
-//            .height(200.dp)
-            .padding(boxPadding)
-            .background(boxColor, shape = RoundedCornerShape(boxCornerRadius.coerceAtLeast(cornerRadius))),
-        contentAlignment = boxAlignment
-    ) {
-        Text(
-            text = text,
-            style = style,
-            color = textColor,
-            textAlign = textAlignment,
-            modifier = textModifier.padding(textPadding).fillMaxWidth()
-        )
-    }
-}

@@ -110,7 +110,7 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
                     _predictionGroupState.value = PredictionGroupState.Success(queryResult.data)
                     val country = queryResult.data.city.country
                     val sunset  = convertLongToLocalDateTime(queryResult.data.predictions[0].sunset)
-                    val maxTemperature = queryResult.data.predictions[0].temperatures.max
+                    val maxTemperature = queryResult.data.predictions[0].temperature.max
                     println("fetched for Country:$country maxTemp:$maxTemperature sunset:  $sunset")
                 }
 

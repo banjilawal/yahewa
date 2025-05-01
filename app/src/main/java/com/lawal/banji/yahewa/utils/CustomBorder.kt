@@ -15,16 +15,3 @@ import com.lawal.banji.yahewa.ui.theme.DefaultBorderWidth
 import com.lawal.banji.yahewa.ui.theme.DefaultCornerRadius
 import com.lawal.banji.yahewa.ui.theme.LightGray1
 
-fun Modifier.customBorder(
-    borderColor: Color = LightGray1,
-    borderWidth: Dp = DefaultBorderWidth,
-    cornerRadius: Dp = DefaultCornerRadius,
-): Modifier  {
-    return this
-            .clip(RoundedCornerShape(cornerRadius))
-            .border(
-                width = borderWidth,
-                color = borderColor,
-                shape = RoundedCornerShape(cornerRadius)
-            )
-}

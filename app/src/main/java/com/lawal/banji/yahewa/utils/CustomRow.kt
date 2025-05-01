@@ -20,25 +20,3 @@ import com.lawal.banji.yahewa.ui.theme.DefaultCornerRadius
 import com.lawal.banji.yahewa.ui.theme.LightGray2
 
 
-@Composable
-fun CustomRow(
-    modifier: Modifier = Modifier,
-    weight: Float = 1f,
-    padding: Dp = 0.dp,
-    cornerRadius: Dp = DefaultCornerRadius,
-    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
-    horizontalAlignment: Arrangement.Horizontal = Arrangement.Start,
-    backgroundColor: Color = LightGray2,
-    content: @Composable RowScope.() -> Unit
-) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(padding)
-            .clip(RoundedCornerShape(cornerRadius))
-            .background(backgroundColor), // Ensures backgroundColor is applied
-        verticalAlignment = verticalAlignment,
-        horizontalArrangement = horizontalAlignment,
-        content = content
-    )
-}
