@@ -19,8 +19,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.lawal.banji.yahewa.input.ZipcodeInput
-import com.lawal.banji.yahewa.model.ForecastGroupState
 import com.lawal.banji.yahewa.model.Forecast
+import com.lawal.banji.yahewa.model.ForecastGroupState
 import com.lawal.banji.yahewa.navigation.NavigationEvent
 import com.lawal.banji.yahewa.ui.theme.BattleShipGrayBlue
 import com.lawal.banji.yahewa.ui.theme.DefaultCornerRadius
@@ -146,7 +146,7 @@ fun PredictionsScreen(
                 is ForecastGroupState.Loading -> {
                     // Show loading message
                     Text(
-                        text = "Loading currentConditions predictions...",
+                        text = "Loading currentWeather predictions...",
                         modifier = Modifier.padding(16.dp)
                     )
                 }

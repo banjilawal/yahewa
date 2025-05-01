@@ -1,7 +1,7 @@
 package com.lawal.banji.yahewa.repo
 
 import com.lawal.banji.yahewa.model.City
-import com.lawal.banji.yahewa.model.CurrentConditions
+import com.lawal.banji.yahewa.model.CurrentWeather
 import com.lawal.banji.yahewa.model.ForecastGroup
 import com.lawal.banji.yahewa.utils.AppDefault
 import retrofit2.http.GET
@@ -15,14 +15,14 @@ interface RetrofitApi {
         @Query("lon") longitude: Double,
         @Query("units") units: String = AppDefault.DEFAULT_MEASUREMENT_SYSTEM,
         @Query("appid") apiKey: String = AppDefault.API_KEY
-    ): CurrentConditions
+    ): CurrentWeather
 
     @GET("weather")
     suspend fun getForecastByZipcode(
         @Query("zip") zipcode: String,
         @Query("units") units: String = AppDefault.DEFAULT_MEASUREMENT_SYSTEM,
         @Query("appid") apiKey: String = AppDefault.API_KEY
-    ): CurrentConditions
+    ): CurrentWeather
 
     @GET("geo/1.0/reverse")
     suspend fun getReverseGeoEncoding(
@@ -32,7 +32,7 @@ interface RetrofitApi {
         @Query("appid") apiKey: String = AppDefault.API_KEY
     ): City
 
-    @GET("currentConditions/daily")
+    @GET("currentWeather/daily")
     suspend fun getForecasts(
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,

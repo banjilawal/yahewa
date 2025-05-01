@@ -9,16 +9,16 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.lawal.banji.yahewa.display.ForecastView
+import com.lawal.banji.yahewa.display.CurrentWeatherView
 import com.lawal.banji.yahewa.input.ZipcodeInput
-import com.lawal.banji.yahewa.model.CurrentConditionsState
+import com.lawal.banji.yahewa.model.CurrentWeatherState
 import com.lawal.banji.yahewa.navigation.NavigationEvent
 import com.lawal.banji.yahewa.ui.theme.White
 
 
 @Composable
 fun HomeScreen(
-    currentConditionsState: CurrentConditionsState,
+    currentWeatherState: CurrentWeatherState,
     onNavigate: (NavigationEvent) -> Unit = {},
     onZipcodeEntered: (String) -> Unit
 ) {
@@ -33,16 +33,16 @@ fun HomeScreen(
                 .padding(innerPadding)
                 .background(White)
         ) {
-            when (currentConditionsState) {
-                is CurrentConditionsState.Loading -> {
-                   Text(text = "Loading currentConditions...")
+            when (currentWeatherState) {
+                is CurrentWeatherState.Loading -> {
+                   Text(text = "Loading currentWeather...")
                 }
-                is CurrentConditionsState.Error -> {
-                    val errorMessage = "Yahewa currentConditions state error: ${(currentConditionsState as CurrentConditionsState.Error).message}"
+                is CurrentWeatherState.Error -> {
+                    val errorMessage = "Yahewa currentWeather state error: ${(currentWeatherState as CurrentWeatherState.Error).message}"
                     Text(text = errorMessage)
                 }
-                is CurrentConditionsState.Success -> {
-                   ForecastView(currentConditionsState.currentConditions)
+                is CurrentWeatherState.Success -> {
+                   CurrentWeatherView(currentWeatherState.currentWeather)
                 }
             }
         }

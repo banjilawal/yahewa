@@ -5,7 +5,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lawal.banji.yahewa.model.CityLookupState
-import com.lawal.banji.yahewa.model.CurrentConditionsState
+import com.lawal.banji.yahewa.model.CurrentWeatherState
 import com.lawal.banji.yahewa.model.ForecastGroupState
 import com.lawal.banji.yahewa.repo.ForecastRepository
 import com.lawal.banji.yahewa.repo.QueryResponseState
@@ -22,8 +22,8 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
         MutableStateFlow<ForecastGroupState>(ForecastGroupState.Loading)
     val forecastGroupState: StateFlow<ForecastGroupState> get() = _forecastGroupState
 
-    private val _currentConditionsState = MutableStateFlow<CurrentConditionsState>(CurrentConditionsState.Loading)
-    val currentConditionsState: StateFlow<CurrentConditionsState> get() = _currentConditionsState
+    private val _currentWeatherState = MutableStateFlow<CurrentWeatherState>(CurrentWeatherState.Loading)
+    val currentWeatherState: StateFlow<CurrentWeatherState> get() = _currentWeatherState
 
     private var _zipcode: MutableStateFlow<String?> = MutableStateFlow(null)
     val zipcode: StateFlow<String?> get() = _zipcode
@@ -36,7 +36,7 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
             val location = getRandomCity()
 //            println("Location: ${location.name} (${location.coordinates.latitude}, ${location.coordinates.longitude})")
 
-            // Fetch the currentConditions
+            // Fetch the currentWeather
             fetchForecastByCoordinates(
                 latitude = location.coordinates.latitude,
                 longitude = location.coordinates.longitude,
@@ -64,13 +64,13 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
                 apiKey = apiKey
             )) {
                 is QueryResponseState.Success -> {
-                    _currentConditionsState.value = CurrentConditionsState.Success(queryResult.data)
+                    _currentWeatherState.value = CurrentWeatherState.Success(queryResult.data)
                     fetchPredictionGroup(latitude, longitude, apiKey)
                 }
 
                 is QueryResponseState.Error -> {
-                    _currentConditionsState.value =
-                        CurrentConditionsState.Error("Error: ${queryResult.exception.message}")
+                    _currentWeatherState.value =
+                        CurrentWeatherState.Error("Error: ${queryResult.exception.message}")
                 }
             }
         }
@@ -81,15 +81,15 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
         viewModelScope.launch {
             when (val queryResult = repository.fetchByZipcode(zipcode, apiKey)) {
                 is QueryResponseState.Success -> {
-                    _currentConditionsState.value = CurrentConditionsState.Success(queryResult.data)
+                    _currentWeatherState.value = CurrentWeatherState.Success(queryResult.data)
                     val latitude = queryResult.data.coordinates.latitude
                     val longitude = queryResult.data.coordinates.longitude
                     fetchPredictionGroup(latitude, longitude, apiKey)
                 }
 
                 is QueryResponseState.Error -> {
-                    _currentConditionsState.value =
-                        CurrentConditionsState.Error(queryResult.exception.message ?: "Unknown Error")
+                    _currentWeatherState.value =
+                        CurrentWeatherState.Error(queryResult.exception.message ?: "Unknown Error")
                 }
             }
         }
@@ -115,7 +115,7 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
 
                 is QueryResponseState.Error -> {
                     _forecastGroupState.value =
-                        ForecastGroupState.Error("Failed to fetch currentConditions data: ${queryResult.exception.message}")
+                        ForecastGroupState.Error("Failed to fetch currentWeather data: ${queryResult.exception.message}")
                 }
             }
         }

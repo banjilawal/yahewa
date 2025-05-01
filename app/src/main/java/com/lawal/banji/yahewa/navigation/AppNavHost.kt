@@ -26,9 +26,9 @@ fun AppNavHost(
     forecastViewModel: ForecastViewModel,
     startDestination: String = Screens.Home.route
 ) {
-    // Collect currentConditions states
-    val forecastState = forecastViewModel.currentConditionsState.collectAsState().value
-    val predictionGroupState = forecastViewModel.forecastGroupState.collectAsState().value
+    // Collect currentWeather states
+    val forecastState = forecastViewModel.currentWeatherState.collectAsState().value
+    val forecastGroupState = forecastViewModel.forecastGroupState.collectAsState().value
 
     Scaffold(
         floatingActionButton = {
@@ -37,7 +37,7 @@ fun AppNavHost(
                     val currentRoute = navController.currentBackStackEntry?.destination?.route
                     // Toggle logic: Navigate to Predictions if on Home, otherwise to Home
                     if (currentRoute == Screens.Home.route) {
-                        navController.navigate(Screens.Predictions.route)
+                        navController.navigate(Screens.Forecasts.route)
                     } else {
                         navController.navigate(Screens.Home.route) {
                             popUpTo(Screens.Home.route) { inclusive = true }
@@ -61,7 +61,7 @@ fun AppNavHost(
             // HomeScreen
             composable(Screens.Home.route) {
                 HomeScreen(
-                    currentConditionsState = forecastState,
+                    currentWeatherState = forecastState,
                     onNavigate = { itemId ->
                         navController.navigate(Screens.Details.createRoute(itemId.toString()))
                     },
@@ -82,16 +82,16 @@ fun AppNavHost(
                     return@composable
                 }
                 DetailsScreen(
-                    currentConditionsState = forecastState,
+                    currentWeatherState = forecastState,
                     itemId = itemId,
                     onZipcodeEntered = { zipcode -> forecastViewModel.setZipcode(zipcode) }
                 )
             }
 
             // PredictionsScreen
-            composable(Screens.Predictions.route) {
+            composable(Screens.Forecasts.route) {
                 PredictionsScreen(
-                    forecastGroupState = predictionGroupState,
+                    forecastGroupState = forecastGroupState,
                     onNavigate = {
                         // Direct navigation handling
                         navController.popBackStack()

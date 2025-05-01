@@ -1,7 +1,7 @@
 package com.lawal.banji.yahewa.repo
 
 import com.lawal.banji.yahewa.model.City
-import com.lawal.banji.yahewa.model.CurrentConditions
+import com.lawal.banji.yahewa.model.CurrentWeather
 import com.lawal.banji.yahewa.model.ForecastGroup
 import com.lawal.banji.yahewa.repo.RetrofitInstance.api
 
@@ -13,14 +13,14 @@ sealed class QueryResponseState<out T> {
 
 class ForecastRepository {
 
-        suspend fun fetchByCoordinates(latitude: Double, longitude: Double, apiKey: String): QueryResponseState<CurrentConditions> {
+        suspend fun fetchByCoordinates(latitude: Double, longitude: Double, apiKey: String): QueryResponseState<CurrentWeather> {
                 return try {
                         val result = api.getForecastByCoordinates(latitude = latitude, longitude = longitude, apiKey = apiKey)
                         QueryResponseState.Success(result)
                 } catch (e: Exception) { QueryResponseState.Error(e)  }
         }
 
-        suspend fun fetchByZipcode(zipcode: String, apiKey: String): QueryResponseState<CurrentConditions> {
+        suspend fun fetchByZipcode(zipcode: String, apiKey: String): QueryResponseState<CurrentWeather> {
                 return try {
                         val result = api.getForecastByZipcode(zipcode = zipcode, apiKey = apiKey)
                         QueryResponseState.Success(result)
