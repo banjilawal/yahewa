@@ -2,6 +2,7 @@ package com.lawal.banji.yahewa.navigation
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Scaffold
@@ -17,6 +18,7 @@ import androidx.navigation.navArgument
 import com.lawal.banji.yahewa.destination.DetailsScreen
 import com.lawal.banji.yahewa.destination.HomeScreen
 import com.lawal.banji.yahewa.destination.PredictionsScreen
+import com.lawal.banji.yahewa.ui.theme.DefaultDisplayBackgroundColor
 import com.lawal.banji.yahewa.view.model.ForecastViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -56,7 +58,9 @@ fun AppNavHost(
         NavHost(
             navController = navController,
             startDestination = startDestination,
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier
+                .padding(innerPadding)
+                .background(DefaultDisplayBackgroundColor)
         ) {
             // HomeScreen
             composable(Screens.Home.route) {

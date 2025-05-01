@@ -8,18 +8,24 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.lawal.banji.yahewa.model.CurrentWeather
 import com.lawal.banji.yahewa.ui.theme.DefaultBoxColor
+import com.lawal.banji.yahewa.ui.theme.DefaultCornerRadius
 import com.lawal.banji.yahewa.ui.theme.DefaultHeadingColor
 import com.lawal.banji.yahewa.ui.theme.DefaultPadding
 import com.lawal.banji.yahewa.ui.theme.LargeIconSize
+import com.lawal.banji.yahewa.ui.theme.LargerPadding
+import com.lawal.banji.yahewa.ui.theme.LightGray1
+import com.lawal.banji.yahewa.ui.theme.LightGray2
 import com.lawal.banji.yahewa.ui.theme.PowderBlueGray
 import com.lawal.banji.yahewa.ui.theme.SandLighter
 import com.lawal.banji.yahewa.ui.theme.SmallPadding
@@ -50,7 +56,7 @@ fun CurrentWeatherView(currentWeather: CurrentWeather) {
         modifier = Modifier
             .padding(DefaultPadding)
             .fillMaxSize()
-            .background(White)
+            .background(LightGray1,  RoundedCornerShape(DefaultCornerRadius))
     ) {
         // Row containing City
         item {
@@ -58,7 +64,11 @@ fun CurrentWeatherView(currentWeather: CurrentWeather) {
             Text(
                 text = cityInformation,
                 style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.fillMaxSize().padding(bottom = 0.dp),
+                modifier = Modifier
+                        .fillMaxWidth()
+                        .background(DefaultHeadingColor)
+                        .padding(horizontal = LargerPadding, vertical = SmallPadding)
+                        .clip(RoundedCornerShape(DefaultCornerRadius)),
                 textAlign = TextAlign.Center
             )
         }
@@ -67,7 +77,8 @@ fun CurrentWeatherView(currentWeather: CurrentWeather) {
             androidx.compose.foundation.layout.Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 0.dp, bottom = 0.dp),
+                    .padding(top = 0.dp, bottom = 0.dp)
+                    .background(LightGray2),
                 verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
             ) {
                 // Column for temperature data
@@ -94,7 +105,7 @@ fun CurrentWeatherView(currentWeather: CurrentWeather) {
                 Box(
                     modifier = Modifier
                         .weight(0.4f)
-//                        .padding(SmallPadding)
+                        .padding(SmallPadding)
                         .align(CenterVertically)
                 ) {
                     WeatherIcon(iconId, backgroundColor = White, iconSize = LargeIconSize)
