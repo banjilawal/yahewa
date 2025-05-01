@@ -10,7 +10,6 @@ import com.lawal.banji.yahewa.query.PredictionGroupState
 import com.lawal.banji.yahewa.query.QueryResult
 import com.lawal.banji.yahewa.repo.ForecastRepository
 import com.lawal.banji.yahewa.utils.AppDefault
-import com.lawal.banji.yahewa.utils.convertLongToLocalDateTime
 import com.lawal.banji.yahewa.utils.getRandomCity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -109,7 +108,7 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
                 is QueryResult.Success -> {
                     _predictionGroupState.value = PredictionGroupState.Success(queryResult.data)
                     val country = queryResult.data.city.country
-                    val sunset  = convertLongToLocalDateTime(queryResult.data.predictions[0].sunset)
+                    val sunset  = queryResult.data.predictions[0].sunset
                     val maxTemperature = queryResult.data.predictions[0].temperature.max
                     println("fetched for Country:$country maxTemp:$maxTemperature sunset:  $sunset")
                 }

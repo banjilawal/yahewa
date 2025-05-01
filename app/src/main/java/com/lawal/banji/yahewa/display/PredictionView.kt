@@ -20,7 +20,6 @@ import com.lawal.banji.yahewa.ui.theme.DefaultPadding
 import com.lawal.banji.yahewa.ui.theme.LargeIconSize
 import com.lawal.banji.yahewa.ui.theme.SmallerPadding
 import com.lawal.banji.yahewa.ui.theme.White
-import com.lawal.banji.yahewa.utils.convertLongToLocalDateTime
 import com.lawal.banji.yahewa.utils.iconFromWeatherApiId
 
 
@@ -31,8 +30,8 @@ fun PredictionView(weatherPrediction: com.lawal.banji.yahewa.model.WeatherPredic
     val maxTemp = weatherPrediction.temperature.max
     val minTemp = weatherPrediction.temperature.min
     val precipitationProbability = "$weatherPrediction.probabilityOfPrecipitation % chance of rain"
-    val sunrise  = "sunrise: ${convertLongToLocalDateTime(weatherPrediction.sunrise)}"
-    val sunset  = "sunset: ${convertLongToLocalDateTime(weatherPrediction.sunset)}"
+    val sunrise  = "sunrise: ${weatherPrediction.sunrise}"
+    val sunset  = "sunset: ${weatherPrediction.sunset}"
     val humidity = "Humidity ${weatherPrediction.humidity} %"
 
 
