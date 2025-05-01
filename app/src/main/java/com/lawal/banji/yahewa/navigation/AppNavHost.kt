@@ -26,9 +26,9 @@ fun AppNavHost(
     forecastViewModel: ForecastViewModel,
     startDestination: String = Screens.Home.route
 ) {
-    // Collect forecast states
-    val forecastState = forecastViewModel.forecastState.collectAsState().value
-    val predictionGroupState = forecastViewModel.predictionGroupState.collectAsState().value
+    // Collect currentConditions states
+    val forecastState = forecastViewModel.currentConditionsState.collectAsState().value
+    val predictionGroupState = forecastViewModel.forecastGroupState.collectAsState().value
 
     Scaffold(
         floatingActionButton = {
@@ -61,7 +61,7 @@ fun AppNavHost(
             // HomeScreen
             composable(Screens.Home.route) {
                 HomeScreen(
-                    forecastState = forecastState,
+                    currentConditionsState = forecastState,
                     onNavigate = { itemId ->
                         navController.navigate(Screens.Details.createRoute(itemId.toString()))
                     },
@@ -82,7 +82,7 @@ fun AppNavHost(
                     return@composable
                 }
                 DetailsScreen(
-                    forecastState = forecastState,
+                    currentConditionsState = forecastState,
                     itemId = itemId,
                     onZipcodeEntered = { zipcode -> forecastViewModel.setZipcode(zipcode) }
                 )
@@ -91,7 +91,7 @@ fun AppNavHost(
             // PredictionsScreen
             composable(Screens.Predictions.route) {
                 PredictionsScreen(
-                    predictionGroupState = predictionGroupState,
+                    forecastGroupState = predictionGroupState,
                     onNavigate = {
                         // Direct navigation handling
                         navController.popBackStack()

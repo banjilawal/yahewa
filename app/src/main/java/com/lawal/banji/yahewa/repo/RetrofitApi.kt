@@ -1,8 +1,8 @@
 package com.lawal.banji.yahewa.repo
 
 import com.lawal.banji.yahewa.model.City
-import com.lawal.banji.yahewa.model.Forecast
-import com.lawal.banji.yahewa.model.PredictionGroup
+import com.lawal.banji.yahewa.model.CurrentConditions
+import com.lawal.banji.yahewa.model.ForecastGroup
 import com.lawal.banji.yahewa.utils.AppDefault
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -15,14 +15,14 @@ interface RetrofitApi {
         @Query("lon") longitude: Double,
         @Query("units") units: String = AppDefault.DEFAULT_MEASUREMENT_SYSTEM,
         @Query("appid") apiKey: String = AppDefault.API_KEY
-    ): Forecast
+    ): CurrentConditions
 
     @GET("weather")
     suspend fun getForecastByZipcode(
         @Query("zip") zipcode: String,
         @Query("units") units: String = AppDefault.DEFAULT_MEASUREMENT_SYSTEM,
         @Query("appid") apiKey: String = AppDefault.API_KEY
-    ): Forecast
+    ): CurrentConditions
 
     @GET("geo/1.0/reverse")
     suspend fun getReverseGeoEncoding(
@@ -32,14 +32,14 @@ interface RetrofitApi {
         @Query("appid") apiKey: String = AppDefault.API_KEY
     ): City
 
-    @GET("forecast/daily")
+    @GET("currentConditions/daily")
     suspend fun getForecasts(
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,
         @Query("units") units: String = AppDefault.DEFAULT_MEASUREMENT_SYSTEM,
         @Query("cnt") count: Int = AppDefault.NUMBER_OF_FORECASTS,
         @Query("appid") apiKey: String = AppDefault.API_KEY
-    ): PredictionGroup
+    ): ForecastGroup
 }
 
 

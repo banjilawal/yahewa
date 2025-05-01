@@ -20,7 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.lawal.banji.yahewa.R
-import com.lawal.banji.yahewa.model.Forecast
+import com.lawal.banji.yahewa.model.CurrentConditions
 import com.lawal.banji.yahewa.ui.theme.DefaultCornerRadius
 import com.lawal.banji.yahewa.ui.theme.DefaultPadding
 import com.lawal.banji.yahewa.ui.theme.LargeCornerRadius
@@ -41,7 +41,7 @@ private val commonBoxModifier = Modifier
     .padding(8.dp)
 
 @Composable
-fun WeatherDetailsDisplay(forecast: Forecast) {
+fun WeatherDetailsDisplay(currentConditions: CurrentConditions) {
 
     Column(
         modifier = Modifier .fillMaxWidth()
@@ -92,7 +92,7 @@ fun WeatherDetailsDisplay(forecast: Forecast) {
         * */
         CustomBox(color = PowderBlue, modifier = Modifier.weight(0.75f)) {
             CustomText(
-                content = forecast.city,
+                content = currentConditions.city,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.headlineLarge
             )
@@ -131,16 +131,16 @@ fun WeatherDetailsDisplay(forecast: Forecast) {
                 CustomRow(modifier = Modifier.customBorder().weight(1.7f)) {
                     // Current temperature
                     CustomText(
-                        content = "${forecast.main.temperature}°",
+                        content = "${currentConditions.main.temperature}°",
                         style = MaterialTheme.typography.headlineMedium,
                         modifier = Modifier.weight(1f)
                             .clip(RoundedCornerShape(DefaultCornerRadius))
                     )
                     // Weather icon
                     WeatherIcon(
-                        weatherApiId = forecast.weather[0].iconId,
+                        weatherApiId = currentConditions.weather[0].iconId,
 //                        modifier = Modifier.weight(1.4f).background(Lavender).fillMaxSize(1.0f),
-                        contentDescription = forecast.weather[0].description
+                        contentDescription = currentConditions.weather[0].description
                     )
                 }
                 // Row for Feels Like
@@ -153,7 +153,7 @@ fun WeatherDetailsDisplay(forecast: Forecast) {
                         padding = 0.dp,
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.bodySmall,
-                        content = "Feels Like: ${forecast.main.temperatureFeelsLike}°"
+                        content = "Feels Like: ${currentConditions.main.temperatureFeelsLike}°"
                     )
                 }
             }
@@ -176,19 +176,19 @@ fun WeatherDetailsDisplay(forecast: Forecast) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 // High temperature
-                CustomText("High: ${forecast.main.highTemperature}°")
+                CustomText("High: ${currentConditions.main.highTemperature}°")
                 // Low temperature
-                CustomText("Low: ${forecast.main.lowTemperature}°")
+                CustomText("Low: ${currentConditions.main.lowTemperature}°")
                 }
         }
 
         // Row containing humidity.  The humidity is stored in a CustomBox
         CustomBox(color = Silver, modifier = Modifier.weight(0.9f)) {
-            CustomText("Humidity: ${forecast.main.percentHumidity}%",)
+            CustomText("Humidity: ${currentConditions.main.percentHumidity}%",)
         }
         // Row containing pressure. The pressure is stored in a CustomBox
         CustomBox(color = PowderBlue, modifier = Modifier.weight(0.9f)) {
-            CustomText( "Pressure: ${forecast.main.pressure} hPa")
+            CustomText( "Pressure: ${currentConditions.main.pressure} hPa")
         }
     }
 }

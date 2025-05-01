@@ -15,7 +15,7 @@ import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.lawal.banji.yahewa.model.Forecast
+import com.lawal.banji.yahewa.model.CurrentConditions
 import com.lawal.banji.yahewa.ui.theme.DefaultBoxColor
 import com.lawal.banji.yahewa.ui.theme.DefaultHeadingColor
 import com.lawal.banji.yahewa.ui.theme.DefaultPadding
@@ -29,20 +29,20 @@ import com.lawal.banji.yahewa.utils.WeatherIcon
 
 
 @Composable
-fun ForecastView(forecast: Forecast) {
-    val city = forecast.city
-    val state = forecast.state
-    val country = forecast.sys.country
-    val currentTemperature = "${forecast.main.temperature}°"
-    val temperatureFeelsLike = "Feels like ${forecast.main.temperatureFeelsLike}°"
-    val lowTemperature = "Low ${forecast.main.lowTemperature}°"
-    val highTemperature = "High ${forecast.main.highTemperature}°"
-    val humidity = "Humidity ${forecast.main.percentHumidity} %"
-    val pressure = "Pressure ${forecast.main.pressure} hPa"
+fun ForecastView(currentConditions: CurrentConditions) {
+    val city = currentConditions.city
+    val state = currentConditions.state
+    val country = currentConditions.sys.country
+    val currentTemperature = "${currentConditions.main.temperature}°"
+    val temperatureFeelsLike = "Feels like ${currentConditions.main.temperatureFeelsLike}°"
+    val lowTemperature = "Low ${currentConditions.main.lowTemperature}°"
+    val highTemperature = "High ${currentConditions.main.highTemperature}°"
+    val humidity = "Humidity ${currentConditions.main.percentHumidity} %"
+    val pressure = "Pressure ${currentConditions.main.pressure} hPa"
 
-    val iconId = forecast.weather[0].iconId
-    val description = forecast.weather[0].description
-    val weather = forecast.weather[0]
+    val iconId = currentConditions.weather[0].iconId
+    val description = currentConditions.weather[0].description
+    val weather = currentConditions.weather[0]
 
     val cityInformation = if (state != null) "$city, $state" else "$city, $country"
 
@@ -134,28 +134,28 @@ fun ForecastView(forecast: Forecast) {
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun ForecastDetailsView(forecast: Forecast) {
+fun ForecastDetailsView(currentConditions: CurrentConditions) {
 
-    val city = forecast.city
-    val state = forecast.state
-    val country = forecast.sys.country
+    val city = currentConditions.city
+    val state = currentConditions.state
+    val country = currentConditions.sys.country
 
-    val description = forecast.weather.getOrNull(0)?.description ?: "No description available"
+    val description = currentConditions.weather.getOrNull(0)?.description ?: "No description available"
 
-    val latitude = forecast.coordinates?.latitude ?: "Unknown Latitude"
-    val longitude = forecast.coordinates?.longitude ?: "Unknown Longitude"
+    val latitude = currentConditions.coordinates?.latitude ?: "Unknown Latitude"
+    val longitude = currentConditions.coordinates?.longitude ?: "Unknown Longitude"
 
-    val windSpeed = forecast.wind.speed ?: "Unknown speed"
-    val windDirection = forecast.wind.direction ?: "Unknown direction"
-    val windGust = forecast.wind.gust ?: "Unknown gust"
-    val percentCloudiness = "${forecast.clouds?.all ?: "N/A"} % cloudiness"
-    val visibility = forecast.visibility?.toString() ?: "N/A visibility"
-    val sunrise = "sunrise: ${forecast.sys.sunrise}" //?.let { "$it sunrise" } ?: "No sunrise data"
-    val sunset = "sunset: ${forecast.sys.sunset}"  //?.let { "$it sunset" } ?: "No sunset data"
+    val windSpeed = currentConditions.wind.speed ?: "Unknown speed"
+    val windDirection = currentConditions.wind.direction ?: "Unknown direction"
+    val windGust = currentConditions.wind.gust ?: "Unknown gust"
+    val percentCloudiness = "${currentConditions.clouds?.all ?: "N/A"} % cloudiness"
+    val visibility = currentConditions.visibility?.toString() ?: "N/A visibility"
+    val sunrise = "sunrise: ${currentConditions.sys.sunrise}" //?.let { "$it sunrise" } ?: "No sunrise data"
+    val sunset = "sunset: ${currentConditions.sys.sunset}"  //?.let { "$it sunset" } ?: "No sunset data"
 
     val location = if (state != null) "$city, $state" else "$city, $country"
     val heading  = "$location Weather Details"
-    val coordinates = "latitude: ${forecast.coordinates.latitude} longitude  ${forecast.coordinates.longitude}"
+    val coordinates = "latitude: ${currentConditions.coordinates.latitude} longitude  ${currentConditions.coordinates.longitude}"
 
     LazyColumn(
         modifier = Modifier

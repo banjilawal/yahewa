@@ -28,7 +28,7 @@ data class Main(
     @SerializedName("humidity") val percentHumidity: Double
 )
 
-data class Forecast(
+data class CurrentConditions(
     @SerializedName("coord") val coordinates: Coordinates,
     @SerializedName("weather") val weather: List<Weather>,
     @SerializedName("main") val main: Main,
@@ -42,8 +42,8 @@ data class Forecast(
     var state: String? = null
 )
 
-sealed class ForecastState {
-    object Loading : ForecastState()
-    data class Success(val forecast: Forecast) : ForecastState()
-    data class Error(val message: String) : ForecastState()
+sealed class CurrentConditionsState {
+    object Loading : CurrentConditionsState()
+    data class Success(val currentConditions: CurrentConditions) : CurrentConditionsState()
+    data class Error(val message: String) : CurrentConditionsState()
 }

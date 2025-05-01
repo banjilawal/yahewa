@@ -1,8 +1,8 @@
 package com.lawal.banji.yahewa.repo
 
 import com.lawal.banji.yahewa.model.City
-import com.lawal.banji.yahewa.model.Forecast
-import com.lawal.banji.yahewa.model.PredictionGroup
+import com.lawal.banji.yahewa.model.CurrentConditions
+import com.lawal.banji.yahewa.model.ForecastGroup
 import com.lawal.banji.yahewa.repo.RetrofitInstance.api
 
 
@@ -13,21 +13,21 @@ sealed class QueryResponseState<out T> {
 
 class ForecastRepository {
 
-        suspend fun fetchByCoordinates(latitude: Double, longitude: Double, apiKey: String): QueryResponseState<Forecast> {
+        suspend fun fetchByCoordinates(latitude: Double, longitude: Double, apiKey: String): QueryResponseState<CurrentConditions> {
                 return try {
                         val result = api.getForecastByCoordinates(latitude = latitude, longitude = longitude, apiKey = apiKey)
                         QueryResponseState.Success(result)
                 } catch (e: Exception) { QueryResponseState.Error(e)  }
         }
 
-        suspend fun fetchByZipcode(zipcode: String, apiKey: String): QueryResponseState<Forecast> {
+        suspend fun fetchByZipcode(zipcode: String, apiKey: String): QueryResponseState<CurrentConditions> {
                 return try {
                         val result = api.getForecastByZipcode(zipcode = zipcode, apiKey = apiKey)
                         QueryResponseState.Success(result)
                 } catch (e: Exception) {  QueryResponseState.Error(e)  }
         }
 
-        suspend fun fetchForecasts(latitude: Double, longitude: Double, count: Int, apiKey:String): QueryResponseState<PredictionGroup> {
+        suspend fun fetchForecasts(latitude: Double, longitude: Double, count: Int, apiKey:String): QueryResponseState<ForecastGroup> {
                 return try {
                         val result = api.getForecasts(latitude = latitude, longitude = longitude, count = count , apiKey = apiKey)
                         QueryResponseState.Success(result)

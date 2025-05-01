@@ -18,7 +18,7 @@ data class FeelsLike(
     @SerializedName("morn") val morn: Double
 )
 
-data class WeatherPrediction (
+data class Forecast (
     @SerializedName("sunrise") val sunrise: Long,
     @SerializedName("sunset") val sunset: Long,
     @SerializedName("temp") val temperature: Temperature,
@@ -34,14 +34,14 @@ data class WeatherPrediction (
     @SerializedName("rain") val rainVolume: Double
 )
 
-data class PredictionGroup(
+data class ForecastGroup(
     @SerializedName("city") val city: City,
     @SerializedName("cnt") val numberOfForecasts: Int,
-    @SerializedName("list") val predictions: List<WeatherPrediction>
+    @SerializedName("list") val predictions: List<Forecast>
 )
 
-sealed class PredictionGroupState {
-    object Loading : PredictionGroupState() // Represents a loading state while forecasts are being fetched
-    data class Success(val predictionGroup: PredictionGroup) : PredictionGroupState()
-    data class Error(val message: String) : PredictionGroupState() // Represents an error state with a message
+sealed class ForecastGroupState {
+    object Loading : ForecastGroupState() // Represents a loading state while forecasts are being fetched
+    data class Success(val forecastGroup: ForecastGroup) : ForecastGroupState()
+    data class Error(val message: String) : ForecastGroupState() // Represents an error state with a message
 }

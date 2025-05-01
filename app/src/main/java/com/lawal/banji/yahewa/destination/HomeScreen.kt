@@ -11,14 +11,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.lawal.banji.yahewa.display.ForecastView
 import com.lawal.banji.yahewa.input.ZipcodeInput
-import com.lawal.banji.yahewa.model.ForecastState
+import com.lawal.banji.yahewa.model.CurrentConditionsState
 import com.lawal.banji.yahewa.navigation.NavigationEvent
 import com.lawal.banji.yahewa.ui.theme.White
 
 
 @Composable
 fun HomeScreen(
-    forecastState: ForecastState,
+    currentConditionsState: CurrentConditionsState,
     onNavigate: (NavigationEvent) -> Unit = {},
     onZipcodeEntered: (String) -> Unit
 ) {
@@ -33,16 +33,16 @@ fun HomeScreen(
                 .padding(innerPadding)
                 .background(White)
         ) {
-            when (forecastState) {
-                is ForecastState.Loading -> {
-                   Text(text = "Loading forecast...")
+            when (currentConditionsState) {
+                is CurrentConditionsState.Loading -> {
+                   Text(text = "Loading currentConditions...")
                 }
-                is ForecastState.Error -> {
-                    val errorMessage = "Yahewa forecast state error: ${(forecastState as ForecastState.Error).message}"
+                is CurrentConditionsState.Error -> {
+                    val errorMessage = "Yahewa currentConditions state error: ${(currentConditionsState as CurrentConditionsState.Error).message}"
                     Text(text = errorMessage)
                 }
-                is ForecastState.Success -> {
-                   ForecastView(forecastState.forecast)
+                is CurrentConditionsState.Success -> {
+                   ForecastView(currentConditionsState.currentConditions)
                 }
             }
         }

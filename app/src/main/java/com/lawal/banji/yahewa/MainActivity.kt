@@ -37,13 +37,13 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             YahewaTheme {
-                val forecastState by forecastViewModel.forecastState.collectAsState()
+                val forecastState by forecastViewModel.currentConditionsState.collectAsState()
 
                 Surface(color = MaterialTheme.colorScheme.background) {
                     val navController = rememberNavController() // Create the NavController
                     AppNavHost(
                         navController = navController,       // Pass the NavController to the NavHost
-                        forecastViewModel = forecastViewModel, // Pass the ViewModel for the forecast state
+                        forecastViewModel = forecastViewModel, // Pass the ViewModel for the currentConditions state
                         startDestination = Screens.Home.route // Define the starting route
                     )
 

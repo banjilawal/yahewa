@@ -15,12 +15,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.lawal.banji.yahewa.display.ForecastDetailsView
 import com.lawal.banji.yahewa.input.ZipcodeInput
-import com.lawal.banji.yahewa.model.ForecastState
+import com.lawal.banji.yahewa.model.CurrentConditionsState
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DetailsScreen(
-    forecastState: ForecastState,
+    currentConditionsState: CurrentConditionsState,
     itemId: String,
     onZipcodeEntered: (String) -> Unit
 ) {
@@ -41,21 +41,21 @@ fun DetailsScreen(
             // Display the itemId at the top
 //            Text(text = "Details for item $itemId")
 
-            // Render different states of the forecast
-            when (forecastState) {
-                is ForecastState.Loading -> {
+            // Render different states of the currentConditions
+            when (currentConditionsState) {
+                is CurrentConditionsState.Loading -> {
                     // Improved loading feedback
                     CircularProgressIndicator() // Optional: Add spinner for loading state
-                    Text(text = "Loading forecast details...")
+                    Text(text = "Loading currentConditions details...")
                 }
-                is ForecastState.Error -> {
+                is CurrentConditionsState.Error -> {
                     // Simplified and clean error message
-                    val errorMessage = "Error: ${forecastState.message}"
+                    val errorMessage = "Error: ${currentConditionsState.message}"
                     Text(text = errorMessage)
                 }
-                is ForecastState.Success -> {
-                    // Show detailed forecast only if valid
-                    ForecastDetailsView(forecast = forecastState.forecast)
+                is CurrentConditionsState.Success -> {
+                    // Show detailed currentConditions only if valid
+                    ForecastDetailsView(currentConditions = currentConditionsState.currentConditions)
                 }
             }
         }

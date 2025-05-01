@@ -5,8 +5,8 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lawal.banji.yahewa.model.CityLookupState
-import com.lawal.banji.yahewa.model.ForecastState
-import com.lawal.banji.yahewa.model.PredictionGroupState
+import com.lawal.banji.yahewa.model.CurrentConditionsState
+import com.lawal.banji.yahewa.model.ForecastGroupState
 import com.lawal.banji.yahewa.repo.ForecastRepository
 import com.lawal.banji.yahewa.repo.QueryResponseState
 import com.lawal.banji.yahewa.utils.AppDefault
@@ -18,12 +18,12 @@ import kotlinx.coroutines.launch
 @RequiresApi(Build.VERSION_CODES.O)
 class ForecastViewModel(private val repository: ForecastRepository) : ViewModel() {
 
-    private val _predictionGroupState =
-        MutableStateFlow<PredictionGroupState>(PredictionGroupState.Loading)
-    val predictionGroupState: StateFlow<PredictionGroupState> get() = _predictionGroupState
+    private val _forecastGroupState =
+        MutableStateFlow<ForecastGroupState>(ForecastGroupState.Loading)
+    val forecastGroupState: StateFlow<ForecastGroupState> get() = _forecastGroupState
 
-    private val _forecastState = MutableStateFlow<ForecastState>(ForecastState.Loading)
-    val forecastState: StateFlow<ForecastState> get() = _forecastState
+    private val _currentConditionsState = MutableStateFlow<CurrentConditionsState>(CurrentConditionsState.Loading)
+    val currentConditionsState: StateFlow<CurrentConditionsState> get() = _currentConditionsState
 
     private var _zipcode: MutableStateFlow<String?> = MutableStateFlow(null)
     val zipcode: StateFlow<String?> get() = _zipcode
@@ -36,7 +36,7 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
             val location = getRandomCity()
 //            println("Location: ${location.name} (${location.coordinates.latitude}, ${location.coordinates.longitude})")
 
-            // Fetch the forecast
+            // Fetch the currentConditions
             fetchForecastByCoordinates(
                 latitude = location.coordinates.latitude,
                 longitude = location.coordinates.longitude,
@@ -64,13 +64,13 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
                 apiKey = apiKey
             )) {
                 is QueryResponseState.Success -> {
-                    _forecastState.value = ForecastState.Success(queryResult.data)
+                    _currentConditionsState.value = CurrentConditionsState.Success(queryResult.data)
                     fetchPredictionGroup(latitude, longitude, apiKey)
                 }
 
                 is QueryResponseState.Error -> {
-                    _forecastState.value =
-                        ForecastState.Error("Error: ${queryResult.exception.message}")
+                    _currentConditionsState.value =
+                        CurrentConditionsState.Error("Error: ${queryResult.exception.message}")
                 }
             }
         }
@@ -81,15 +81,15 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
         viewModelScope.launch {
             when (val queryResult = repository.fetchByZipcode(zipcode, apiKey)) {
                 is QueryResponseState.Success -> {
-                    _forecastState.value = ForecastState.Success(queryResult.data)
+                    _currentConditionsState.value = CurrentConditionsState.Success(queryResult.data)
                     val latitude = queryResult.data.coordinates.latitude
                     val longitude = queryResult.data.coordinates.longitude
                     fetchPredictionGroup(latitude, longitude, apiKey)
                 }
 
                 is QueryResponseState.Error -> {
-                    _forecastState.value =
-                        ForecastState.Error(queryResult.exception.message ?: "Unknown Error")
+                    _currentConditionsState.value =
+                        CurrentConditionsState.Error(queryResult.exception.message ?: "Unknown Error")
                 }
             }
         }
@@ -106,7 +106,7 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
             )
             ) {
                 is QueryResponseState.Success -> {
-                    _predictionGroupState.value = PredictionGroupState.Success(queryResult.data)
+                    _forecastGroupState.value = ForecastGroupState.Success(queryResult.data)
                     val country = queryResult.data.city.country
                     val sunset  = queryResult.data.predictions[0].sunset
                     val maxTemperature = queryResult.data.predictions[0].temperature.max
@@ -114,8 +114,8 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
                 }
 
                 is QueryResponseState.Error -> {
-                    _predictionGroupState.value =
-                        PredictionGroupState.Error("Failed to fetch forecast data: ${queryResult.exception.message}")
+                    _forecastGroupState.value =
+                        ForecastGroupState.Error("Failed to fetch currentConditions data: ${queryResult.exception.message}")
                 }
             }
         }

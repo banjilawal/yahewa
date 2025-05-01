@@ -19,8 +19,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.lawal.banji.yahewa.input.ZipcodeInput
-import com.lawal.banji.yahewa.model.PredictionGroupState
-import com.lawal.banji.yahewa.model.WeatherPrediction
+import com.lawal.banji.yahewa.model.ForecastGroupState
+import com.lawal.banji.yahewa.model.Forecast
 import com.lawal.banji.yahewa.navigation.NavigationEvent
 import com.lawal.banji.yahewa.ui.theme.BattleShipGrayBlue
 import com.lawal.banji.yahewa.ui.theme.DefaultCornerRadius
@@ -33,14 +33,14 @@ import com.lawal.banji.yahewa.utils.WeatherIcon
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun PredictionComposable(weatherPrediction: WeatherPrediction, modifier: Modifier = Modifier) {
+fun PredictionComposable(forecast: Forecast, modifier: Modifier = Modifier) {
 
-    val precipitationProbability = "${weatherPrediction.precipitationProbability} % chance of rain"
-    val solarTransitionTimes = "sunrise: ${weatherPrediction.sunrise} sunset: ${weatherPrediction.sunset}"
-    val humidity = "${weatherPrediction.humidity} % humidity"
-    val temperature = "high ${weatherPrediction.temperature.max} / low ${weatherPrediction.temperature.min}"
-    val weatherIconId = weatherPrediction.weather[0].iconId
-    val weatherDescription = weatherPrediction.weather[0].description
+    val precipitationProbability = "${forecast.precipitationProbability} % chance of rain"
+    val solarTransitionTimes = "sunrise: ${forecast.sunrise} sunset: ${forecast.sunset}"
+    val humidity = "${forecast.humidity} % humidity"
+    val temperature = "high ${forecast.temperature.max} / low ${forecast.temperature.min}"
+    val weatherIconId = forecast.weather[0].iconId
+    val weatherDescription = forecast.weather[0].description
 
     // Use a Column instead of LazyColumn as this is static data
     Column(
@@ -105,7 +105,7 @@ fun PredictionComposable(weatherPrediction: WeatherPrediction, modifier: Modifie
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun PredictionListComposable(predictions: List<WeatherPrediction>, modifier: Modifier = Modifier) {
+fun PredictionListComposable(predictions: List<Forecast>, modifier: Modifier = Modifier) {
     LazyColumn(
         modifier = modifier
             .fillMaxWidth()
@@ -113,7 +113,7 @@ fun PredictionListComposable(predictions: List<WeatherPrediction>, modifier: Mod
     ) {
         items(predictions.size) { index ->
             PredictionComposable(
-                weatherPrediction = predictions[index],
+                forecast = predictions[index],
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp) // Add space between items
@@ -125,7 +125,7 @@ fun PredictionListComposable(predictions: List<WeatherPrediction>, modifier: Mod
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PredictionsScreen(
-    predictionGroupState: PredictionGroupState,
+    forecastGroupState: ForecastGroupState,
     onNavigate: (NavigationEvent) -> Unit = {},
     onZipcodeEntered: (String) -> Unit
 ) {
@@ -142,18 +142,18 @@ fun PredictionsScreen(
                 .padding(innerPadding)
                 .background(DefaultDisplayBackgroundColor)
         ) {
-            when (predictionGroupState) {
-                is PredictionGroupState.Loading -> {
+            when (forecastGroupState) {
+                is ForecastGroupState.Loading -> {
                     // Show loading message
                     Text(
-                        text = "Loading forecast predictions...",
+                        text = "Loading currentConditions predictions...",
                         modifier = Modifier.padding(16.dp)
                     )
                 }
 
-                is PredictionGroupState.Error -> {
+                is ForecastGroupState.Error -> {
                     // Show error message
-                    val errorMessage = "WeatherPrediction error: ${(predictionGroupState as PredictionGroupState.Error).message}"
+                    val errorMessage = "Forecast error: ${(forecastGroupState as ForecastGroupState.Error).message}"
                     Text(
                         text = errorMessage,
                         modifier = Modifier.padding(16.dp),
@@ -161,10 +161,10 @@ fun PredictionsScreen(
                     )
                 }
 
-                is PredictionGroupState.Success -> {
+                is ForecastGroupState.Success -> {
                     // Ensure the list is constrained properly
                     PredictionListComposable(
-                        predictions = predictionGroupState.predictionGroup.predictions,
+                        predictions = forecastGroupState.forecastGroup.predictions,
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f) // Ensures the LazyColumn gets constrained height
