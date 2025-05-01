@@ -27,6 +27,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -36,6 +38,7 @@ import com.lawal.banji.yahewa.ui.theme.DefaultBorderWidth
 import com.lawal.banji.yahewa.ui.theme.DefaultBoxColor
 import com.lawal.banji.yahewa.ui.theme.DefaultCornerRadius
 import com.lawal.banji.yahewa.ui.theme.DefaultHeadingColor
+import com.lawal.banji.yahewa.ui.theme.DefaultIconBackgroundColor
 import com.lawal.banji.yahewa.ui.theme.DefaultPadding
 import com.lawal.banji.yahewa.ui.theme.LargeIconSize
 import com.lawal.banji.yahewa.ui.theme.LargePadding
@@ -196,7 +199,104 @@ fun TextBox(
 }
 
 @Composable
-fun iconFromWeatherApiId(
+fun DescriptionBox(
+    modifier: Modifier = Modifier,  // Allow modifier customization
+    description: String = stringResource(id = R.string.default_weather_description),
+    boxColor: Color = DefaultBoxColor,
+    textAlign: TextAlign = TextAlign.Start,
+    cornerRadius: Dp = DefaultCornerRadius,
+    style: TextStyle = MaterialTheme.typography.headlineLarge,
+    contentDescription: String? = null // Added for accessibility
+) {
+    CustomBox(
+        modifier = modifier, // Pass modifier down
+        color = boxColor,
+        cornerRadius = cornerRadius
+    ) {
+        CustomText(
+            content = description,
+            textAlign = textAlign,
+            style = style,
+            modifier = Modifier.semantics {
+                if (contentDescription != null) {
+                    this.contentDescription = contentDescription
+                }
+            }
+        )
+    }
+}
+
+@Composable
+fun HumidityBox(
+    percentHumidity: Double =  AppDefault.HUMIDITY,
+    boxColor: Color = DefaultBoxColor,
+    textAlign: TextAlign = TextAlign.Center,
+    cornerRadius: Dp = DefaultCornerRadius,
+    style: TextStyle = MaterialTheme.typography.bodyMedium,
+) {
+    val content: String = "$percentHumidity % humidity"
+    CustomBox(color=boxColor, cornerRadius =  cornerRadius) {
+        CustomText(content = content, textAlign = textAlign, style = style)
+    }
+}
+
+@Composable
+fun LocationBox(
+    city: String = stringResource(id = R.string.default_city),
+    boxColor: Color = DefaultBoxColor,
+    textAlign: TextAlign = TextAlign.Center,
+    cornerRadius : Dp = DefaultCornerRadius,
+    style: TextStyle = MaterialTheme.typography.headlineLarge,
+) {
+    CustomBox(color=boxColor, cornerRadius = cornerRadius) {
+        CustomText(content = city, textAlign = textAlign, style = style)
+    }
+}
+
+@Composable
+fun IconBox(
+    iconId: String = stringResource(id = R.string.default_weather_icon_id),
+    iconBackgroundColor : Color = DefaultIconBackgroundColor,
+    cornerRadius: Dp = DefaultCornerRadius,
+    boxColor: Color = DefaultBoxColor
+) {
+    CustomBox(color=boxColor, cornerRadius = cornerRadius) {
+        WeatherIcon(weatherApiId = iconId
+//            weatherApiId = iconId,
+//            modifier = Modifier.background(iconBackgroundColor).fillMaxSize(1.0f)
+        )
+    }
+}
+
+@Composable
+fun PressureBox(
+    pressure: Double = AppDefault.PRESSURE,
+    boxColor: Color = DefaultBoxColor,
+    textAlign: TextAlign = TextAlign.Center,
+    style: TextStyle = MaterialTheme.typography.bodySmall,
+    unit: String = stringResource(id = R.string.imperial_pressure_unit),
+) {
+    val content: String = "$pressure $unit"
+    CustomBox(color=boxColor) { CustomText(content = content,  textAlign = textAlign,  style = style) }
+}
+
+@Composable
+fun TemperatureBox(
+    temperature: Double = AppDefault.TEMPERATURE,
+    information: String? = null,
+    boxColor: Color = DefaultBoxColor,
+    textAlign: TextAlign = TextAlign.Center,
+    cornerRadius : Dp = DefaultCornerRadius,
+    style: TextStyle = MaterialTheme.typography.bodyMedium,
+) {
+    val content: String = information?.let { "$it: $temperature°" } ?: "$temperature°"
+    CustomBox(color=boxColor, cornerRadius = cornerRadius) {
+        CustomText(content = content, textAlign = textAlign, style = style)
+    }
+}
+
+@Composable
+fun WeatherIcon(
     weatherApiId: String,
     iconSize: Dp = LargeIconSize,
     cornerRadius: Dp = DefaultCornerRadius,

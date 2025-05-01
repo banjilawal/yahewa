@@ -20,15 +20,15 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun ZipcodeInput(
-    onZipcodeEntered: (String) -> Unit // Callback to send the zip code after it is entered
+    onZipcodeEntered: (String) -> Unit
 ) {
-    var zipcode by remember { mutableStateOf("") } // Holds the state of the input
-    var isFocused by remember { mutableStateOf(false) } // Tracks if the text field has been focused
-    var isError by remember { mutableStateOf(false) } // Tracks whether the input is invalid
+    var zipcode by remember { mutableStateOf("") }
+    var isFocused by remember { mutableStateOf(false) }
+    var isError by remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
         TextField(
-            value = zipcode, // Current value of the text field
+            value = zipcode,
             onValueChange = { value ->
                 // Allow only numeric input and a maximum of 5 characters
                 if (value.length <= 5 && (value.isEmpty() || value.all { it.isDigit() })) {

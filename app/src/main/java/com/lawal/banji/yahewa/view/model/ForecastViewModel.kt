@@ -4,9 +4,9 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lawal.banji.yahewa.query.CityLookupState
-import com.lawal.banji.yahewa.query.ForecastState
-import com.lawal.banji.yahewa.query.PredictionGroupState
+import com.lawal.banji.yahewa.model.CityLookupState
+import com.lawal.banji.yahewa.model.ForecastState
+import com.lawal.banji.yahewa.model.PredictionGroupState
 import com.lawal.banji.yahewa.repo.ForecastRepository
 import com.lawal.banji.yahewa.repo.QueryResponseState
 import com.lawal.banji.yahewa.utils.AppDefault

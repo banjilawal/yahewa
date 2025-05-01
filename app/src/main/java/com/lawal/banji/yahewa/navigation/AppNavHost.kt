@@ -28,7 +28,7 @@ fun AppNavHost(
 ) {
     // Collect forecast states
     val forecastState = forecastViewModel.forecastState.collectAsState().value
-    val forecastResponseState = forecastViewModel.predictionGroupState.collectAsState().value
+    val predictionGroupState = forecastViewModel.predictionGroupState.collectAsState().value
 
     Scaffold(
         floatingActionButton = {
@@ -91,13 +91,15 @@ fun AppNavHost(
             // PredictionsScreen
             composable(Screens.Predictions.route) {
                 PredictionsScreen(
-                    predictionGroupState = forecastResponseState,
+                    predictionGroupState = predictionGroupState,
                     onNavigate = {
                         // Direct navigation handling
                         navController.popBackStack()
-                    }
+                    },
+                    onZipcodeEntered = { zipcode -> forecastViewModel.setZipcode(zipcode) } // Add this line
                 )
             }
+
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.lawal.banji.yahewa.destination
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,8 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.lawal.banji.yahewa.display.ForecastDetailsView
 import com.lawal.banji.yahewa.input.ZipcodeInput
-import com.lawal.banji.yahewa.query.ForecastState
+import com.lawal.banji.yahewa.model.ForecastState
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DetailsScreen(
     forecastState: ForecastState,

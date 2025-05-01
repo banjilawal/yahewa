@@ -33,8 +33,8 @@ import com.lawal.banji.yahewa.ui.theme.SmallerPadding
 import com.lawal.banji.yahewa.utils.CustomBox
 import com.lawal.banji.yahewa.utils.CustomRow
 import com.lawal.banji.yahewa.utils.CustomText
+import com.lawal.banji.yahewa.utils.WeatherIcon
 import com.lawal.banji.yahewa.utils.customBorder
-import com.lawal.banji.yahewa.utils.iconFromWeatherApiId
 
 private val commonBoxModifier = Modifier
     .fillMaxWidth()
@@ -137,7 +137,7 @@ fun WeatherDetailsDisplay(forecast: Forecast) {
                             .clip(RoundedCornerShape(DefaultCornerRadius))
                     )
                     // Weather icon
-                    iconFromWeatherApiId(
+                    WeatherIcon(
                         weatherApiId = forecast.weather[0].iconId,
 //                        modifier = Modifier.weight(1.4f).background(Lavender).fillMaxSize(1.0f),
                         contentDescription = forecast.weather[0].description

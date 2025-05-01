@@ -11,9 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.lawal.banji.yahewa.display.ForecastView
 import com.lawal.banji.yahewa.input.ZipcodeInput
+import com.lawal.banji.yahewa.model.ForecastState
 import com.lawal.banji.yahewa.navigation.NavigationEvent
 import com.lawal.banji.yahewa.ui.theme.White
-import com.lawal.banji.yahewa.query.ForecastState
 
 
 @Composable
