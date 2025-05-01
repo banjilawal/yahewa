@@ -39,3 +39,9 @@ data class PredictionGroup(
     @SerializedName("cnt") val numberOfForecasts: Int,
     @SerializedName("list") val predictions: List<WeatherPrediction>
 )
+
+sealed class PredictionGroupState {
+    object Loading : PredictionGroupState() // Represents a loading state while forecasts are being fetched
+    data class Success(val predictionGroup: PredictionGroup) : PredictionGroupState()
+    data class Error(val message: String) : PredictionGroupState() // Represents an error state with a message
+}

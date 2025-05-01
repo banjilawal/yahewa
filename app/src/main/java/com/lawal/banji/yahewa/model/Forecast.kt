@@ -41,3 +41,9 @@ data class Forecast(
     @SerializedName("name") val city: String,
     var state: String? = null
 )
+
+sealed class ForecastState {
+    object Loading : ForecastState()
+    data class Success(val forecast: Forecast) : ForecastState()
+    data class Error(val message: String) : ForecastState()
+}

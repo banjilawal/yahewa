@@ -11,3 +11,9 @@ data class City(
     @SerializedName("coord") val coordinates: Coordinates,
     var zipCode: String? = null
 )
+
+sealed class CityLookupState {
+    object Loading : CityLookupState()
+    data class Success(val city: City) : CityLookupState()
+    data class Error(val message: String) : CityLookupState()
+}
