@@ -29,81 +29,85 @@ import com.lawal.banji.yahewa.ui.theme.DefaultPadding
 import com.lawal.banji.yahewa.ui.theme.Peach
 import com.lawal.banji.yahewa.ui.theme.PowderBlue
 
-@Composable
 @RequiresApi(Build.VERSION_CODES.O)
+@Composable
 fun PredictionComposable(weatherPrediction: WeatherPrediction, modifier: Modifier = Modifier) {
 
     val precipitationProbability = "${weatherPrediction.precipitationProbability} % chance of rain"
-    val day  = "sunrise: ${weatherPrediction.sunrise} sunset: ${weatherPrediction.sunset}"
+    val day = "sunrise: ${weatherPrediction.sunrise} sunset: ${weatherPrediction.sunset}"
     val humidity = "${weatherPrediction.humidity} % humidity"
-
-    val weather = weatherPrediction.weather[0]
-    val iconId = weatherPrediction.weather[0].iconId
-    val description = weatherPrediction.weather[0].description
     val temperature = "high ${weatherPrediction.temperature.max} / low ${weatherPrediction.temperature.min}"
 
-    LazyColumn(
-        modifier = Modifier
+    // Use a Column instead of LazyColumn as this is static data
+    Column(
+        modifier = modifier
             .padding(DefaultPadding)
             .fillMaxWidth()
-            .background(BattleShipGrayBlue).clip(RoundedCornerShape(DefaultCornerRadius))
+            .background(BattleShipGrayBlue)
+            .clip(RoundedCornerShape(DefaultCornerRadius))
     ) {
-        item {
-            Text(
-                text = temperature,
-                style = MaterialTheme.typography.labelSmall,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 0.dp)
-                    .background(PowderBlue)
-                    .clip(RoundedCornerShape(DefaultCornerRadius)),
-                textAlign = TextAlign.Center
-            )
-        }
-        item {
-            Text(
-                text = day,
-                style = MaterialTheme.typography.labelSmall,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 0.dp)
-                    .background(Peach)
-                    .clip(RoundedCornerShape(DefaultCornerRadius)),
-                textAlign = TextAlign.Center
-            )
-        }
-        item {
-            Text(
-                text = precipitationProbability,
-                style = MaterialTheme.typography.labelSmall,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 0.dp)
-                    .background(PowderBlue)
-                    .clip(RoundedCornerShape(DefaultCornerRadius)),
-                textAlign = TextAlign.Center
-            )
-        }
-        item {
-            Text(
-                text = humidity,
-                style = MaterialTheme.typography.labelSmall,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 0.dp)
-                    .background(Peach)
-                    .clip(RoundedCornerShape(DefaultCornerRadius)),
-                textAlign = TextAlign.Center
-            )
-        }
+        Text(
+            text = temperature,
+            style = MaterialTheme.typography.labelSmall,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+                .background(PowderBlue)
+                .clip(RoundedCornerShape(DefaultCornerRadius)),
+            textAlign = TextAlign.Center
+        )
+
+        Text(
+            text = day,
+            style = MaterialTheme.typography.labelSmall,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+                .background(Peach)
+                .clip(RoundedCornerShape(DefaultCornerRadius)),
+            textAlign = TextAlign.Center
+        )
+
+        Text(
+            text = precipitationProbability,
+            style = MaterialTheme.typography.labelSmall,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+                .background(PowderBlue)
+                .clip(RoundedCornerShape(DefaultCornerRadius)),
+            textAlign = TextAlign.Center
+        )
+
+        Text(
+            text = humidity,
+            style = MaterialTheme.typography.labelSmall,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+                .background(Peach)
+                .clip(RoundedCornerShape(DefaultCornerRadius)),
+            textAlign = TextAlign.Center
+        )
     }
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PredictionListComposable(predictions: List<WeatherPrediction>, modifier: Modifier = Modifier) {
-    LazyColumn(modifier = modifier) {
-        items(predictions.size) { index -> PredictionComposable(weatherPrediction = predictions[index]) }
+    LazyColumn(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(DefaultDisplayBackgroundColor) // Optional background for the list
+    ) {
+        items(predictions.size) { index ->
+            PredictionComposable(
+                weatherPrediction = predictions[index],
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp) // Add space between items
+            )
+        }
     }
 }
 
@@ -115,7 +119,9 @@ fun PredictionsScreen(
     onZipcodeEntered: (String) -> Unit
 ) {
     Scaffold(
-        modifier = Modifier.fillMaxSize().statusBarsPadding(),
+        modifier = Modifier
+            .fillMaxSize()
+            .statusBarsPadding(),
         topBar = { ZipcodeInput(onZipcodeEntered = onZipcodeEntered) },
         bottomBar = {},
     ) { innerPadding ->
@@ -127,18 +133,34 @@ fun PredictionsScreen(
         ) {
             when (predictionGroupState) {
                 is PredictionGroupState.Loading -> {
-                    Text(text = "Loading forecast predictions...")
+                    // Show loading message
+                    Text(
+                        text = "Loading forecast predictions...",
+                        modifier = Modifier.padding(16.dp)
+                    )
                 }
+
                 is PredictionGroupState.Error -> {
+                    // Show error message
                     val errorMessage = "WeatherPrediction error: ${(predictionGroupState as PredictionGroupState.Error).message}"
-                    Text(text = errorMessage)
+                    Text(
+                        text = errorMessage,
+                        modifier = Modifier.padding(16.dp),
+                        color = MaterialTheme.colorScheme.error
+                    )
                 }
+
                 is PredictionGroupState.Success -> {
-                    PredictionListComposable(predictions = predictionGroupState.predictionGroup.predictions, modifier = Modifier.weight(1f).fillMaxWidth())
-//                    PredictionComposable(predictionGroupState.predictionGroup.predictions[0])
-//                    PredictionGroupComposable(predictionGroup = predictionGroupState.predictionGroup)
+                    // Ensure the list is constrained properly
+                    PredictionListComposable(
+                        predictions = predictionGroupState.predictionGroup.predictions,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f) // Ensures the LazyColumn gets constrained height
+                    )
                 }
             }
         }
     }
 }
+
