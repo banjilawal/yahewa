@@ -79,7 +79,6 @@ fun PredictionComposable(weatherPrediction: WeatherPrediction, modifier: Modifie
                 .clip(RoundedCornerShape(DefaultCornerRadius)),
             textAlign = TextAlign.Center
         )
-
         Text(
             text = precipitationProbability,
             style = MaterialTheme.typography.labelSmall,
