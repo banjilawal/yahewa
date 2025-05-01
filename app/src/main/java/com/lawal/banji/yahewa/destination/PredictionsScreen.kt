@@ -28,15 +28,19 @@ import com.lawal.banji.yahewa.ui.theme.DefaultDisplayBackgroundColor
 import com.lawal.banji.yahewa.ui.theme.DefaultPadding
 import com.lawal.banji.yahewa.ui.theme.Peach
 import com.lawal.banji.yahewa.ui.theme.PowderBlue
+import com.lawal.banji.yahewa.ui.theme.White
+import com.lawal.banji.yahewa.utils.WeatherIcon
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PredictionComposable(weatherPrediction: WeatherPrediction, modifier: Modifier = Modifier) {
 
     val precipitationProbability = "${weatherPrediction.precipitationProbability} % chance of rain"
-    val day = "sunrise: ${weatherPrediction.sunrise} sunset: ${weatherPrediction.sunset}"
+    val solarTransitionTimes = "sunrise: ${weatherPrediction.sunrise} sunset: ${weatherPrediction.sunset}"
     val humidity = "${weatherPrediction.humidity} % humidity"
     val temperature = "high ${weatherPrediction.temperature.max} / low ${weatherPrediction.temperature.min}"
+    val weatherIconId = weatherPrediction.weather[0].iconId
+    val weatherDescription = weatherPrediction.weather[0].description
 
     // Use a Column instead of LazyColumn as this is static data
     Column(
@@ -56,9 +60,17 @@ fun PredictionComposable(weatherPrediction: WeatherPrediction, modifier: Modifie
                 .clip(RoundedCornerShape(DefaultCornerRadius)),
             textAlign = TextAlign.Center
         )
+        WeatherIcon(
+            weatherApiId = weatherIconId,
+            backgroundColor = White,
+            iconSize = 60.dp// Adjust size appropriately
+//            modifier = Modifier
+//                .align(Alignment.CenterHorizontally) // Center alignment within the Column
+//                .padding(vertical = 8.dp) // Add spacing around the icon
+        )
 
         Text(
-            text = day,
+            text = solarTransitionTimes,
             style = MaterialTheme.typography.labelSmall,
             modifier = Modifier
                 .fillMaxWidth()

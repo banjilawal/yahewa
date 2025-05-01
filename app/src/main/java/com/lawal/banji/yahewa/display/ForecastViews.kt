@@ -44,7 +44,7 @@ fun ForecastView(forecast: Forecast) {
     val description = forecast.weather[0].description
     val weather = forecast.weather[0]
 
-    val location = if (state != null) "$city, $state" else "$city, $country"
+    val cityInformation = if (state != null) "$city, $state" else "$city, $country"
 
     LazyColumn(
         modifier = Modifier
@@ -56,7 +56,7 @@ fun ForecastView(forecast: Forecast) {
         item {
             // City needs to be centered. Fills the width of it's center
             Text(
-                text = location,
+                text = cityInformation,
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.fillMaxSize().padding(bottom = 0.dp),
                 textAlign = TextAlign.Center
