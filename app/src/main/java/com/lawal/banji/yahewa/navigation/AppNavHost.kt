@@ -21,8 +21,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.lawal.banji.yahewa.destination.DetailsScreen
-import com.lawal.banji.yahewa.destination.ForecastGroupScreen
+import com.lawal.banji.yahewa.destination.ForecastScreen
+
 import com.lawal.banji.yahewa.destination.HomeScreen
+import com.lawal.banji.yahewa.ui.theme.DarkGray1
 import com.lawal.banji.yahewa.ui.theme.DefaultDisplayBackgroundColor
 import com.lawal.banji.yahewa.view.model.ForecastViewModel
 
@@ -66,8 +68,8 @@ fun AppNavHost(
                     ) {
                         // Set Button Text based on Current Route
                         val currentRoute = navController.currentBackStackEntry?.destination?.route
-                        Text(
-                            if (currentRoute == Screens.Home.route) "Predictions" else "Home"
+                        Text(text = "", modifier = Modifier.background(DarkGray1)
+//                            if (currentRoute == Screens.Home.route) "Predictions" else "Home"
                         )
                     }
                 }
@@ -114,7 +116,7 @@ fun AppNavHost(
 
             // PredictionsScreen
             composable(Screens.Forecasts.route) {
-                ForecastGroupScreen(
+                ForecastScreen(
                     forecastGroupState = forecastGroupState,
                     onNavigate = {
                         // Direct navigation handling
