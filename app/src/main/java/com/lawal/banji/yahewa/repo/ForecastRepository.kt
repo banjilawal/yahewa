@@ -27,9 +27,13 @@ class ForecastRepository {
                 } catch (e: Exception) {  QueryResponseState.Error(e)  }
         }
 
-        suspend fun fetchForecasts(latitude: Double, longitude: Double, count: Int, apiKey:String): QueryResponseState<ForecastGroup> {
+        suspend fun fetchForecastGroup(latitude: Double, longitude: Double, count: Int, apiKey:String): QueryResponseState<ForecastGroup> {
+                System.out.println("fINSIDE fetchForecastGroup latitude:$latitude longitude:$longitude count:$count")
                 return try {
+                        println("finside the try block")
                         val result = api.getForecasts(latitude = latitude, longitude = longitude, count = count , apiKey = apiKey)
+                        // Print the JSON response to the console
+                        println("Forecasts JSON Response: $result")
                         QueryResponseState.Success(result)
                 } catch (e: Exception) { QueryResponseState.Error(e)  }
         }

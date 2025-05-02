@@ -42,7 +42,7 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
                 longitude = location.coordinates.longitude,
                 apiKey = AppDefault.API_KEY
             )
-            fetchPredictionGroup(location.coordinates.latitude, location.coordinates.longitude, AppDefault.API_KEY)
+            fetchForecasts(location.coordinates.latitude, location.coordinates.longitude, AppDefault.API_KEY)
         }
     }
 
@@ -65,7 +65,8 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
             )) {
                 is QueryResponseState.Success -> {
                     _currentWeatherState.value = CurrentWeatherState.Success(queryResult.data)
-                    fetchPredictionGroup(latitude, longitude, apiKey)
+                    System.out.println("latitude:$latitude longitude:$longitude getting forecasts now")
+                    fetchForecasts(latitude, longitude, apiKey)
                 }
 
                 is QueryResponseState.Error -> {
@@ -84,7 +85,8 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
                     _currentWeatherState.value = CurrentWeatherState.Success(queryResult.data)
                     val latitude = queryResult.data.coordinates.latitude
                     val longitude = queryResult.data.coordinates.longitude
-                    fetchPredictionGroup(latitude, longitude, apiKey)
+                    System.out.println("fetched for Zipcode:$zipcode latitude:$latitude longitude:$longitude getting forecasts now")
+                    fetchForecasts(latitude, longitude, apiKey)
                 }
 
                 is QueryResponseState.Error -> {
@@ -96,9 +98,9 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun fetchPredictionGroup(latitude: Double, longitude: Double, apiKey: String) {
+    private fun fetchForecasts(latitude: Double, longitude: Double, apiKey: String) {
         viewModelScope.launch {
-            when (val queryResult = repository.fetchForecasts(
+            when (val queryResult = repository.fetchForecastGroup(
                 longitude = longitude,
                 latitude = latitude,
                 count = AppDefault.NUMBER_OF_FORECASTS,

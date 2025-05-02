@@ -32,7 +32,7 @@ interface RetrofitApi {
         @Query("appid") apiKey: String = AppDefault.API_KEY
     ): City
 
-    @GET("currentWeather/daily")
+    @GET("forecast/daily")
     suspend fun getForecasts(
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,

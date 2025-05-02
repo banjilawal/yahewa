@@ -23,6 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.lawal.banji.yahewa.input.ZipcodeInput
 import com.lawal.banji.yahewa.model.Forecast
+import com.lawal.banji.yahewa.model.ForecastGroup
 import com.lawal.banji.yahewa.model.ForecastGroupState
 import com.lawal.banji.yahewa.navigation.NavigationEvent
 import com.lawal.banji.yahewa.ui.theme.DefaultCornerRadius
@@ -242,17 +243,17 @@ fun ForecastViewComposable(forecast: Forecast, modifier: Modifier = Modifier) {
     }
 }
 
-//@RequiresApi(Build.VERSION_CODES.O)
-//@Composable
-//fun PredictionGroupComposable(forecastGroup: ForecastGroup) {
-//
-//    val cityDetails = "$forecastGroup.city.name, ${forecastGroup.city.country}"
-//    val coordinates = "lat:  ${forecastGroup.city.coordinates.latitude}, " +
-//            "lon: ${forecastGroup.city.coordinates.longitude}"
-//
-//    LazyColumn() {
-//        item { Box(modifier = Modifier.fillMaxWidth().background(SandLightest)) { Text(text = cityDetails) } }
-////        item { Box(modifier = Modifier.fillMaxWidth().background(Lavender)) { Text(text = coordinates) } }
-////        item { PredictionListComposable(predictions = forecastGroup.predictions) }
-//    }
-//}
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun PredictionGroupComposable(forecastGroup: ForecastGroup) {
+
+    val cityDetails = "$forecastGroup.city.name, ${forecastGroup.city.country}"
+    val coordinates = "lat:  ${forecastGroup.city.coordinates.latitude}, " +
+            "lon: ${forecastGroup.city.coordinates.longitude}"
+
+    LazyColumn() {
+        item { Box(modifier = Modifier.fillMaxWidth().background(SandLightest)) { Text(text = cityDetails) } }
+//        item { Box(modifier = Modifier.fillMaxWidth().background(Lavender)) { Text(text = coordinates) } }
+//        item { PredictionListComposable(predictions = forecastGroup.predictions) }
+    }
+}
