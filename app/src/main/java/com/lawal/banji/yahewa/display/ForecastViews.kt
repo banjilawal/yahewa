@@ -18,15 +18,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.lawal.banji.yahewa.model.Forecast
+import com.lawal.banji.yahewa.ui.theme.DarkGray1
 import com.lawal.banji.yahewa.ui.theme.DefaultCornerRadius
-import com.lawal.banji.yahewa.ui.theme.DefaultDisplayBackgroundColor
-import com.lawal.banji.yahewa.ui.theme.DefaultIconSize
 import com.lawal.banji.yahewa.ui.theme.LargeCornerRadius
 import com.lawal.banji.yahewa.ui.theme.PowderBlueGray
 import com.lawal.banji.yahewa.ui.theme.SandLighter
 import com.lawal.banji.yahewa.ui.theme.Silver
+import com.lawal.banji.yahewa.ui.theme.SmallIconSize
+import com.lawal.banji.yahewa.ui.theme.SmallPadding
 import com.lawal.banji.yahewa.utils.WeatherIcon
-import com.lawal.banji.yahewa.utils.toDateTimeString
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -38,11 +42,14 @@ fun ForecastComposable(forecast: Forecast, modifier: Modifier = Modifier) {
     val temperatureRange = "hi ${forecast.temperature.max} / ${forecast.temperature.min} lo"
     val iconId = forecast.weather[0].iconId
     val description = forecast.weather[0].description
-    val forecastDate = forecast.sunset.toDateTimeString()
+    val dateString = Instant.ofEpochMilli(forecast.sunset * 1000)
+        .atZone(ZoneId.systemDefault())
+        .format(DateTimeFormatter.ofPattern("EEEE, MMMM dd yyyy", Locale.getDefault()))
+
 
     Column(
         modifier = modifier
-            .padding(8.dp)
+            .padding(2.dp)
             .fillMaxWidth()
             .background(PowderBlueGray, RoundedCornerShape(DefaultCornerRadius))
     ) {
@@ -50,20 +57,15 @@ fun ForecastComposable(forecast: Forecast, modifier: Modifier = Modifier) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
+                .fillMaxHeight(0.3f)
                 .background(SandLighter, RoundedCornerShape(DefaultCornerRadius))
-                .padding(5.dp)
+                .padding(0.dp)
         ) {
             Column {
                 Text(
-                    text = forecastDate,
+                    text = dateString,
                     textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Text(
-                    text = solarTransitionTimes,
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.labelMedium,
                     modifier = Modifier.fillMaxWidth()
                 )
             }
@@ -73,30 +75,35 @@ fun ForecastComposable(forecast: Forecast, modifier: Modifier = Modifier) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
+                .fillMaxHeight(0.7f)
                 .background(Silver, RoundedCornerShape(LargeCornerRadius))
-                .padding(8.dp)
         ) {
             WeatherIcon(
                 iconId = iconId,
                 contentDescription = description,
-                iconSize = DefaultIconSize,
+                iconSize = SmallIconSize,
                 modifier = Modifier.align(Alignment.Center)
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.7f)
             )
             Text(
                 text = temperatureRange,
                 textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.labelMedium,
                 modifier = Modifier
                     .align(Alignment.TopCenter)
-                    .padding(top = 8.dp)
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.15f)
+
             )
             Text(
                 text = precipitationProbability,
                 textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.labelMedium,
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = 8.dp)
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.15f)
             )
         }
     }
@@ -109,14 +116,16 @@ fun ForecastListComposable(forecasts: List<Forecast>, modifier: Modifier = Modif
         modifier = modifier
             .fillMaxWidth()
             .fillMaxHeight() // Ensures the LazyColumn occupies the entire height
-            .background(DefaultDisplayBackgroundColor) // Optional background for the list
+            .background(DarkGray1),
+        horizontalAlignment = Alignment.CenterHorizontally // Align items horizontally at the center
+
     ) {
         items(forecasts.size) { index ->
             ForecastComposable(
                 forecast = forecasts[index],
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp) // Add space between items
+                    .fillMaxWidth(0.5f)
+                    .padding(vertical = SmallPadding) // Add space between items
             )
         }
     }
