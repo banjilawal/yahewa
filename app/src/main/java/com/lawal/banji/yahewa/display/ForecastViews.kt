@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.lawal.banji.yahewa.model.Forecast
@@ -87,7 +88,7 @@ fun ForecastComposable(forecast: Forecast, modifier: Modifier = Modifier) {
                 iconSize = SmallIconSize,
                 modifier = Modifier.align(Alignment.Center)
                     .fillMaxWidth()
-                    .fillMaxHeight(0.7f)
+                    .fillMaxHeight(1f)
             )
             Text(
                 text = temperatureRange,
@@ -154,15 +155,15 @@ fun ForecastGroupComposable(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.1f)
-                .background(SandLightest)
+                .fillMaxHeight(0.05f)
+                .background(Color.Transparent)
                 .padding(0.dp)
                // .padding(vertical = 8.dp, horizontal = 16.dp)
         ) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.labelMedium,
-                modifier = Modifier.align(Alignment.CenterStart)
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.align(Alignment.Center)
             )
         }
 

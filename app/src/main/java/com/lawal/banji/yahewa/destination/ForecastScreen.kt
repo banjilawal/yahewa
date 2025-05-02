@@ -13,7 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.lawal.banji.yahewa.display.ForecastListComposable
+import com.lawal.banji.yahewa.display.ForecastGroupComposable
 import com.lawal.banji.yahewa.input.ZipcodeInput
 import com.lawal.banji.yahewa.model.ForecastGroupState
 import com.lawal.banji.yahewa.navigation.NavigationEvent
@@ -63,11 +63,16 @@ fun ForecastScreen(
 
                 is ForecastGroupState.Success -> {
                     // Ensure ForecastListComposable fills the remaining vertical space
-                    ForecastListComposable(
-                        forecasts = forecastGroupState.forecastGroup.forecasts,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f) // Ensures LazyColumn occupies the remaining space
+                    ForecastGroupComposable(
+                        forecastGroup = forecastGroupState.forecastGroup,
+                        modifier = Modifier.fillMaxSize()
+                            .padding((0.dp)
+                    )
+//                    ForecastListComposable(
+//                        forecasts = forecastGroupState.forecastGroup.forecasts,
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .weight(1f) // Ensures LazyColumn occupies the remaining space
                     )
                 }
             }
