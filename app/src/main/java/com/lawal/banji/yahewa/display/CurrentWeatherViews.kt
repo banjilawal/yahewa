@@ -42,8 +42,7 @@ fun CurrentWeatherView(currentWeather: CurrentWeather) {
     val country = currentWeather.sys.country
 
     val temperatureFeelsLike = "Feels like ${currentWeather.main.temperatureFeelsLike}°"
-    val lowTemperature = "Low ${currentWeather.main.lowTemperature}°"
-    val highTemperature = "High ${currentWeather.main.highTemperature}°"
+
     val humidity = "Humidity ${currentWeather.main.percentHumidity} %"
     val pressure = "Pressure ${currentWeather.main.pressure} hPa"
 
@@ -54,8 +53,8 @@ fun CurrentWeatherView(currentWeather: CurrentWeather) {
     val cityInformation = if (state != null) "$city, $state" else "$city, $country"
 
     val currentTemperature = "${currentWeather.main.temperature}°"
-    val temperatureRange = "${currentWeather.main.highTemperature}° " +
-            "/ Lo ${currentWeather.main.lowTemperature}°"
+    val temperatureRange = "Hi ${currentWeather.main.highTemperature}° " +
+            "/ ${currentWeather.main.lowTemperature}° Lo"
 
     val dateTimeString = LocalDateTime.now()
         .format(DateTimeFormatter.ofPattern("hh:mm a EEEE, dd MMMM yyyy", Locale.getDefault()))
@@ -155,7 +154,7 @@ fun CurrentWeatherView(currentWeather: CurrentWeather) {
                 Text(
                     text = weather,
                     textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier
                         .fillMaxWidth()
                         .align(Alignment.BottomCenter) // Align to the bottom center
@@ -177,14 +176,14 @@ fun CurrentWeatherView(currentWeather: CurrentWeather) {
                     .fillMaxWidth() // Ensure the Text spans the full width
                     .fillMaxHeight(0.25f)
                     .padding(
-                        horizontal = 5.dp,
+                        horizontal = 32.dp,
                         vertical = 5.dp
                     ) // Add the needed 5px horizontal and vertical padding
                     .background(
-                        SandLighter,
+                        Silver,
                         RoundedCornerShape(DefaultCornerRadius)
                     ) // Background color for the Text
-                    .clip(RoundedCornerShape(DefaultCornerRadius)) // Rounded corners for the background
+                    .clip(RoundedCornerShape(LargeCornerRadius)) // Rounded corners for the background
             )
         }
     }
