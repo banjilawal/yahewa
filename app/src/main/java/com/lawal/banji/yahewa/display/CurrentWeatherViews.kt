@@ -47,14 +47,14 @@ fun CurrentWeatherView(currentWeather: CurrentWeather) {
 
     val iconId = currentWeather.weather[0].iconId
     val description = currentWeather.weather[0].description
-    val weather = currentWeather.weather[0]
+    val weather = currentWeather.weather[0].description
 
     val cityInformation = if (state != null) "$city, $state" else "$city, $country"
-    val weatherInformation = "Hi ${currentWeather.main.highTemperature}° " +
-            "/ Lo ${currentWeather.main.lowTemperature}° $description"
+    val temperatureInformation = "Hi ${currentWeather.main.highTemperature}° " +
+            "/ Lo ${currentWeather.main.lowTemperature}°"
 
     val dateTimeString = LocalDateTime.now()
-        .format(DateTimeFormatter.ofPattern("HH:mm EEEE, MMMM yyyy", Locale.getDefault()))
+        .format(DateTimeFormatter.ofPattern("hh:mm a EEEE, dd MMMM yyyy", Locale.getDefault()))
 
     Box() {
 
@@ -106,7 +106,7 @@ fun CurrentWeatherView(currentWeather: CurrentWeather) {
         }
         item {
             Text(
-                text = description,
+                text = weather,
                 textAlign = TextAlign.Center, // Center-align the text horizontally
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier
