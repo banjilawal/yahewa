@@ -12,11 +12,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.lawal.banji.yahewa.display.ForecastListComposable
 import com.lawal.banji.yahewa.input.ZipcodeInput
 import com.lawal.banji.yahewa.model.ForecastGroupState
 import com.lawal.banji.yahewa.navigation.NavigationEvent
+import com.lawal.banji.yahewa.ui.theme.DefaultPadding
 import com.lawal.banji.yahewa.ui.theme.PowderBlueGray
-
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -26,11 +28,12 @@ fun ForecastScreen(
     onZipcodeEntered: (String) -> Unit
 ) {
     Scaffold(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .statusBarsPadding()
-            .fillMaxWidth().background(PowderBlueGray),
+            .background(PowderBlueGray),
         topBar = { ZipcodeInput(onZipcodeEntered = onZipcodeEntered) },
-        bottomBar = {},
+        bottomBar = {}, // Optional bottom bar implementation
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -40,15 +43,32 @@ fun ForecastScreen(
         ) {
             when (forecastGroupState) {
                 is ForecastGroupState.Loading -> {
-                   Text(text = "Loading currentWeather...")
+                    Text(
+                        text = "Loading currentWeather...",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
+                    )
                 }
+
                 is ForecastGroupState.Error -> {
                     val errorMessage = "Yahewa currentWeather state error: ${(forecastGroupState as ForecastGroupState.Error).message}"
-                    Text(text = errorMessage)
+                    Text(
+                        text = errorMessage,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(DefaultPadding)
+                    )
                 }
+
                 is ForecastGroupState.Success -> {
-                    Text(text = "Success with the forecast group")
-//                   (forecastGroupState.forecastGroup.forecasts)
+                    // Ensure ForecastListComposable fills the remaining vertical space
+                    ForecastListComposable(
+                        forecasts = forecastGroupState.forecastGroup.forecasts,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f) // Ensures LazyColumn occupies the remaining space
+                    )
                 }
             }
         }

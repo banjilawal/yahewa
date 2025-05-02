@@ -81,7 +81,7 @@ fun CurrentWeatherView(currentWeather: CurrentWeather) {
                     Text(
                         text = cityInformation,
                         textAlign = TextAlign.Center, // Center-align the text horizontally
-                        style = MaterialTheme.typography.titleSmall,
+                        style = MaterialTheme.typography.headlineMedium,
                         modifier = Modifier
                             .fillMaxWidth() // Ensure the Text spans the full width
                             .fillMaxHeight(0.8f)
