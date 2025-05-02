@@ -32,10 +32,7 @@ fun ZipCodeInput(
     var zipCode by remember { mutableStateOf("") }
     var isError by remember { mutableStateOf(false) }
 
-    // Access the LocalContext for showing a Toast
     val context = LocalContext.current
-
-    // Focus and Keyboard control
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -43,13 +40,11 @@ fun ZipCodeInput(
         TextField(
             value = zipCode,
             onValueChange = { value ->
-                // Allow only numeric input and a maximum of 5 characters
                 if (value.length <= 5 && (value.isEmpty() || value.all { it.isDigit() })) {
                     zipCode = value
                     isError = false
                 } else {
                     isError = true
-                    // Show the toast when invalid input is detected
                     Toast.makeText(
                         context,
                         "Invalid ZIP code. Please enter only numbers up to 5 digits.",
@@ -57,10 +52,9 @@ fun ZipCodeInput(
                     ).show()
                 }
 
-                // Trigger callback on valid input of 5 characters
                 if (zipCode.length == 5) {
                     onZipCodeEntered(zipCode)
-                    keyboardController?.hide() // Hide the keyboard after submission
+                    keyboardController?.hide()
                 }
             },
             maxLines = 1,
@@ -76,7 +70,6 @@ fun ZipCodeInput(
                         onZipCodeEntered(zipCode)
                         keyboardController?.hide()
                     } else {
-                        // Show toast when done is pressed and the input is not valid
                         Toast.makeText(
                             context,
                             "Invalid ZIP code. Please ensure it is 5 digits.",
@@ -87,12 +80,11 @@ fun ZipCodeInput(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .focusRequester(focusRequester) // Attach focus requester
+                .focusRequester(focusRequester)
                 .padding(8.dp),
             singleLine = true
         )
 
-        // Optional error text to show below the TextField
         if (isError) {
             Text(
                 text = "Invalid ZIP Code. Please enter a valid 5-digit number.",
@@ -102,9 +94,8 @@ fun ZipCodeInput(
         }
     }
 
-
     LaunchedEffect(Unit) {
-        delay(80)
+        delay(400)
         focusRequester.requestFocus()
         keyboardController?.show()
     }
