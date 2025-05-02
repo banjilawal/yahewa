@@ -1,6 +1,8 @@
 package com.lawal.banji.yahewa.navigation
 
 import android.os.Build
+import androidx.compose.runtime.derivedStateOf
+
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -13,9 +15,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -28,6 +33,21 @@ import com.lawal.banji.yahewa.ui.theme.Black
 import com.lawal.banji.yahewa.ui.theme.DefaultDisplayBackgroundColor
 import com.lawal.banji.yahewa.ui.theme.White
 import com.lawal.banji.yahewa.view.model.ForecastViewModel
+
+//@Composable
+//fun DynamicFloatingActionButton(
+//    navController: NavController,
+//    modifier: Modifier = Modifier,
+//    containerColor: Color = Black,
+//    contentColor: Color = White
+//) {
+//    // Remember the current navigation route
+//    val currentRoute by remember {
+//        derivedStateOf {
+//            navController.currentBackStackEntry?.destination?.route ?: Screens.Home.route
+//        }
+//    }
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -75,7 +95,6 @@ fun AppNavHost(
                             modifier = Modifier.padding(horizontal = 8.dp) // Optional padding for text
                         )
                     }
-
                 }
 
             }

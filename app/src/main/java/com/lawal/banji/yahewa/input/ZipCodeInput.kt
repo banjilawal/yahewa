@@ -5,29 +5,36 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.lawal.banji.yahewa.ui.theme.SmallPadding
+import kotlinx.coroutines.delay
 
 @Composable
 fun ZipcodeInput(
     onZipcodeEntered: (String) -> Unit
 ) {
     var zipcode by remember { mutableStateOf("") }
-    var isFocused by remember { mutableStateOf(false) }
     var isError by remember { mutableStateOf(false) }
 
-    Column(modifier = Modifier.fillMaxWidth().padding(SmallPadding)) {
+    // Focus and Keyboard control
+    val focusRequester = remember { FocusRequester() }
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
         TextField(
             value = zipcode,
             onValueChange = { value ->
@@ -36,48 +43,50 @@ fun ZipcodeInput(
                     zipcode = value
                     isError = false
                 } else {
-                    isError = true // Set an error state for invalid characters
+                    isError = true
                 }
 
-                // If valid and exactly 5 digits, trigger the callback
+                // Trigger callback on valid input of 5 characters
                 if (zipcode.length == 5) {
-                    onZipcodeEntered(zipcode) // Notify the parent composable
+                    onZipcodeEntered(zipcode)
+                    keyboardController?.hide() // Hide the keyboard after submission
                 }
             },
-            maxLines = 1, // TextField restricted to a single line
-            placeholder = { Text("Enter ZIP Code") }, // Placeholder text when the field is empty
-            isError = isError, // Highlight the text field if input is invalid
+            maxLines = 1,
+            placeholder = { Text("Enter ZIP Code") },
+            isError = isError,
             keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Number, // Numeric keyboard
-                imeAction = ImeAction.Done // "Done" keyboard action
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Done
             ),
             keyboardActions = KeyboardActions(
                 onDone = {
-                    // Trigger callback when the "Done" key is pressed
                     if (zipcode.length == 5) {
                         onZipcodeEntered(zipcode)
+                        keyboardController?.hide()
                     }
                 }
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .onFocusChanged {
-                    if (it.isFocused && !isFocused) {
-                        // Perform any logic such as clearing content
-                        zipcode = ""
-                        isFocused = true
-                    }
-                },
-            singleLine = true // Ensure input remains on one line
+                .focusRequester(focusRequester) // Attach focus requester
+                .padding(8.dp),
+            singleLine = true
         )
 
         if (isError) {
             Text(
                 text = "Invalid ZIP Code. Please enter a valid 5-digit number.",
-                color = androidx.compose.material3.MaterialTheme.colorScheme.error,
+                color = MaterialTheme.colorScheme.error,
                 modifier = Modifier.padding(start = 16.dp, top = 4.dp)
             )
         }
     }
-}
 
+    // Request focus and show the keyboard when the composable loads
+    LaunchedEffect(Unit) {
+        delay(100) // Small delay to ensure composable is fully loaded
+        focusRequester.requestFocus() // Request focus for TextField
+        keyboardController?.show() // Show keyboard
+    }
+}
