@@ -1,5 +1,6 @@
 package com.lawal.banji.yahewa.input
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -17,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -29,6 +31,9 @@ fun ZipcodeInput(
 ) {
     var zipcode by remember { mutableStateOf("") }
     var isError by remember { mutableStateOf(false) }
+
+    // Access the LocalContext for showing a Toast
+    val context = LocalContext.current
 
     // Focus and Keyboard control
     val focusRequester = remember { FocusRequester() }
@@ -44,6 +49,12 @@ fun ZipcodeInput(
                     isError = false
                 } else {
                     isError = true
+                    // Show the toast when invalid input is detected
+                    Toast.makeText(
+                        context,
+                        "Invalid ZIP code. Please enter only numbers up to 5 digits.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
 
                 // Trigger callback on valid input of 5 characters
@@ -64,6 +75,13 @@ fun ZipcodeInput(
                     if (zipcode.length == 5) {
                         onZipcodeEntered(zipcode)
                         keyboardController?.hide()
+                    } else {
+                        // Show toast when done is pressed and the input is not valid
+                        Toast.makeText(
+                            context,
+                            "Invalid ZIP code. Please ensure it is 5 digits.",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             ),
@@ -74,6 +92,7 @@ fun ZipcodeInput(
             singleLine = true
         )
 
+        // Optional error text to show below the TextField
         if (isError) {
             Text(
                 text = "Invalid ZIP Code. Please enter a valid 5-digit number.",
@@ -83,10 +102,11 @@ fun ZipcodeInput(
         }
     }
 
-    // Request focus and show the keyboard when the composable loads
+
     LaunchedEffect(Unit) {
-        delay(100) // Small delay to ensure composable is fully loaded
-        focusRequester.requestFocus() // Request focus for TextField
-        keyboardController?.show() // Show keyboard
+        delay(150)
+        focusRequester.requestFocus()
+        keyboardController?.show()
     }
 }
+
