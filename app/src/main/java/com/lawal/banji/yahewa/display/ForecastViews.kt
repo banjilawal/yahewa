@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,11 +19,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.lawal.banji.yahewa.model.Forecast
+import com.lawal.banji.yahewa.model.ForecastGroup
 import com.lawal.banji.yahewa.ui.theme.DarkGray1
 import com.lawal.banji.yahewa.ui.theme.DefaultCornerRadius
 import com.lawal.banji.yahewa.ui.theme.LargeCornerRadius
 import com.lawal.banji.yahewa.ui.theme.PowderBlueGray
 import com.lawal.banji.yahewa.ui.theme.SandLighter
+import com.lawal.banji.yahewa.ui.theme.SandLightest
 import com.lawal.banji.yahewa.ui.theme.Silver
 import com.lawal.banji.yahewa.ui.theme.SmallIconSize
 import com.lawal.banji.yahewa.ui.theme.SmallPadding
@@ -127,6 +130,51 @@ fun ForecastListComposable(forecasts: List<Forecast>, modifier: Modifier = Modif
                     .fillMaxWidth(0.7f)
                     .fillMaxHeight(0.5f) // Adjust height as needed
                     .padding(vertical = SmallPadding) // Add space between items
+            )
+        }
+    }
+}
+
+@Composable
+@RequiresApi(Build.VERSION_CODES.O)
+fun ForecastGroupComposable(
+    forecastGroup: ForecastGroup,
+    modifier: Modifier = Modifier
+) {
+    val totalForecasts = forecastGroup.numberOfForecasts
+    val title = "$totalForecasts day Forecasts for ${forecastGroup.city.name}, ${forecastGroup.city.country}"
+    val coordinates = "lat: ${forecastGroup.city.coordinates.latitude}, " +
+            "lon: ${forecastGroup.city.coordinates.longitude}"
+
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(SandLightest)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.1f)
+                .background(SandLightest)
+                .padding(0.dp)
+               // .padding(vertical = 8.dp, horizontal = 16.dp)
+        ) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.labelMedium,
+                modifier = Modifier.align(Alignment.CenterStart)
+            )
+        }
+
+        // Forecast List Section (Scrollable)
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f) // Fills remaining vertical space
+        ) {
+            ForecastListComposable(
+                forecasts = forecastGroup.forecasts,
+                modifier = Modifier.fillMaxSize().padding(0.dp)
             )
         }
     }

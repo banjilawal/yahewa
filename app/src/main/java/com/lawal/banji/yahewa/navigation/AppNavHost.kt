@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomAppBar
@@ -87,7 +88,7 @@ fun AppNavHost(
 
     Scaffold(
         bottomBar = {
-            BottomBarWithFab(navController = navController)
+            ButtonBarComposable(navController = navController)
         },
     ) { innerPadding ->
         NavHost(
@@ -150,7 +151,7 @@ fun AppNavHost(
 }
 
 @Composable
-fun BottomBarWithFab(navController: NavController) {
+fun ButtonBarComposable(navController: NavController) {
     BottomAppBar(
         containerColor = Black,
         contentColor = White
@@ -158,11 +159,11 @@ fun BottomBarWithFab(navController: NavController) {
         // Center FAB within the BottomAppBar
         Box(
             contentAlignment = Alignment.Center,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().padding(0.dp)
         ) {
             FloatingActionButton(
                 navController = navController,
-                modifier = Modifier.align(Alignment.Center)
+                modifier = Modifier.align(Alignment.Center).padding(0.dp).fillMaxWidth().fillMaxHeight()// Center the FAB
             )
         }
     }
