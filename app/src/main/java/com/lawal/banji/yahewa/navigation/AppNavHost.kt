@@ -3,13 +3,17 @@ package com.lawal.banji.yahewa.navigation
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -34,24 +38,32 @@ fun AppNavHost(
 
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    val currentRoute = navController.currentBackStackEntry?.destination?.route
-                    // Toggle logic: Navigate to Predictions if on Home, otherwise to Home
-                    if (currentRoute == Screens.Home.route) {
-                        navController.navigate(Screens.Forecasts.route)
-                    } else {
-                        navController.navigate(Screens.Home.route) {
-                            popUpTo(Screens.Home.route) { inclusive = true }
-                        }
-                    }
-                }
+            Box(
+                modifier = Modifier
+                    .fillMaxSize() // Fill the parent container to enable bottom-center alignment
             ) {
-                // Set Button Text based on Current Route
-                val currentRoute = navController.currentBackStackEntry?.destination?.route
-                Text(
-                    if (currentRoute == Screens.Home.route) "Predictions" else "Home"
-                )
+                FloatingActionButton(
+                    onClick = {
+                        val currentRoute = navController.currentBackStackEntry?.destination?.route
+                        // Toggle logic: Navigate to Predictions if on Home, otherwise to Home
+                        if (currentRoute == Screens.Home.route) {
+                            navController.navigate(Screens.Forecasts.route)
+                        } else {
+                            navController.navigate(Screens.Home.route) {
+                                popUpTo(Screens.Home.route) { inclusive = true }
+                            }
+                        }
+                    },
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter) // Correctly use `align` inside a BoxScope
+                        .padding(16.dp) // Add padding from the bottom edge
+                ) {
+                    // Set Button Text based on Current Route
+                    val currentRoute = navController.currentBackStackEntry?.destination?.route
+                    Text(
+                        if (currentRoute == Screens.Home.route) "Predictions" else "Home"
+                    )
+                }
             }
         }
     ) { innerPadding ->
@@ -107,6 +119,7 @@ fun AppNavHost(
         }
     }
 }
+
 
 
 

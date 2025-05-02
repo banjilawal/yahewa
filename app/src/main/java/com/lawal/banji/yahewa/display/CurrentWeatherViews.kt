@@ -120,7 +120,7 @@ fun CurrentWeatherView(currentWeather: CurrentWeather) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillParentMaxHeight(0.75f) // Adjust height as needed
+                    .fillParentMaxHeight(0.73f) // Adjust height as needed
                     .padding(0.dp)
                     .background(Silver) // Background for the icon
                     .clip(RoundedCornerShape(LargeCornerRadius)) // Rounded corners for the entire Box
@@ -174,7 +174,7 @@ fun CurrentWeatherView(currentWeather: CurrentWeather) {
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier
                     .fillMaxWidth() // Ensure the Text spans the full width
-                    .fillMaxHeight(0.25f)
+                    .fillMaxHeight(0.23f)
                     .padding(
                         horizontal = 32.dp,
                         vertical = 5.dp
