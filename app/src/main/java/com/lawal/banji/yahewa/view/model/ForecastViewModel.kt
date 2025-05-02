@@ -31,10 +31,12 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
     private val _cityLookupState = MutableStateFlow<CityLookupState>(CityLookupState.Loading)
     val cityLookupState: StateFlow<CityLookupState> get() = _cityLookupState
 
+    private var lastQueriedCoordinates: Pair<Double, Double>? = null // Cache for coordinates
+    private var lastQueriedZipCode: String? = null // Cache for ZIP code
+
     init {
         viewModelScope.launch {
             val location = getRandomCity()
-//            println("Location: ${location.name} (${location.coordinates.latitude}, ${location.coordinates.longitude})")
 
             // Fetch the currentWeather
             fetchForecastByCoordinates(
@@ -49,14 +51,26 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
     // Public method to set the zip code so the ViewModel can handle fetching
     @RequiresApi(Build.VERSION_CODES.O)
     fun setZipcode(newZipcode: String) {
-        if (newZipcode != _zipcode.value) {
-            _zipcode.value = newZipcode
-            fetchForecastByZipcode(newZipcode, AppDefault.API_KEY)
+        if (newZipcode == lastQueriedZipCode) {
+            println("ZIP code $newZipcode already queried. Skipping lookup.")
+            return
         }
+
+        _zipcode.value = newZipcode
+        lastQueriedZipCode = newZipcode // Update cache for the ZIP code
+        fetchForecastByZipcode(newZipcode, AppDefault.API_KEY)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun fetchForecastByCoordinates(latitude: Double, longitude: Double, apiKey: String) {
+        // Prevent a duplicate lookup by checking the cached coordinates
+        if (lastQueriedCoordinates == Pair(latitude, longitude)) {
+            println("Coordinates ($latitude, $longitude) already queried. Skipping lookup.")
+            return
+        }
+
+        lastQueriedCoordinates = Pair(latitude, longitude) // Update the coordinates cache
+
         viewModelScope.launch {
             when (val queryResult = repository.fetchByCoordinates(
                 latitude = latitude,
@@ -123,3 +137,4 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
         }
     }
 }
+
