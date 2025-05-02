@@ -124,7 +124,8 @@ fun ForecastListComposable(forecasts: List<Forecast>, modifier: Modifier = Modif
             ForecastComposable(
                 forecast = forecasts[index],
                 modifier = Modifier
-                    .fillMaxWidth(0.5f)
+                    .fillMaxWidth(0.7f)
+                    .fillMaxHeight(0.5f) // Adjust height as needed
                     .padding(vertical = SmallPadding) // Add space between items
             )
         }

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,10 +23,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.lawal.banji.yahewa.destination.DetailsScreen
 import com.lawal.banji.yahewa.destination.ForecastScreen
-
 import com.lawal.banji.yahewa.destination.HomeScreen
-import com.lawal.banji.yahewa.ui.theme.DarkGray1
+import com.lawal.banji.yahewa.ui.theme.Black
 import com.lawal.banji.yahewa.ui.theme.DefaultDisplayBackgroundColor
+import com.lawal.banji.yahewa.ui.theme.White
 import com.lawal.banji.yahewa.view.model.ForecastViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -52,7 +53,6 @@ fun AppNavHost(
                     FloatingActionButton(
                         onClick = {
                             val currentRoute = navController.currentBackStackEntry?.destination?.route
-                            // Toggle logic: Navigate to Predictions if on Home, otherwise to Home
                             if (currentRoute == Screens.Home.route) {
                                 navController.navigate(Screens.Forecasts.route)
                             } else {
@@ -62,16 +62,20 @@ fun AppNavHost(
                             }
                         },
                         modifier = Modifier
-                            .align(Alignment.BottomCenter) // Correctly use `align` inside a BoxScope
-                            .padding(16.dp) // Add padding from the bottom edge
-                            .fillMaxWidth(0.35f)
+                            .align(Alignment.BottomCenter) // Correct alignment in BoxScope
+                            .padding(16.dp) // Padding from the screen edges
+                            .fillMaxWidth(0.35f), // Button width relative to screen size
+                        containerColor = Black // Set the button's gray background color
                     ) {
-                        // Set Button Text based on Current Route
                         val currentRoute = navController.currentBackStackEntry?.destination?.route
-                        Text(text = "", modifier = Modifier.background(DarkGray1)
-//                            if (currentRoute == Screens.Home.route) "Predictions" else "Home"
+                        val buttonLabel = if (currentRoute == Screens.Forecasts.route) "Get Current Weather" else "Get Forecasts"
+                        Text(
+                            text = buttonLabel,
+                            style = MaterialTheme.typography.labelSmall.copy(color = White), // Set text to white
+                            modifier = Modifier.padding(horizontal = 8.dp) // Optional padding for text
                         )
                     }
+
                 }
 
             }
