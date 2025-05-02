@@ -14,7 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.lawal.banji.yahewa.display.ForecastGroupComposable
-import com.lawal.banji.yahewa.input.ZipcodeInput
+import com.lawal.banji.yahewa.input.ZipCodeInput
 import com.lawal.banji.yahewa.model.ForecastGroupState
 import com.lawal.banji.yahewa.navigation.NavigationEvent
 import com.lawal.banji.yahewa.ui.theme.DefaultPadding
@@ -32,7 +32,7 @@ fun ForecastScreen(
             .fillMaxSize()
             .statusBarsPadding()
             .background(PowderBlueGray),
-        topBar = { ZipcodeInput(onZipcodeEntered = onZipcodeEntered) },
+        topBar = { ZipCodeInput(onZipCodeEntered = onZipcodeEntered) },
         bottomBar = {}, // Optional bottom bar implementation
     ) { innerPadding ->
         Column(

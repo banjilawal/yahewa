@@ -14,7 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 //import com.lawal.banji.yahewa.display.ForecastDetailsView
-import com.lawal.banji.yahewa.input.ZipcodeInput
+import com.lawal.banji.yahewa.input.ZipCodeInput
 import com.lawal.banji.yahewa.model.CurrentWeatherState
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -29,7 +29,7 @@ fun DetailsScreen(
 
     Scaffold(
         modifier = Modifier.fillMaxSize().statusBarsPadding(),
-        topBar = { ZipcodeInput(onZipcodeEntered = onZipcodeEntered) },
+        topBar = { ZipCodeInput(onZipCodeEntered = onZipcodeEntered) },
         bottomBar = {},
     ) { innerPadding ->
         Column(

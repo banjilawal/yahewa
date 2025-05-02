@@ -26,10 +26,10 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 
 @Composable
-fun ZipcodeInput(
-    onZipcodeEntered: (String) -> Unit
+fun ZipCodeInput(
+    onZipCodeEntered: (String) -> Unit
 ) {
-    var zipcode by remember { mutableStateOf("") }
+    var zipCode by remember { mutableStateOf("") }
     var isError by remember { mutableStateOf(false) }
 
     // Access the LocalContext for showing a Toast
@@ -41,11 +41,11 @@ fun ZipcodeInput(
 
     Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
         TextField(
-            value = zipcode,
+            value = zipCode,
             onValueChange = { value ->
                 // Allow only numeric input and a maximum of 5 characters
                 if (value.length <= 5 && (value.isEmpty() || value.all { it.isDigit() })) {
-                    zipcode = value
+                    zipCode = value
                     isError = false
                 } else {
                     isError = true
@@ -58,8 +58,8 @@ fun ZipcodeInput(
                 }
 
                 // Trigger callback on valid input of 5 characters
-                if (zipcode.length == 5) {
-                    onZipcodeEntered(zipcode)
+                if (zipCode.length == 5) {
+                    onZipCodeEntered(zipCode)
                     keyboardController?.hide() // Hide the keyboard after submission
                 }
             },
@@ -72,8 +72,8 @@ fun ZipcodeInput(
             ),
             keyboardActions = KeyboardActions(
                 onDone = {
-                    if (zipcode.length == 5) {
-                        onZipcodeEntered(zipcode)
+                    if (zipCode.length == 5) {
+                        onZipCodeEntered(zipCode)
                         keyboardController?.hide()
                     } else {
                         // Show toast when done is pressed and the input is not valid
@@ -104,7 +104,7 @@ fun ZipcodeInput(
 
 
     LaunchedEffect(Unit) {
-        delay(150)
+        delay(80)
         focusRequester.requestFocus()
         keyboardController?.show()
     }

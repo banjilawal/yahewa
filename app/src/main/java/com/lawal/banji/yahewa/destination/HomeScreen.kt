@@ -13,7 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.lawal.banji.yahewa.display.CurrentWeatherView
-import com.lawal.banji.yahewa.input.ZipcodeInput
+import com.lawal.banji.yahewa.input.ZipCodeInput
 import com.lawal.banji.yahewa.model.CurrentWeatherState
 import com.lawal.banji.yahewa.navigation.NavigationEvent
 import com.lawal.banji.yahewa.ui.theme.PowderBlueGray
@@ -30,7 +30,7 @@ fun HomeScreen(
         modifier = Modifier.fillMaxSize()
             .statusBarsPadding()
             .fillMaxWidth().background(PowderBlueGray),
-        topBar = { ZipcodeInput(onZipcodeEntered = onZipcodeEntered) },
+        topBar = { ZipCodeInput(onZipCodeEntered = onZipcodeEntered) },
         bottomBar = {},
     ) { innerPadding ->
         Column(
