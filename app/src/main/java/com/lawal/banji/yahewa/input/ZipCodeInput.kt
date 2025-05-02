@@ -1,11 +1,17 @@
 package com.lawal.banji.yahewa.input
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -23,6 +29,23 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
+
+@Composable
+fun MyLocationButton(
+    onClick: () -> Unit // Callback for when the button is clicked
+) {
+    IconButton(
+        onClick = {
+            onClick() // Trigger the callback when pressed
+        }
+    ) {
+        Icon(
+            imageVector = Icons.Default.LocationOn,
+            contentDescription = "Use My Location"
+        )
+    }
+}
+
 
 @Composable
 fun ZipCodeInput(
