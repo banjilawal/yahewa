@@ -17,6 +17,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.lawal.banji.yahewa.ui.theme.SmallPadding
 
 @Composable
 fun ZipcodeInput(
@@ -26,7 +27,7 @@ fun ZipcodeInput(
     var isFocused by remember { mutableStateOf(false) }
     var isError by remember { mutableStateOf(false) }
 
-    Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
+    Column(modifier = Modifier.fillMaxWidth().padding(SmallPadding)) {
         TextField(
             value = zipcode,
             onValueChange = { value ->

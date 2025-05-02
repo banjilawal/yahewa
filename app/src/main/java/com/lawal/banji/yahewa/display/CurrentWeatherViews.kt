@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,8 +23,8 @@ import com.lawal.banji.yahewa.model.CurrentWeather
 import com.lawal.banji.yahewa.ui.theme.DefaultCornerRadius
 import com.lawal.banji.yahewa.ui.theme.DefaultPadding
 import com.lawal.banji.yahewa.ui.theme.LargestIconSize
-import com.lawal.banji.yahewa.ui.theme.LightGray1
 import com.lawal.banji.yahewa.ui.theme.PowderBlue
+import com.lawal.banji.yahewa.ui.theme.PowderBlueGray
 import com.lawal.banji.yahewa.ui.theme.SandLighter
 import com.lawal.banji.yahewa.ui.theme.SandLightest
 import com.lawal.banji.yahewa.ui.theme.Silver
@@ -63,51 +64,64 @@ fun CurrentWeatherView(currentWeather: CurrentWeather) {
         modifier = Modifier
             .padding(0.dp)
             .fillMaxSize()
-            .background(LightGray1, RoundedCornerShape(DefaultCornerRadius))
+            .background(PowderBlueGray, RoundedCornerShape(DefaultCornerRadius))
     ) {
         item {
-            Text(
-                text = cityInformation,
-                textAlign = TextAlign.Center, // Center-align the text horizontally
-                style = MaterialTheme.typography.bodyMedium,
+            Box(
                 modifier = Modifier
                     .fillMaxWidth() // Ensure the Text spans the full width
-                    .fillMaxHeight(0.25f)
-                    .padding(
-                        horizontal = 5.dp,
-                        vertical = 5.dp
-                    ) // Add the needed 5px horizontal and vertical padding
+                    .fillMaxHeight(0.16f)
+                    .padding(horizontal = 5.dp, vertical = 5.dp)
                     .background(
                         SandLighter,
                         RoundedCornerShape(DefaultCornerRadius)
-                    ) // Background color for the Text
-                    .clip(RoundedCornerShape(DefaultCornerRadius)) // Rounded corners for the background
-            )
-        }
-        item {
-            Text(
-                text = dateTimeString, // Dynamically fetch formatted time
-                textAlign = TextAlign.Center, // Center-align the text horizontally
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier
-                    .fillMaxWidth() // Ensure the Text spans the full width
-                    .fillMaxHeight(0.25f)
-                    .padding(
-                        horizontal = 5.dp,
-                        vertical = 5.dp
-                    ) // Add the needed 5px horizontal and vertical padding
-                    .background(
-                        SandLightest,
-                        RoundedCornerShape(DefaultCornerRadius)
-                    ) // Background color for the Text
-                    .clip(RoundedCornerShape(DefaultCornerRadius)) // Rounded corners for the background
-            )
+                    )
+                    .clip(RoundedCornerShape(DefaultCornerRadius))
+            ){
+                Column() {
+                    Text(
+                        text = cityInformation,
+                        textAlign = TextAlign.Center, // Center-align the text horizontally
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier
+                            .fillMaxWidth() // Ensure the Text spans the full width
+                            .fillMaxHeight(0.8f)
+                            .padding(
+                                horizontal = 5.dp,
+                                vertical = 5.dp
+                            ) // Add the needed 5px horizontal and vertical padding
+                            .background(
+                                SandLighter,
+                                RoundedCornerShape(DefaultCornerRadius)
+                            ) // Background color for the Text
+                            .clip(RoundedCornerShape(DefaultCornerRadius)) // Rounded corners for the background
+                    )
+                    Text(
+                        text = dateTimeString, // Dynamically fetch formatted time
+                        textAlign = TextAlign.Center, // Center-align the text horizontally
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier
+                            .fillMaxWidth() // Ensure the Text spans the full width
+                            .fillMaxHeight(0.2f)
+                            .padding(
+                                horizontal = 5.dp,
+                                vertical = 0.dp
+                            ) // Add the needed 5px horizontal and vertical padding
+                            .background(
+                                SandLightest,
+                                RoundedCornerShape(DefaultCornerRadius)
+                            ) // Background color for the Text
+                            .clip(RoundedCornerShape(DefaultCornerRadius)) // Rounded corners for the background
+                    )
+                }
+
+            }
         }
         item {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillParentMaxHeight(0.85f) // Adjust height as needed
+                    .fillParentMaxHeight(0.75f) // Adjust height as needed
                     .padding(DefaultPadding)
                     .background(Silver) // Background for the icon
                     .clip(RoundedCornerShape(DefaultCornerRadius)) // Rounded corners for the entire Box

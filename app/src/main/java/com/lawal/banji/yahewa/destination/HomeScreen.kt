@@ -1,8 +1,11 @@
 package com.lawal.banji.yahewa.destination
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Scaffold
@@ -13,9 +16,11 @@ import com.lawal.banji.yahewa.display.CurrentWeatherView
 import com.lawal.banji.yahewa.input.ZipcodeInput
 import com.lawal.banji.yahewa.model.CurrentWeatherState
 import com.lawal.banji.yahewa.navigation.NavigationEvent
+import com.lawal.banji.yahewa.ui.theme.PowderBlueGray
 import com.lawal.banji.yahewa.ui.theme.White
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HomeScreen(
     currentWeatherState: CurrentWeatherState,
@@ -23,7 +28,8 @@ fun HomeScreen(
     onZipcodeEntered: (String) -> Unit
 ) {
     Scaffold(
-        modifier = Modifier.fillMaxSize().statusBarsPadding(),
+        modifier = Modifier.fillMaxSize().statusBarsPadding().fillMaxWidth().background(
+            PowderBlueGray),
         topBar = { ZipcodeInput(onZipcodeEntered = onZipcodeEntered) },
         bottomBar = {},
     ) { innerPadding ->
