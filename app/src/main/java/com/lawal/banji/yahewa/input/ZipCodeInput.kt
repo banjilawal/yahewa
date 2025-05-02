@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -36,6 +35,14 @@ fun ZipCodeInput(
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    fun showInvalidZipCodeToast() {
+        Toast.makeText(
+            context,
+            "Invalid ZIP code. Please enter only numbers up to 5 digits.",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
     Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
         TextField(
             value = zipCode,
@@ -45,11 +52,7 @@ fun ZipCodeInput(
                     isError = false
                 } else {
                     isError = true
-                    Toast.makeText(
-                        context,
-                        "Invalid ZIP code. Please enter only numbers up to 5 digits.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showInvalidZipCodeToast()
                 }
 
                 if (zipCode.length == 5) {
@@ -70,11 +73,8 @@ fun ZipCodeInput(
                         onZipCodeEntered(zipCode)
                         keyboardController?.hide()
                     } else {
-                        Toast.makeText(
-                            context,
-                            "Invalid ZIP code. Please ensure it is 5 digits.",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        isError = true
+                        showInvalidZipCodeToast()
                     }
                 }
             ),
@@ -86,16 +86,12 @@ fun ZipCodeInput(
         )
 
         if (isError) {
-            Text(
-                text = "Invalid ZIP Code. Please enter a valid 5-digit number.",
-                color = MaterialTheme.colorScheme.error,
-                modifier = Modifier.padding(start = 16.dp, top = 4.dp)
-            )
+            showInvalidZipCodeToast()
         }
     }
 
     LaunchedEffect(Unit) {
-        delay(400)
+        delay(300)
         focusRequester.requestFocus()
         keyboardController?.show()
     }
