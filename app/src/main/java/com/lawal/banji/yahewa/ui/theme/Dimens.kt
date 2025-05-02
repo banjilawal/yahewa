@@ -25,5 +25,10 @@ val DefaultBorderWidth = 2.dp
 val SmallBorderWidth = 1.dp
 val SmallestBorderWidth = 0.5.dp
 
-val DefaultIconSize = 24.dp
+val SmallestIconSize = 16.dp
+val SmallerIconSize = 24.dp
+val SmallIconSize = 36.dp
+val DefaultIconSize = 64.dp
 val LargeIconSize = 178.dp
+val LargerIconSize = 200.dp
+val LargestIconSize  = 250.dp

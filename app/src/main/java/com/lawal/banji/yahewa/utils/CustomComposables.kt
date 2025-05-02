@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -24,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
@@ -39,8 +37,8 @@ import com.lawal.banji.yahewa.ui.theme.DefaultBoxColor
 import com.lawal.banji.yahewa.ui.theme.DefaultCornerRadius
 import com.lawal.banji.yahewa.ui.theme.DefaultHeadingColor
 import com.lawal.banji.yahewa.ui.theme.DefaultIconBackgroundColor
+import com.lawal.banji.yahewa.ui.theme.DefaultIconSize
 import com.lawal.banji.yahewa.ui.theme.DefaultPadding
-import com.lawal.banji.yahewa.ui.theme.LargeIconSize
 import com.lawal.banji.yahewa.ui.theme.LargePadding
 import com.lawal.banji.yahewa.ui.theme.LargerPadding
 import com.lawal.banji.yahewa.ui.theme.LightGray1
@@ -261,7 +259,7 @@ fun IconBox(
     boxColor: Color = DefaultBoxColor
 ) {
     CustomBox(color=boxColor, cornerRadius = cornerRadius) {
-        WeatherIcon(weatherApiId = iconId
+        WeatherIcon(iconId = iconId
 //            weatherApiId = iconId,
 //            modifier = Modifier.background(iconBackgroundColor).fillMaxSize(1.0f)
         )
@@ -297,12 +295,13 @@ fun TemperatureBox(
 
 @Composable
 fun WeatherIcon(
-    weatherApiId: String,
-    iconSize: Dp = LargeIconSize,
-    cornerRadius: Dp = DefaultCornerRadius,
-    backgroundColor : Color = LightGray,
-    padding: Dp = DefaultPadding,
-    alignment: Alignment = Alignment.Center,
+    iconId: String,
+    iconSize: Dp = DefaultIconSize,
+    modifier: Modifier = Modifier,
+//    cornerRadius: Dp = DefaultCornerRadius,
+//    backgroundColor : Color = LightGray,
+//    padding: Dp = DefaultPadding,
+//    alignment: Alignment = Alignment.Center,
 
 //    modifier: Modifier = Modifier
 //        .size(LargeIconSize)
@@ -312,7 +311,7 @@ fun WeatherIcon(
     contentDescription: String? = null,
 //    alignment: Alignment = Alignment.Center
 ) {
-    val iconResId = when (weatherApiId.lowercase()) {
+    val iconResId = when (iconId.lowercase()) {
         "01d" -> R.drawable.sunny              // Clear sky (day)
         "01n" -> R.drawable.moon               // Clear sky (night)
         "02d" -> R.drawable.clouds_and_sun     // Few clouds (day)
@@ -357,11 +356,11 @@ fun WeatherIcon(
 
     Image(
         painter = painterResource(id = iconResId),
-        contentDescription = contentDescription ?: weatherApiId,
-        modifier = Modifier
-            .padding(padding)
-            .background(backgroundColor)
-            .size(iconSize)
-            .clip(RoundedCornerShape(cornerRadius))
+        contentDescription = contentDescription ?: "",
+        modifier = modifier
+//            .size(iconSize)
+//            .background(color = DefaultIconBackgroundColor, shape = RoundedCornerShape(DefaultCornerRadius))
+//            .padding(DefaultPadding)
+//            .semantics { this.contentDescription = contentDescription ?: weatherApiId },
     )
 }

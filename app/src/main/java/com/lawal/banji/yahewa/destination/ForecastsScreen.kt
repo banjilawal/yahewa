@@ -28,7 +28,6 @@ import com.lawal.banji.yahewa.ui.theme.DefaultDisplayBackgroundColor
 import com.lawal.banji.yahewa.ui.theme.DefaultPadding
 import com.lawal.banji.yahewa.ui.theme.Peach
 import com.lawal.banji.yahewa.ui.theme.PowderBlue
-import com.lawal.banji.yahewa.ui.theme.White
 import com.lawal.banji.yahewa.utils.WeatherIcon
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -61,8 +60,8 @@ fun PredictionComposable(forecast: Forecast, modifier: Modifier = Modifier) {
             textAlign = TextAlign.Center
         )
         WeatherIcon(
-            weatherApiId = weatherIconId,
-            backgroundColor = White,
+            iconId = weatherIconId,
+//            backgroundColor = White,
             iconSize = 60.dp// Adjust size appropriately
 //            modifier = Modifier
 //                .align(Alignment.CenterHorizontally) // Center alignment within the Column

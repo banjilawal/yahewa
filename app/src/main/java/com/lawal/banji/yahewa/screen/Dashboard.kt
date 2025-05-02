@@ -138,7 +138,7 @@ fun WeatherDetailsDisplay(currentWeather: CurrentWeather) {
                     )
                     // Weather icon
                     WeatherIcon(
-                        weatherApiId = currentWeather.weather[0].iconId,
+                        iconId = currentWeather.weather[0].iconId,
 //                        modifier = Modifier.weight(1.4f).background(Lavender).fillMaxSize(1.0f),
                         contentDescription = currentWeather.weather[0].description
                     )

@@ -13,7 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.lawal.banji.yahewa.display.ForecastDetailsView
+//import com.lawal.banji.yahewa.display.ForecastDetailsView
 import com.lawal.banji.yahewa.input.ZipcodeInput
 import com.lawal.banji.yahewa.model.CurrentWeatherState
 
@@ -55,7 +55,7 @@ fun DetailsScreen(
                 }
                 is CurrentWeatherState.Success -> {
                     // Show detailed currentWeather only if valid
-                    ForecastDetailsView(currentWeather = currentWeatherState.currentWeather)
+//                    ForecastDetailsView(currentWeather = currentWeatherState.currentWeather)
                 }
             }
         }
