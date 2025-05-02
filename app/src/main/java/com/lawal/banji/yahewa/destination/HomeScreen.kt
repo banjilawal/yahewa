@@ -17,7 +17,6 @@ import com.lawal.banji.yahewa.input.ZipcodeInput
 import com.lawal.banji.yahewa.model.CurrentWeatherState
 import com.lawal.banji.yahewa.navigation.NavigationEvent
 import com.lawal.banji.yahewa.ui.theme.PowderBlueGray
-import com.lawal.banji.yahewa.ui.theme.White
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -28,8 +27,9 @@ fun HomeScreen(
     onZipcodeEntered: (String) -> Unit
 ) {
     Scaffold(
-        modifier = Modifier.fillMaxSize().statusBarsPadding().fillMaxWidth().background(
-            PowderBlueGray),
+        modifier = Modifier.fillMaxSize()
+            .statusBarsPadding()
+            .fillMaxWidth().background(PowderBlueGray),
         topBar = { ZipcodeInput(onZipcodeEntered = onZipcodeEntered) },
         bottomBar = {},
     ) { innerPadding ->
@@ -37,7 +37,7 @@ fun HomeScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .background(White)
+                .background(PowderBlueGray)
         ) {
             when (currentWeatherState) {
                 is CurrentWeatherState.Loading -> {

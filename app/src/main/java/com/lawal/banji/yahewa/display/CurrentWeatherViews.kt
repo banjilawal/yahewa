@@ -21,7 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.lawal.banji.yahewa.model.CurrentWeather
 import com.lawal.banji.yahewa.ui.theme.DefaultCornerRadius
-import com.lawal.banji.yahewa.ui.theme.DefaultPadding
+import com.lawal.banji.yahewa.ui.theme.LargeCornerRadius
 import com.lawal.banji.yahewa.ui.theme.LargestIconSize
 import com.lawal.banji.yahewa.ui.theme.PowderBlue
 import com.lawal.banji.yahewa.ui.theme.PowderBlueGray
@@ -122,9 +122,9 @@ fun CurrentWeatherView(currentWeather: CurrentWeather) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillParentMaxHeight(0.75f) // Adjust height as needed
-                    .padding(DefaultPadding)
+                    .padding(0.dp)
                     .background(Silver) // Background for the icon
-                    .clip(RoundedCornerShape(DefaultCornerRadius)) // Rounded corners for the entire Box
+                    .clip(RoundedCornerShape(LargeCornerRadius)) // Rounded corners for the entire Box
             ) {
                 // Weather Icon
                 WeatherIcon(
