@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
@@ -38,7 +39,7 @@ fun CurrentWeatherView(currentWeather: CurrentWeather) {
     val city = currentWeather.city
     val state = currentWeather.state
     val country = currentWeather.sys.country
-    val currentTemperature = "${currentWeather.main.temperature}°"
+
     val temperatureFeelsLike = "Feels like ${currentWeather.main.temperatureFeelsLike}°"
     val lowTemperature = "Low ${currentWeather.main.lowTemperature}°"
     val highTemperature = "High ${currentWeather.main.highTemperature}°"
@@ -50,18 +51,17 @@ fun CurrentWeatherView(currentWeather: CurrentWeather) {
     val weather = currentWeather.weather[0].description
 
     val cityInformation = if (state != null) "$city, $state" else "$city, $country"
-    val temperatureInformation = "Hi ${currentWeather.main.highTemperature}° " +
+
+    val currentTemperature = "${currentWeather.main.temperature}°"
+    val temperatureRange = "${currentWeather.main.highTemperature}° " +
             "/ Lo ${currentWeather.main.lowTemperature}°"
 
     val dateTimeString = LocalDateTime.now()
         .format(DateTimeFormatter.ofPattern("hh:mm a EEEE, dd MMMM yyyy", Locale.getDefault()))
 
-    Box() {
-
-    }
     LazyColumn(
         modifier = Modifier
-            .padding(DefaultPadding)
+            .padding(0.dp)
             .fillMaxSize()
             .background(LightGray1, RoundedCornerShape(DefaultCornerRadius))
     ) {
@@ -73,8 +73,14 @@ fun CurrentWeatherView(currentWeather: CurrentWeather) {
                 modifier = Modifier
                     .fillMaxWidth() // Ensure the Text spans the full width
                     .fillMaxHeight(0.25f)
-                    .padding(horizontal = 5.dp, vertical = 5.dp) // Add the needed 5px horizontal and 3px vertical padding
-                    .background(SandLighter, RoundedCornerShape(DefaultCornerRadius)) // Background color for the Text
+                    .padding(
+                        horizontal = 5.dp,
+                        vertical = 5.dp
+                    ) // Add the needed 5px horizontal and vertical padding
+                    .background(
+                        SandLighter,
+                        RoundedCornerShape(DefaultCornerRadius)
+                    ) // Background color for the Text
                     .clip(RoundedCornerShape(DefaultCornerRadius)) // Rounded corners for the background
             )
         }
@@ -86,39 +92,88 @@ fun CurrentWeatherView(currentWeather: CurrentWeather) {
                 modifier = Modifier
                     .fillMaxWidth() // Ensure the Text spans the full width
                     .fillMaxHeight(0.25f)
-                    .padding(horizontal = 5.dp, vertical = 5.dp) // Add the needed 5px horizontal and 3px vertical padding
-                    .background(SandLightest,  RoundedCornerShape(DefaultCornerRadius)) // Background color for the Text
-                    .clip(RoundedCornerShape(DefaultCornerRadius)) // Rounded corners for the backgrounde between location and time
-            )
-        }
-        item {
-            WeatherIcon(
-                iconId = iconId,
-                contentDescription = description,
-                iconSize = LargestIconSize,
-                modifier = Modifier
-                    .fillMaxWidth() // Make the icon fill the entire width of the LazyColumn item
-                    .fillParentMaxHeight(0.65f) // Make the icon fill 65% of the height of the LazyColumn
-                    .padding(DefaultPadding)
-                    .background(Silver)
-                    .clip(RoundedCornerShape(DefaultCornerRadius))
-            )
-        }
-        item {
-            Text(
-                text = weather,
-                textAlign = TextAlign.Center, // Center-align the text horizontally
-                style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier
-//                    .align(Alignment.CenterHorizontally) // Center the text within the parent
-                    .fillMaxWidth(0.5f) // Ensure the Text spans the full width
-                    .fillMaxHeight(0.2f)
-                    .padding(horizontal = 20.dp, vertical = 5.dp) // Add the needed 5px horizontal and 3px vertical padding
-                    .background(PowderBlue, RoundedCornerShape(DefaultCornerRadius)) // Background color for the Text
+                    .padding(
+                        horizontal = 5.dp,
+                        vertical = 5.dp
+                    ) // Add the needed 5px horizontal and vertical padding
+                    .background(
+                        SandLightest,
+                        RoundedCornerShape(DefaultCornerRadius)
+                    ) // Background color for the Text
                     .clip(RoundedCornerShape(DefaultCornerRadius)) // Rounded corners for the background
             )
         }
+        item {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillParentMaxHeight(0.85f) // Adjust height as needed
+                    .padding(DefaultPadding)
+                    .background(Silver) // Background for the icon
+                    .clip(RoundedCornerShape(DefaultCornerRadius)) // Rounded corners for the entire Box
+            ) {
+                // Weather Icon
+                WeatherIcon(
+                    iconId = iconId,
+                    contentDescription = description,
+                    iconSize = LargestIconSize,
+                    modifier = Modifier
+                        .fillMaxSize() // Ensure the WeatherIcon fills the entire Box
+                )
+
+                // Current Temperature Text (Top-Center)
+                Text(
+                    text = currentTemperature,
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.TopCenter) // Align to the top center
+                        .padding(top = 8.dp) // Small padding to avoid sticking to the top edge
+                        .background(
+                            PowderBlue.copy(alpha = 0.0f), // Transparent overlay background
+                            RoundedCornerShape(DefaultCornerRadius)
+                        ) // Rounded corners for the Text
+                        .clip(RoundedCornerShape(DefaultCornerRadius)) // Apply rounded corners
+                )
+
+                // Weather Description Text (Bottom-Center)
+                Text(
+                    text = weather,
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomCenter) // Align to the bottom center
+                        .padding(bottom = 8.dp) // Small padding to avoid sticking to the bottom edge
+                        .background(
+                            PowderBlue.copy(alpha = 0.0f), // Transparent overlay background
+                            RoundedCornerShape(DefaultCornerRadius)
+                        ) // Rounded corners for the Text
+                        .clip(RoundedCornerShape(DefaultCornerRadius)) // Apply rounded corners
+                )
+            }
         }
+        item {
+            Text(
+                text = temperatureRange,
+                textAlign = TextAlign.Center, // Center-align the text horizontally
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier
+                    .fillMaxWidth() // Ensure the Text spans the full width
+                    .fillMaxHeight(0.25f)
+                    .padding(
+                        horizontal = 5.dp,
+                        vertical = 5.dp
+                    ) // Add the needed 5px horizontal and vertical padding
+                    .background(
+                        SandLighter,
+                        RoundedCornerShape(DefaultCornerRadius)
+                    ) // Background color for the Text
+                    .clip(RoundedCornerShape(DefaultCornerRadius)) // Rounded corners for the background
+            )
+        }
+    }
 }
 
 
