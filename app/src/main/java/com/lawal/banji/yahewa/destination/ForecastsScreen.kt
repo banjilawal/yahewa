@@ -32,7 +32,7 @@ import com.lawal.banji.yahewa.utils.WeatherIcon
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun PredictionComposable(forecast: Forecast, modifier: Modifier = Modifier) {
+fun ForecastComposable(forecast: Forecast, modifier: Modifier = Modifier) {
 
     val precipitationProbability = "${forecast.precipitationProbability} % chance of rain"
     val solarTransitionTimes = "sunrise: ${forecast.sunrise} sunset: ${forecast.sunset}"
@@ -104,14 +104,14 @@ fun PredictionComposable(forecast: Forecast, modifier: Modifier = Modifier) {
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun PredictionListComposable(predictions: List<Forecast>, modifier: Modifier = Modifier) {
+fun ForecastListComposable(predictions: List<Forecast>, modifier: Modifier = Modifier) {
     LazyColumn(
         modifier = modifier
             .fillMaxWidth()
             .background(DefaultDisplayBackgroundColor) // Optional background for the list
     ) {
         items(predictions.size) { index ->
-            PredictionComposable(
+            ForecastComposable(
                 forecast = predictions[index],
                 modifier = Modifier
                     .fillMaxWidth()
@@ -162,7 +162,7 @@ fun PredictionsScreen(
 
                 is ForecastGroupState.Success -> {
                     // Ensure the list is constrained properly
-                    PredictionListComposable(
+                    ForecastListComposable(
                         predictions = forecastGroupState.forecastGroup.predictions,
                         modifier = Modifier
                             .fillMaxWidth()
