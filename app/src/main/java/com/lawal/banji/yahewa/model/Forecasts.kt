@@ -37,7 +37,7 @@ data class Forecast (
 data class ForecastGroup(
     @SerializedName("city") val city: City,
     @SerializedName("cnt") val numberOfForecasts: Int,
-    @SerializedName("list") val predictions: List<Forecast>
+    @SerializedName("list") val forecasts: List<Forecast>
 )
 
 sealed class ForecastGroupState {

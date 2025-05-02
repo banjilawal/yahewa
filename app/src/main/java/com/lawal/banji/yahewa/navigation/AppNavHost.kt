@@ -21,8 +21,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.lawal.banji.yahewa.destination.DetailsScreen
+import com.lawal.banji.yahewa.destination.ForecastGroupView
 import com.lawal.banji.yahewa.destination.HomeScreen
-import com.lawal.banji.yahewa.destination.PredictionsScreen
 import com.lawal.banji.yahewa.ui.theme.DefaultDisplayBackgroundColor
 import com.lawal.banji.yahewa.view.model.ForecastViewModel
 
@@ -114,7 +114,7 @@ fun AppNavHost(
 
             // PredictionsScreen
             composable(Screens.Forecasts.route) {
-                PredictionsScreen(
+                ForecastGroupView(
                     forecastGroupState = forecastGroupState,
                     onNavigate = {
                         // Direct navigation handling
