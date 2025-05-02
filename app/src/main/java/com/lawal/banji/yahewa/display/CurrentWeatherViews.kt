@@ -1,6 +1,9 @@
 package com.lawal.banji.yahewa.display
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,10 +23,15 @@ import com.lawal.banji.yahewa.ui.theme.DefaultPadding
 import com.lawal.banji.yahewa.ui.theme.LargestIconSize
 import com.lawal.banji.yahewa.ui.theme.LightGray1
 import com.lawal.banji.yahewa.ui.theme.PowderBlue
+import com.lawal.banji.yahewa.ui.theme.SandLighter
 import com.lawal.banji.yahewa.ui.theme.SandLightest
 import com.lawal.banji.yahewa.ui.theme.Silver
 import com.lawal.banji.yahewa.utils.WeatherIcon
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CurrentWeatherView(currentWeather: CurrentWeather) {
 
@@ -45,6 +53,12 @@ fun CurrentWeatherView(currentWeather: CurrentWeather) {
     val weatherInformation = "Hi ${currentWeather.main.highTemperature}° " +
             "/ Lo ${currentWeather.main.lowTemperature}° $description"
 
+    val dateTimeString = LocalDateTime.now()
+        .format(DateTimeFormatter.ofPattern("HH:mm EEEE, MMMM yyyy", Locale.getDefault()))
+
+    Box() {
+
+    }
     LazyColumn(
         modifier = Modifier
             .padding(DefaultPadding)
@@ -58,10 +72,23 @@ fun CurrentWeatherView(currentWeather: CurrentWeather) {
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier
                     .fillMaxWidth() // Ensure the Text spans the full width
-                    .fillMaxWidth(0.2f)
-                    .padding(horizontal = 5.dp, vertical = 3.dp) // Add the needed 5px horizontal and 3px vertical padding
-                    .background(SandLightest, RoundedCornerShape(DefaultCornerRadius)) // Background color for the Text
+                    .fillMaxHeight(0.25f)
+                    .padding(horizontal = 5.dp, vertical = 5.dp) // Add the needed 5px horizontal and 3px vertical padding
+                    .background(SandLighter, RoundedCornerShape(DefaultCornerRadius)) // Background color for the Text
                     .clip(RoundedCornerShape(DefaultCornerRadius)) // Rounded corners for the background
+            )
+        }
+        item {
+            Text(
+                text = dateTimeString, // Dynamically fetch formatted time
+                textAlign = TextAlign.Center, // Center-align the text horizontally
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier
+                    .fillMaxWidth() // Ensure the Text spans the full width
+                    .fillMaxHeight(0.25f)
+                    .padding(horizontal = 5.dp, vertical = 5.dp) // Add the needed 5px horizontal and 3px vertical padding
+                    .background(SandLightest,  RoundedCornerShape(DefaultCornerRadius)) // Background color for the Text
+                    .clip(RoundedCornerShape(DefaultCornerRadius)) // Rounded corners for the backgrounde between location and time
             )
         }
         item {
