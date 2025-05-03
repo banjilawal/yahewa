@@ -140,12 +140,16 @@ fun ForecastListComposable(forecasts: List<Forecast>, modifier: Modifier = Modif
 @RequiresApi(Build.VERSION_CODES.O)
 fun ForecastGroupComposable(
     forecastGroup: ForecastGroup,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onLocationFetched: (Location) -> Unit = {} // Add default lambda to satisfy the requirement
 ) {
     val totalForecasts = forecastGroup.numberOfForecasts
     val title = "$totalForecasts day Forecasts for ${forecastGroup.city.name}, ${forecastGroup.city.country}"
     val coordinates = "lat: ${forecastGroup.city.coordinates.latitude}, " +
             "lon: ${forecastGroup.city.coordinates.longitude}"
+
+    // Call the 'onLocationFetched' lambda at an appropriate place if needed
+    onLocationFetched(forecastGroup.city.coordinates)
 
     Column(
         modifier = modifier
@@ -158,7 +162,6 @@ fun ForecastGroupComposable(
                 .fillMaxHeight(0.05f)
                 .background(Color.Transparent)
                 .padding(0.dp)
-               // .padding(vertical = 8.dp, horizontal = 16.dp)
         ) {
             Text(
                 text = title,
@@ -180,5 +183,6 @@ fun ForecastGroupComposable(
         }
     }
 }
+
 
 

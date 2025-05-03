@@ -65,14 +65,11 @@ fun ForecastScreen(
                     // Ensure ForecastListComposable fills the remaining vertical space
                     ForecastGroupComposable(
                         forecastGroup = forecastGroupState.forecastGroup,
-                        modifier = Modifier.fillMaxSize()
-                            .padding((0.dp)
-                    )
-//                    ForecastListComposable(
-//                        forecasts = forecastGroupState.forecastGroup.forecasts,
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .weight(1f) // Ensures LazyColumn occupies the remaining space
+                        modifier = Modifier.fillMaxSize(),
+                        onLocationFetched = { location ->
+                            // Handle the fetched location
+                            // For example, log or perform further processing
+                        }
                     )
                 }
             }

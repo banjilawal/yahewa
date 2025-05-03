@@ -1,7 +1,9 @@
 package com.lawal.banji.yahewa.input
 
 import android.content.Context
+import android.location.Location
 import android.widget.Toast
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -27,16 +29,20 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.google.android.gms.location.LocationServices
+import com.lawal.banji.yahewa.request.getCurrentLocationSafely
+import com.lawal.banji.yahewa.request.startLocationService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun LocationButton(
     onClick: () -> Unit
 ) {
     IconButton(
-        onClick = {
-            onClick()
-        }
+        onClick = { onClick() }
     ) {
         Icon(
             imageVector = Icons.Default.LocationOn,
@@ -59,7 +65,8 @@ fun showFetchingLocationToast(context: Context) {
 
 @Composable
 fun ZipCodeInput(
-    onZipCodeEntered: (String) -> Unit
+    onZipCodeEntered: (String) -> Unit,
+    onLocationFetched: (Location) -> Unit // Callback for location
 ) {
     var zipCode by remember { mutableStateOf("") }
     var isError by remember { mutableStateOf(false) }
@@ -112,7 +119,26 @@ fun ZipCodeInput(
                 }
             )
         )
-        LocationButton( onClick = { showFetchingLocationToast(context) } )
+
+        // Updated LocationButton implementation
+        LocationButton(onClick = {
+            CoroutineScope(Dispatchers.Main).launch {
+                val activity = context as? ComponentActivity
+                if (activity != null) {
+                    // Get current location using the LocationUtils function
+                    val fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
+                    val location = fusedLocationClient.getCurrentLocationSafely(activity)
+
+                    if (location != null) {
+                        showFetchingLocationToast(context) // Show feedback to the user
+                        onLocationFetched(location) // Provide location to the caller
+                        context.startLocationService() // Start the location service
+                    } else {
+                        Toast.makeText(context, "Unable to fetch location.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        })
     }
 
     LaunchedEffect(Unit) {

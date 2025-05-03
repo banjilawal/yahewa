@@ -1,54 +1,58 @@
 package com.lawal.banji.yahewa
 
-import android.content.res.Configuration
-import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsControllerCompat
-import androidx.navigation.compose.rememberNavController
-import com.lawal.banji.yahewa.navigation.AppNavHost
-import com.lawal.banji.yahewa.navigation.Screens
-import com.lawal.banji.yahewa.repo.ForecastRepository
-import com.lawal.banji.yahewa.ui.theme.YahewaTheme
-import com.lawal.banji.yahewa.view.model.ForecastViewModel
-import com.lawal.banji.yahewa.view.model.WeatherViewModelFactory
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.location.LocationServices
+import com.lawal.banji.yahewa.request.getCurrentLocationSafely
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
 
-    private val forecastViewModel: ForecastViewModel by viewModels {
-        WeatherViewModelFactory(ForecastRepository())
-    }
+    private lateinit var locationPermissionLauncher: ActivityResultLauncher<Array<String>>
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val isDarkTheme = (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
-        WindowCompat.setDecorFitsSystemWindows(window, true)
-        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = !isDarkTheme
+        // Register for activity result
+        locationPermissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { permissions ->
+            if (permissions[android.Manifest.permission.ACCESS_FINE_LOCATION] == true ||
+                permissions[android.Manifest.permission.ACCESS_COARSE_LOCATION] == true
+            ) {
+                fetchCurrentLocation() // Proceed to fetch location if permissions are granted
+            } else {
+                Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
-        setContent {
-            YahewaTheme {
-                val forecastState by forecastViewModel.currentWeatherState.collectAsState()
+    private fun requestLocationPermissions() {
+        locationPermissionLauncher.launch(
+            arrayOf(
+                android.Manifest.permission.ACCESS_FINE_LOCATION,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION,
+            )
+        )
+    }
 
-                Surface(color = MaterialTheme.colorScheme.background) {
-                    val navController = rememberNavController() // Create the NavController
-                    AppNavHost(
-                        navController = navController,       // Pass the NavController to the NavHost
-                        forecastViewModel = forecastViewModel, // Pass the ViewModel for the currentWeather state
-                        startDestination = Screens.Home.route // Define the starting route
-                    )
+    private fun fetchCurrentLocation() {
+        val fusedLocationProviderClient =
+            LocationServices.getFusedLocationProviderClient(this)
 
-                }
+        lifecycleScope.launch { // Use the lifecycleScope to safely perform coroutine work
+            val location = fusedLocationProviderClient.getCurrentLocationSafely(this@MainActivity)
+            if (location != null) {
+                println("Current Location - Latitude: ${location.latitude}, Longitude: ${location.longitude}")
+            } else {
+                println("Unable to fetch current location")
             }
         }
     }
 }
+
+

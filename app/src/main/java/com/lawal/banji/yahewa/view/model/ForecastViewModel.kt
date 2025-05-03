@@ -48,7 +48,18 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
         }
     }
 
-    // Public method to set the zip code so the ViewModel can handle fetching
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun updateWeatherByLocation(latitude: Double, longitude: Double, apiKey: String) {
+        if (lastQueriedCoordinates == Pair(latitude, longitude)) {
+            return
+        }
+
+        lastQueriedCoordinates = Pair(latitude, longitude)
+        fetchForecastByCoordinates(latitude, longitude, apiKey)
+    }
+
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun setZipcode(newZipcode: String) {
         if (newZipcode == lastQueriedZipCode) {
