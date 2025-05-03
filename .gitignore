@@ -1,15 +1,27 @@
-*.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+# Ignore Gradle cache and local builds
+.gradle/
+build/
+*/build/
+
+# Ignore local.properties (local SDK paths etc.)
 local.properties
+
+# Ignore Android Studio specific
+.idea/
+*.iml
+
+# BUT keep important idea config files (optional but useful for shared settings)
+# If you want to keep Code Styles and Project Settings, UNIGNORE selectively:
+!.idea/codeStyles/
+!.idea/compiler.xml
+!.idea/encodings.xml
+!.idea/misc.xml
+!.idea/modules.xml
+!.idea/vcs.xml
+
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
+
+# Ignore Kotlin specific
+*.kts~  # temporary swap files
