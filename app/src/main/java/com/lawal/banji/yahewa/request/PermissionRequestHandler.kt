@@ -1,29 +1,59 @@
 package com.lawal.banji.yahewa.request
 
 import android.Manifest
+import android.content.pm.PackageManager
 import android.location.Location
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
-
-suspend fun ComponentActivity.requestLocationPermission(): Boolean {
+/**
+ * Requests both fine and coarse location permissions dynamically.
+ * @return `true` if both location permissions are granted, otherwise `false`.
+ */
+suspend fun ComponentActivity.requestLocationPermissions(): Boolean {
     return suspendCancellableCoroutine { continuation ->
-        val launcher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            continuation.resume(isGranted)
+        // Permissions to request
+        val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
+
+        // Check if all permissions are already granted
+        val allPermissionsGranted = permissions.all { permission ->
+            ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
         }
-        launcher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+
+        if (allPermissionsGranted) {
+            continuation.resume(true) // All permissions already granted
+        } else {
+            // Launch permission request dialog
+            val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { results ->
+                val granted = results.all { it.value } // Check if all requested permissions were granted
+                continuation.resume(granted)
+            }
+            permissionLauncher.launch(permissions)
+        }
     }
 }
 
-suspend fun FusedLocationProviderClient.getCurrentLocation(): Location? {
+/**
+ * Retrieves the user's last known location using FusedLocationProviderClient.
+ * @return The last known [Location], or `null` if location retrieval fails.
+ */
+suspend fun FusedLocationProviderClient.getCurrentLocationSafely(activity: ComponentActivity): Location? {
+    // Ensure location permissions are granted before fetching location
+    val hasPermission = activity.requestLocationPermissions()
+    if (!hasPermission) {
+        return null // Permissions denied, return null
+    }
+
+    // Fetch the last known location
     return suspendCancellableCoroutine { continuation ->
         this.lastLocation.addOnSuccessListener { location ->
-            continuation.resume(location)
+            continuation.resume(location) // Return location if available
         }.addOnFailureListener {
-            continuation.resume(null)
+            continuation.resume(null) // Return null if location retrieval fails
         }
     }
 }
