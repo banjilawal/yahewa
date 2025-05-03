@@ -30,12 +30,12 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 
 @Composable
-fun MyLocationButton(
-    onClick: () -> Unit // Callback for when the button is clicked
+fun LocationButton(
+    onClick: () -> Unit
 ) {
     IconButton(
         onClick = {
-            onClick() // Trigger the callback when pressed
+            onClick()
         }
     ) {
         Icon(
@@ -45,7 +45,7 @@ fun MyLocationButton(
     }
 }
 
-// External Toast Function for Invalid ZIP Code
+
 fun showInvalidZipCodeToast(context: Context) {
     Toast.makeText(
         context,
@@ -54,7 +54,7 @@ fun showInvalidZipCodeToast(context: Context) {
     ).show()
 }
 
-// External Toast Function for Location Button
+
 fun showFetchingLocationToast(context: Context) {
     Toast.makeText(context, "Fetching current location...", Toast.LENGTH_SHORT).show()
 }
@@ -75,7 +75,6 @@ fun ZipCodeInput(
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-        // Use Modifier.weight for the TextField, so it doesn't take all space
         TextField(
             value = zipCode,
             onValueChange = { value ->
@@ -92,9 +91,9 @@ fun ZipCodeInput(
                 }
             },
             modifier = Modifier
-                .weight(1f) // TextField takes most of the row's width but leaves space for the button
+                .weight(1f)
                 .focusRequester(focusRequester)
-                .padding(end = 8.dp), // Padding added to create space between TextField and button
+                .padding(end = 8.dp),
             placeholder = { Text("Enter ZIP Code") },
             isError = isError,
             maxLines = 1,
@@ -110,23 +109,21 @@ fun ZipCodeInput(
                         keyboardController?.hide()
                     } else {
                         isError = true
-                        showInvalidZipCodeToast(context) // Use external function for the Toast
+                        showInvalidZipCodeToast(context)
                     }
                 }
             )
         )
 
-        // Add the "My Location" button next to the TextField
-        MyLocationButton(
+        LocationButton(
             onClick = {
-                showFetchingLocationToast(context) // Use external function for the Toast
+                showFetchingLocationToast(context)
             }
         )
     }
 
-    // Automatically focus on the TextField when the screen loads
     LaunchedEffect(Unit) {
-        delay(300) // Add delay to allow the view to be attached
+        delay(300)
         focusRequester.requestFocus()
         keyboardController?.show()
     }
