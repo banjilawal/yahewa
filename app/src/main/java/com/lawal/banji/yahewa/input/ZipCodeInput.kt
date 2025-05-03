@@ -45,7 +45,6 @@ fun LocationButton(
     }
 }
 
-
 fun showInvalidZipCodeToast(context: Context) {
     Toast.makeText(
         context,
@@ -53,7 +52,6 @@ fun showInvalidZipCodeToast(context: Context) {
         Toast.LENGTH_SHORT
     ).show()
 }
-
 
 fun showFetchingLocationToast(context: Context) {
     Toast.makeText(context, "Fetching current location...", Toast.LENGTH_SHORT).show()
@@ -114,12 +112,7 @@ fun ZipCodeInput(
                 }
             )
         )
-
-        LocationButton(
-            onClick = {
-                showFetchingLocationToast(context)
-            }
-        )
+        LocationButton( onClick = { showFetchingLocationToast(context) } )
     }
 
     LaunchedEffect(Unit) {
