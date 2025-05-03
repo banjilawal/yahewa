@@ -70,6 +70,7 @@ dependencies {
     implementation(libs.androidx.contentpager)
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.androidx.appcompat)
+    implementation(libs.play.services.location)
 
     // Testing
     testImplementation(libs.junit)
