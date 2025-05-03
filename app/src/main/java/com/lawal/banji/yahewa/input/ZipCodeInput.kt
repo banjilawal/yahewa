@@ -1,7 +1,8 @@
 package com.lawal.banji.yahewa.input
 
+import android.content.Context
 import android.widget.Toast
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
@@ -24,6 +25,20 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 
+
+fun showInvalidZipCodeToast(context: Context) {
+    Toast.makeText(
+        context,
+        "Invalid ZIP code. Please enter only numbers up to 5 digits.",
+        Toast.LENGTH_SHORT
+    ).show()
+}
+
+
+fun showFetchingLocationToast(context: Context) {
+    Toast.makeText(context, "Fetching current location...", Toast.LENGTH_SHORT).show()
+}
+
 @Composable
 fun ZipCodeInput(
     onZipCodeEntered: (String) -> Unit
@@ -35,24 +50,20 @@ fun ZipCodeInput(
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    fun showInvalidZipCodeToast() {
-        Toast.makeText(
-            context,
-            "Invalid ZIP code. Please enter only numbers up to 5 digits.",
-            Toast.LENGTH_SHORT
-        ).show()
-    }
-
-    Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        // Use Modifier.weight for the TextField, so it doesn't take all space
         TextField(
             value = zipCode,
             onValueChange = { value ->
-                if (value.length <= 5 && (value.isEmpty() || value.all { it.isDigit() })) {
+                if (value.length <= 5 && value.all { it.isDigit() }) {
                     zipCode = value
                     isError = false
                 } else {
                     isError = true
-                    showInvalidZipCodeToast()
                 }
 
                 if (zipCode.length == 5) {
@@ -60,9 +71,14 @@ fun ZipCodeInput(
                     keyboardController?.hide()
                 }
             },
-            maxLines = 1,
+            modifier = Modifier
+                .weight(1f)
+                .focusRequester(focusRequester)
+                .padding(end = 8.dp),
             placeholder = { Text("Enter ZIP Code") },
             isError = isError,
+            maxLines = 1,
+            singleLine = true,
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Done
@@ -74,20 +90,11 @@ fun ZipCodeInput(
                         keyboardController?.hide()
                     } else {
                         isError = true
-                        showInvalidZipCodeToast()
+                        showInvalidZipCodeToast(context)
                     }
                 }
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .focusRequester(focusRequester)
-                .padding(8.dp),
-            singleLine = true
+            )
         )
-
-        if (isError) {
-            showInvalidZipCodeToast()
-        }
     }
 
     LaunchedEffect(Unit) {
@@ -96,4 +103,5 @@ fun ZipCodeInput(
         keyboardController?.show()
     }
 }
+
 
