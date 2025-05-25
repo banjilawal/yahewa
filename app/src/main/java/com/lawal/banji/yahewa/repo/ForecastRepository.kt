@@ -3,7 +3,7 @@ package com.lawal.banji.yahewa.repo
 import com.lawal.banji.yahewa.model.City
 import com.lawal.banji.yahewa.model.Coordinates
 import com.lawal.banji.yahewa.model.CurrentWeather
-import com.lawal.banji.yahewa.model.ForecastGroup
+import com.lawal.banji.yahewa.model.Forecast
 import com.lawal.banji.yahewa.repo.RetrofitInstance.api
 
 sealed class QueryResponseState<out T> {
@@ -43,7 +43,7 @@ class ForecastRepository {
 
         suspend fun fetchForecastGroupByCoordinates(
                 coordinates: Coordinates, forecastCount: Int, apiKey:String
-        ): QueryResponseState<ForecastGroup> {
+        ): QueryResponseState<Forecast> {
 //                System.out.println("fINSIDE fetchForecastGroup latitude:$latitude longitude:$longitude count:$count")
                 return try {
 //                        println("finside the try block")
@@ -64,7 +64,7 @@ class ForecastRepository {
                longitude: Double,
                count: Int,
                apiKey:String
-        ): QueryResponseState<ForecastGroup> {
+        ): QueryResponseState<Forecast> {
 //                System.out.println("fINSIDE fetchForecastGroup latitude:$latitude longitude:$longitude count:$count")
                 return try {
 //                        println("finside the try block")

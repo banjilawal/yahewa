@@ -20,7 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.lawal.banji.yahewa.model.ForecastRecord
-import com.lawal.banji.yahewa.model.ForecastGroup
+import com.lawal.banji.yahewa.model.Forecast
 import com.lawal.banji.yahewa.ui.theme.DarkGray1
 import com.lawal.banji.yahewa.ui.theme.DefaultCornerRadius
 import com.lawal.banji.yahewa.ui.theme.LargeCornerRadius
@@ -139,13 +139,13 @@ fun ForecastListComposable(forecastRecords: List<ForecastRecord>, modifier: Modi
 @Composable
 @RequiresApi(Build.VERSION_CODES.O)
 fun ForecastGroupComposable(
-    forecastGroup: ForecastGroup,
+    forecast: Forecast,
     modifier: Modifier = Modifier
 ) {
-    val totalForecasts = forecastGroup.numberOfForecasts
-    val title = "$totalForecasts day Forecasts for ${forecastGroup.city.name}, ${forecastGroup.city.country}"
-    val coordinates = "lat: ${forecastGroup.city.coordinates.latitude}, " +
-            "lon: ${forecastGroup.city.coordinates.longitude}"
+    val totalForecasts = forecast.numberOfForecasts
+    val title = "$totalForecasts day Forecasts for ${forecast.city.name}, ${forecast.city.country}"
+    val coordinates = "lat: ${forecast.city.coordinates.latitude}, " +
+            "lon: ${forecast.city.coordinates.longitude}"
 
     Column(
         modifier = modifier
@@ -174,7 +174,7 @@ fun ForecastGroupComposable(
                 .weight(1f) // Fills remaining vertical space
         ) {
             ForecastListComposable(
-                forecastRecords = forecastGroup.forecastRecords,
+                forecastRecords = forecast.forecastRecords,
                 modifier = Modifier.fillMaxSize().padding(0.dp)
             )
         }

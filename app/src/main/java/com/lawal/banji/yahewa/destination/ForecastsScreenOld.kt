@@ -133,7 +133,7 @@ package com.lawal.banji.yahewa.destination
 //                is ForecastGroupState.Success -> {
 //                    // Ensure the list is constrained properly
 //                    ForecastListComposable(
-//                        forecastRecords = forecastGroupState.forecastGroup.forecastRecords,
+//                        forecastRecords = forecastGroupState.forecast.forecastRecords,
 //                        modifier = Modifier
 //                            .fillMaxWidth()
 //                            .weight(1f) // Ensures the LazyColumn gets constrained height

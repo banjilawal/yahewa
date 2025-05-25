@@ -64,12 +64,12 @@ fun ForecastScreen(
                 is ForecastGroupState.Success -> {
                     // Ensure ForecastListComposable fills the remaining vertical space
                     ForecastGroupComposable(
-                        forecastGroup = forecastGroupState.forecastGroup,
+                        forecast = forecastGroupState.forecast,
                         modifier = Modifier.fillMaxSize()
                             .padding((0.dp)
                     )
 //                    ForecastListComposable(
-//                        forecastRecords = forecastGroupState.forecastGroup.forecastRecords,
+//                        forecastRecords = forecastGroupState.forecast.forecastRecords,
 //                        modifier = Modifier
 //                            .fillMaxWidth()
 //                            .weight(1f) // Ensures LazyColumn occupies the remaining space

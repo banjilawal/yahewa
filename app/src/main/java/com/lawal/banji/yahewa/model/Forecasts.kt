@@ -34,7 +34,7 @@ data class ForecastRecord (
     @SerializedName("rain") val rainVolume: Double
 )
 
-data class ForecastGroup(
+data class Forecast(
     @SerializedName("city") val city: City,
     @SerializedName("cnt") val numberOfForecasts: Int,
     @SerializedName("list") val forecastRecords: List<ForecastRecord>
@@ -42,6 +42,6 @@ data class ForecastGroup(
 
 sealed class ForecastGroupState {
     object Loading : ForecastGroupState() // Represents a loading state while forecastRecords are being fetched
-    data class Success(val forecastGroup: ForecastGroup) : ForecastGroupState()
+    data class Success(val forecast: Forecast) : ForecastGroupState()
     data class Error(val message: String) : ForecastGroupState() // Represents an error state with a message
 }
