@@ -3,71 +3,127 @@ package com.lawal.banji.yahewa.request
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.location.Location
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import com.google.android.gms.location.FusedLocationProviderClient
-import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlin.coroutines.resume
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import java.lang.ref.WeakReference
 
-//
-///**
-// * Requests both fine and coarse location permissions dynamically.
-// * @return `true` if both location permissions are granted, otherwise `false`.
-// */
-//suspend fun ComponentActivity.requestLocationPermissions(): Boolean {
-//    return suspendCancellableCoroutine { continuation ->
-//        // Permissions to request
-//        val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
-//
-//        // Check if all permissions are already granted
-//        val allPermissionsGranted = permissions.all { permission ->
-//            ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
-//        }
-//
-//        if (allPermissionsGranted) {
-//            continuation.resume(true) // All permissions already granted
-//        } else {
-//            // Launch permission request dialog
-//            val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { results ->
-//                val granted = results.all { it.value } // Check if all requested permissions were granted
-//                continuation.resume(granted)
-//            }
-//            permissionLauncher.launch(permissions)
-//        }
-//    }
-//}
-//
-///**
-// * Retrieves the user's last known location using FusedLocationProviderClient.
-// * @return The last known [Location], or `null` if location retrieval fails.
-// */
-//suspend fun FusedLocationProviderClient.getCurrentLocationSafely(activity: ComponentActivity): Location? {
-//    // Ensure location permissions are granted before fetching location
-//    val hasPermission = activity.requestLocationPermissions()
-//    if (!hasPermission) {
-//        return null // Permissions denied, return null
-//    }
-//
-//    // Fetch the last known location
-//    return suspendCancellableCoroutine { continuation ->
-//        this.lastLocation.addOnSuccessListener { location ->
-//            continuation.resume(location) // Return location if available
-//        }.addOnFailureListener {
-//            continuation.resume(null) // Return null if location retrieval fails
-//        }
-//    }
-//}
+abstract class PermissionRequest(
+    activity: ComponentActivity,
+    private val permissions: Array<String>
+) : DefaultLifecycleObserver {
 
-private fun hasLocationPermissions(context: Context): Boolean {
-    val coarseLocationGranted = ContextCompat.checkSelfPermission(
-        context, Manifest.permission.ACCESS_COARSE_LOCATION
-    ) == PackageManager.PERMISSION_GRANTED
+    // Weak reference to avoid memory leaks
+    private val activityReference = WeakReference(activity)
 
-    val fineLocationGranted = ContextCompat.checkSelfPermission(
-        context, Manifest.permission.ACCESS_FINE_LOCATION
-    ) == PackageManager.PERMISSION_GRANTED
+    private var onGrantedCallBack: (() -> Unit)? = null
+    private var onDeniedCallBack: (() -> Unit)? = null
+    private var isRequesting: Boolean = false
 
-    return coarseLocationGranted ||  fineLocationGranted
+    private var mutex: Mutex = Mutex()
+
+    // Permission launcher
+    private val permissionLauncher = activity.registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { results ->
+        // Handle permission results
+        try {
+            if (results.isEmpty()) {
+                // No results returned (possible error)
+                onDeniedCallBack?.invoke()
+            } else if (results.all { it.value }) {
+                // All permissions granted
+                onGrantedCallBack?.invoke()
+            } else {
+                // Some permissions denied
+                onDeniedCallBack?.invoke()
+            }
+        } finally {
+            // Ensure consistent cleanup
+            completeRequest()
+        }
+    }
+
+    init {
+        if (permissions.isEmpty()) {
+            throw IllegalArgumentException("Permissions array cannot be empty")
+        }
+
+        // Register lifecycle observer
+        activity.lifecycle.addObserver(this)
+    }
+
+    suspend fun request(onGranted: () -> Unit, onDenied: () -> Unit) {
+        mutex.withLock {
+            if (isRequesting) {
+                // A request is already in progress; return to avoid race conditions
+                return
+            }
+            isRequesting = true
+
+            try {
+                onGrantedCallBack = { onGranted() }
+                onDeniedCallBack = { onDenied() }
+
+                val activity = activityReference.get()
+                    ?: throw IllegalStateException("Activity reference is null")
+
+                if (hasPermissions(activity)) {
+                    // Permissions already granted
+                    onGrantedCallBack?.invoke()
+                    completeRequest() // Cleanup immediately
+                } else {
+                    // Request permissions
+                    permissionLauncher.launch(permissions)
+                }
+            } catch (e: Exception) {
+                completeRequest() // Cleanup when exceptions occur
+                throw e
+            }
+        }
+    }
+
+    private fun completeRequest() {
+        isRequesting = false
+        cleanUpCallbacks()
+    }
+
+    abstract fun hasPermissions(context: Context): Boolean
+
+    private fun cleanUpCallbacks() {
+        onGrantedCallBack = null
+        onDeniedCallBack = null
+    }
+
+    override fun onDestroy(owner: LifecycleOwner) {
+        super.onDestroy(owner)
+        // Cleanup lifecycle observer and resources
+        cleanUpCallbacks()
+        activityReference.clear()
+        owner.lifecycle.removeObserver(this)
+    }
 }
+
+class LocationPermissionRequest(
+    activity: ComponentActivity
+) : PermissionRequest(
+    activity,
+    arrayOf(
+        Manifest.permission.ACCESS_FINE_LOCATION,
+        Manifest.permission.ACCESS_COARSE_LOCATION
+    )
+) {
+    override fun hasPermissions(context: Context): Boolean {
+        // Only require fine location permission for the permissions to be considered granted
+        return ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+}
+
+
