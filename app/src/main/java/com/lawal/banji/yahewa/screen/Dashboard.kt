@@ -138,9 +138,9 @@ fun WeatherDetailsDisplay(currentWeather: CurrentWeather) {
                     )
                     // Weather icon
                     WeatherIcon(
-                        iconId = currentWeather.weather[0].iconId,
+                        iconId = currentWeather.weatherItems[0].iconId,
 //                        modifier = Modifier.weight(1.4f).background(Lavender).fillMaxSize(1.0f),
-                        contentDescription = currentWeather.weather[0].description
+                        contentDescription = currentWeather.weatherItems[0].description
                     )
                 }
                 // Row for Feels Like

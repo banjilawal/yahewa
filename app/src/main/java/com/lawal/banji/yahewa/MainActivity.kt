@@ -20,7 +20,7 @@ import com.lawal.banji.yahewa.repo.ForecastRepository
 import com.lawal.banji.yahewa.response.LocationRequestHandler
 import com.lawal.banji.yahewa.ui.theme.YahewaTheme
 import com.lawal.banji.yahewa.view.model.ForecastViewModel
-import com.lawal.banji.yahewa.view.model.WeatherViewModelFactory
+import com.lawal.banji.yahewa.factory.WeatherViewModelFactory
 
 class MainActivity : ComponentActivity() {
 

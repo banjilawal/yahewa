@@ -46,9 +46,9 @@ fun CurrentWeatherView(currentWeather: CurrentWeather) {
     val humidity = "Humidity ${currentWeather.main.percentHumidity} %"
     val pressure = "Pressure ${currentWeather.main.pressure} hPa"
 
-    val iconId = currentWeather.weather[0].iconId
-    val description = currentWeather.weather[0].description
-    val weather = currentWeather.weather[0].description
+    val iconId = currentWeather.weatherItems[0].iconId
+    val description = currentWeather.weatherItems[0].description
+    val weather = currentWeather.weatherItems[0].description
 
     val cityInformation = if (state != null) "$city, $state" else "$city, $country"
 

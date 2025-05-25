@@ -69,7 +69,7 @@ fun ForecastScreen(
                             .padding((0.dp)
                     )
 //                    ForecastListComposable(
-//                        forecasts = forecastGroupState.forecastGroup.forecasts,
+//                        forecastRecords = forecastGroupState.forecastGroup.forecastRecords,
 //                        modifier = Modifier
 //                            .fillMaxWidth()
 //                            .weight(1f) // Ensures LazyColumn occupies the remaining space

@@ -1,4 +1,4 @@
-package com.lawal.banji.yahewa.view.model
+package com.lawal.banji.yahewa.factory
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.lawal.banji.yahewa.repo.ForecastRepository
 import com.lawal.banji.yahewa.request.PermissionHandler
+import com.lawal.banji.yahewa.view.model.ForecastViewModel
+import com.lawal.banji.yahewa.view.model.PermissionHandlerViewModel
 
 class WeatherViewModelFactory(
     private val repository: ForecastRepository

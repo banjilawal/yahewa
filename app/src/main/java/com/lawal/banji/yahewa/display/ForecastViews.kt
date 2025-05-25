@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.lawal.banji.yahewa.model.Forecast
+import com.lawal.banji.yahewa.model.ForecastRecord
 import com.lawal.banji.yahewa.model.ForecastGroup
 import com.lawal.banji.yahewa.ui.theme.DarkGray1
 import com.lawal.banji.yahewa.ui.theme.DefaultCornerRadius
@@ -38,15 +38,15 @@ import java.util.Locale
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun ForecastComposable(forecast: Forecast, modifier: Modifier = Modifier) {
+fun ForecastComposable(forecastRecord: ForecastRecord, modifier: Modifier = Modifier) {
 
-    val precipitationProbability = "${forecast.precipitationProbability * 100} % chance of rain"
-    val solarTransitionTimes = "sunrise: ${forecast.sunrise} sunset: ${forecast.sunset}"
-    val humidity = "${forecast.humidity} % humidity"
-    val temperatureRange = "hi ${forecast.temperature.max} / ${forecast.temperature.min} lo"
-    val iconId = forecast.weather[0].iconId
-    val description = forecast.weather[0].description
-    val dateString = Instant.ofEpochMilli(forecast.sunset * 1000)
+    val precipitationProbability = "${forecastRecord.precipitationProbability * 100} % chance of rain"
+    val solarTransitionTimes = "sunrise: ${forecastRecord.sunrise} sunset: ${forecastRecord.sunset}"
+    val humidity = "${forecastRecord.humidity} % humidity"
+    val temperatureRange = "hi ${forecastRecord.temperature.max} / ${forecastRecord.temperature.min} lo"
+    val iconId = forecastRecord.weather[0].iconId
+    val description = forecastRecord.weather[0].description
+    val dateString = Instant.ofEpochMilli(forecastRecord.sunset * 1000)
         .atZone(ZoneId.systemDefault())
         .format(DateTimeFormatter.ofPattern("EEEE, MMMM dd yyyy", Locale.getDefault()))
 
@@ -115,7 +115,7 @@ fun ForecastComposable(forecast: Forecast, modifier: Modifier = Modifier) {
 
 @Composable
 @RequiresApi(Build.VERSION_CODES.O)
-fun ForecastListComposable(forecasts: List<Forecast>, modifier: Modifier = Modifier) {
+fun ForecastListComposable(forecastRecords: List<ForecastRecord>, modifier: Modifier = Modifier) {
     LazyColumn(
         modifier = modifier
             .fillMaxWidth()
@@ -124,9 +124,9 @@ fun ForecastListComposable(forecasts: List<Forecast>, modifier: Modifier = Modif
         horizontalAlignment = Alignment.CenterHorizontally // Align items horizontally at the center
 
     ) {
-        items(forecasts.size) { index ->
+        items(forecastRecords.size) { index ->
             ForecastComposable(
-                forecast = forecasts[index],
+                forecastRecord = forecastRecords[index],
                 modifier = Modifier
                     .fillMaxWidth(0.7f)
                     .fillMaxHeight(0.5f) // Adjust height as needed
@@ -167,14 +167,14 @@ fun ForecastGroupComposable(
             )
         }
 
-        // Forecast List Section (Scrollable)
+        // ForecastRecord List Section (Scrollable)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f) // Fills remaining vertical space
         ) {
             ForecastListComposable(
-                forecasts = forecastGroup.forecasts,
+                forecastRecords = forecastGroup.forecastRecords,
                 modifier = Modifier.fillMaxSize().padding(0.dp)
             )
         }

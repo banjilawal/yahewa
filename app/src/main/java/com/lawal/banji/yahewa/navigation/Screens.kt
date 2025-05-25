@@ -5,7 +5,7 @@ sealed class Screens(val route: String) {
     object Details : Screens("details/{itemId}") { // Declare itemId directly in the base route
         fun createRoute(itemId: String) = "details/$itemId" // Dynamically provide the value for itemId
     }
-    object Forecasts : Screens("forecasts") // Add Forecasts route
+    object Forecasts : Screens("forecastRecords") // Add Forecasts route
 }
 
 

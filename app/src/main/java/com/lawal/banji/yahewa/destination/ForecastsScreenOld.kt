@@ -3,7 +3,7 @@ package com.lawal.banji.yahewa.destination
 
 //@RequiresApi(Build.VERSION_CODES.O)
 //@Composable
-//fun ForecastComposable(forecast: Forecast, modifier: Modifier = Modifier) {
+//fun ForecastComposable(forecast: ForecastRecord, modifier: Modifier = Modifier) {
 //
 //    val precipitationProbability = "${forecast.precipitationProbability} % chance of rain"
 //    val solarTransitionTimes = "sunrise: ${forecast.sunrise} sunset: ${forecast.sunset}"
@@ -72,15 +72,15 @@ package com.lawal.banji.yahewa.destination
 ////
 ////@RequiresApi(Build.VERSION_CODES.O)
 ////@Composable
-////fun ForecastListComposable(forecasts: List<Forecast>, modifier: Modifier = Modifier) {
+////fun ForecastListComposable(forecastRecords: List<ForecastRecord>, modifier: Modifier = Modifier) {
 ////    LazyColumn(
 ////        modifier = modifier
 ////            .fillMaxWidth()
 ////            .background(DefaultDisplayBackgroundColor) // Optional background for the list
 ////    ) {
-////        items(forecasts.size) { index ->
+////        items(forecastRecords.size) { index ->
 ////            ForecastComposable(
-////                forecast = forecasts[index],
+////                forecast = forecastRecords[index],
 ////                modifier = Modifier
 ////                    .fillMaxWidth()
 ////                    .padding(vertical = 8.dp) // Add space between items
@@ -133,7 +133,7 @@ package com.lawal.banji.yahewa.destination
 //                is ForecastGroupState.Success -> {
 //                    // Ensure the list is constrained properly
 //                    ForecastListComposable(
-//                        forecasts = forecastGroupState.forecastGroup.forecasts,
+//                        forecastRecords = forecastGroupState.forecastGroup.forecastRecords,
 //                        modifier = Modifier
 //                            .fillMaxWidth()
 //                            .weight(1f) // Ensures the LazyColumn gets constrained height

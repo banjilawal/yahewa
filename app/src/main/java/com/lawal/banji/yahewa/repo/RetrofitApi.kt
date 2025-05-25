@@ -10,6 +10,21 @@ import retrofit2.http.Query
 interface RetrofitApi {
 
     @GET("weather")
+    suspend fun getCurrentWeatherByCoordinates(
+        @Query("lat") latitude: Double,
+        @Query("lon") longitude: Double,
+        @Query("units") units: String = AppDefault.DEFAULT_MEASUREMENT_SYSTEM,
+        @Query("appid") apiKey: String = AppDefault.API_KEY
+    ): CurrentWeather
+
+    @GET("weather")
+    suspend fun getCurrentWeathertByZipcode(
+        @Query("zip") zipCode: String,
+        @Query("units") units: String = AppDefault.DEFAULT_MEASUREMENT_SYSTEM,
+        @Query("appid") apiKey: String = AppDefault.API_KEY
+    ): CurrentWeather
+
+    @GET("weather")
     suspend fun getForecastByCoordinates(
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,
@@ -19,7 +34,7 @@ interface RetrofitApi {
 
     @GET("weather")
     suspend fun getForecastByZipcode(
-        @Query("zip") zipcode: String,
+        @Query("zip") zipCode: String,
         @Query("units") units: String = AppDefault.DEFAULT_MEASUREMENT_SYSTEM,
         @Query("appid") apiKey: String = AppDefault.API_KEY
     ): CurrentWeather
