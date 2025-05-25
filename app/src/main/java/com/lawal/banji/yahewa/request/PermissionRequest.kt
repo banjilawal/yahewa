@@ -8,6 +8,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import java.lang.ref.WeakReference
@@ -16,6 +18,9 @@ abstract class PermissionRequest(
     activity: ComponentActivity,
     private val permissions: Array<String>
 ) : DefaultLifecycleObserver {
+
+    private val _permissionRequestState = MutableStateFlow<PermissionRequestState>(PermissionRequestState.Loading)
+    val permissionRequestState: StateFlow<PermissionRequestState> = _permissionRequestState
 
     // Weak reference to avoid memory leaks
     private val activityReference = WeakReference(activity)
@@ -124,6 +129,13 @@ class LocationPermissionRequest(
             Manifest.permission.ACCESS_FINE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
     }
+}
+
+sealed class PermissionRequestState {
+    object Loading: PermissionRequestState()
+    object Granted: PermissionRequestState()
+    object Denied: PermissionRequestState()
+    data class Error(val message: String): PermissionRequestState()
 }
 
 
