@@ -80,7 +80,7 @@ class CurrentWeatherViewModel(private val repository: AppRepository) : ViewModel
 
         setZipcode(newZipCode = zipCode)
         viewModelScope.launch {
-            when (val queryResult = repository.fetchCurrentWeatherByZipcode(zipCode, apiKey)) {
+            when (val queryResult = repository.requestCurrentWeatherByZipCode(zipCode, apiKey)) {
                 is QueryResponseState.Success -> {
                     _currentWeatherState.value = CurrentWeatherState.Success(queryResult.data)
                 }
@@ -102,7 +102,7 @@ class CurrentWeatherViewModel(private val repository: AppRepository) : ViewModel
 
        setCoordinates(newCoordinates = coordinates)// Update the coordinates cache
         viewModelScope.launch {
-            when (val queryResult = repository.fetchCurrentWeatherByCoordinates(coordinates = coordinates, apiKey = apiKey)) {
+            when (val queryResult = repository.requestCurrentWeatherByCoordinates(coordinates = coordinates, apiKey = apiKey)) {
                 is QueryResponseState.Success -> {
                     _currentWeatherState.value = CurrentWeatherState.Success(queryResult.data)
                     val city = queryResult.data.city

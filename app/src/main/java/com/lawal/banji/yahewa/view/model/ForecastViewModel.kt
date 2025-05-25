@@ -48,7 +48,7 @@ class ForecastViewModel(private val repository: AppRepository) : ViewModel() {
                 longitude = location.coordinates.longitude,
                 apiKey = AppDefault.API_KEY
             )
-            fetchForecasts(location.coordinates.latitude, location.coordinates.longitude, AppDefault.API_KEY)
+            queryForecastByCoordianets(location.coordinates.latitude, location.coordinates.longitude, AppDefault.API_KEY)
         }
     }
 
@@ -88,7 +88,7 @@ class ForecastViewModel(private val repository: AppRepository) : ViewModel() {
                 is QueryResponseState.Success -> {
                     _currentWeatherState.value = CurrentWeatherState.Success(queryResult.data)
                     System.out.println("latitude:$latitude longitude:$longitude getting forecastRecords now")
-                    fetchForecasts(latitude, longitude, apiKey)
+                    queryForecastByCoordianets(latitude, longitude, apiKey)
                 }
 
                 is QueryResponseState.Error -> {
@@ -108,7 +108,7 @@ class ForecastViewModel(private val repository: AppRepository) : ViewModel() {
                     val latitude = queryResult.data.coordinates.latitude
                     val longitude = queryResult.data.coordinates.longitude
                     System.out.println("fetched for Zipcode:$zipcode latitude:$latitude longitude:$longitude getting forecastRecords now")
-                    fetchForecasts(latitude, longitude, apiKey)
+                    queryForecastByCoordianets(latitude, longitude, apiKey)
                 }
 
                 is QueryResponseState.Error -> {
@@ -120,7 +120,7 @@ class ForecastViewModel(private val repository: AppRepository) : ViewModel() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun fetchForecasts(latitude: Double, longitude: Double, apiKey: String) {
+    private fun queryForecastByCoordianets(latitude: Double, longitude: Double, apiKey: String) {
         viewModelScope.launch {
             when (val queryResult = repository.fetchForecastGroup(
                 longitude = longitude,

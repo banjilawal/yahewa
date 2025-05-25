@@ -20,18 +20,36 @@ class AppRepository {
                 } catch (e: Exception) { QueryResponseState.Error(e)  }
         }
 
-        suspend fun fetchCurrentWeatherByCoordinates(coordinates: Coordinates,  apiKey: String): QueryResponseState<CurrentWeather> {
+        suspend fun requestCurrentWeatherByCoordinates(coordinates: Coordinates, apiKey: String): QueryResponseState<CurrentWeather> {
                 return try {
                         val result = api.getCurrentWeatherByCoordinates(latitude = coordinates.latitude, longitude = coordinates.longitude, apiKey = apiKey)
                         QueryResponseState.Success(result)
                 } catch (e: Exception) { QueryResponseState.Error(e)  }
         }
 
-        suspend fun fetchCurrentWeatherByZipcode(zipCode: String, apiKey: String): QueryResponseState<CurrentWeather> {
+        suspend fun requestCurrentWeatherByZipCode(zipCode: String, apiKey: String): QueryResponseState<CurrentWeather> {
                 return try {
                         val result = api.getForecastByZipcode(zipCode = zipCode, apiKey = apiKey)
                         QueryResponseState.Success(result)
                 } catch (e: Exception) {  QueryResponseState.Error(e)  }
+        }
+
+        suspend fun requestForecastByCoordinates(
+                coordinates: Coordinates, numberOfRecords: Int, apiKey:String
+        ): QueryResponseState<Forecast> {
+//                System.out.println("fINSIDE fetchForecastGroup latitude:$latitude longitude:$longitude count:$count")
+                return try {
+//                        println("finside the try block")
+                        val result = api.getForecasts(
+                                latitude = coordinates.latitude,
+                                longitude = coordinates.longitude,
+                                count = numberOfRecords,
+                                apiKey = apiKey
+                        )
+                        // Print the JSON response to the console
+//                        println("Forecasts JSON Response: $result")
+                        QueryResponseState.Success(result)
+                } catch (e: Exception) { QueryResponseState.Error(e)  }
         }
 
         suspend fun fetchByZipcode(zipCode: String, apiKey: String): QueryResponseState<CurrentWeather> {
