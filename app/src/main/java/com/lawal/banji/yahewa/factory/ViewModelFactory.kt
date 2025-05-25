@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.lawal.banji.yahewa.repo.ForecastRepository
+import com.lawal.banji.yahewa.request.PermissionHandler
 
 class WeatherViewModelFactory(
     private val repository: ForecastRepository
@@ -19,3 +20,17 @@ class WeatherViewModelFactory(
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
+
+class PermissionHandlerViewModelFactory(
+    private val permissionHandler: PermissionHandler
+) : ViewModelProvider.Factory {
+
+    @Suppress("UNCHECKED_CAST") // To suppress unchecked cast warnings
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(PermissionHandlerViewModel::class.java)) {
+            return PermissionHandlerViewModel(permissionHandler) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+}
+
