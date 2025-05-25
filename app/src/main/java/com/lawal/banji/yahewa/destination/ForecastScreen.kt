@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.lawal.banji.yahewa.display.ForecastGroupComposable
 import com.lawal.banji.yahewa.input.ZipCodeInput
-import com.lawal.banji.yahewa.model.ForecastGroupState
+import com.lawal.banji.yahewa.model.ForecastState
 import com.lawal.banji.yahewa.navigation.NavigationEvent
 import com.lawal.banji.yahewa.ui.theme.DefaultPadding
 import com.lawal.banji.yahewa.ui.theme.PowderBlueGray
@@ -23,7 +23,7 @@ import com.lawal.banji.yahewa.ui.theme.PowderBlueGray
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ForecastScreen(
-    forecastGroupState: ForecastGroupState,
+    forecastState: ForecastState,
     onNavigate: (NavigationEvent) -> Unit = {},
     onZipcodeEntered: (String) -> Unit
 ) {
@@ -41,8 +41,8 @@ fun ForecastScreen(
                 .padding(innerPadding)
                 .background(PowderBlueGray)
         ) {
-            when (forecastGroupState) {
-                is ForecastGroupState.Loading -> {
+            when (forecastState) {
+                is ForecastState.Loading -> {
                     Text(
                         text = "Loading currentWeather...",
                         modifier = Modifier
@@ -51,8 +51,8 @@ fun ForecastScreen(
                     )
                 }
 
-                is ForecastGroupState.Error -> {
-                    val errorMessage = "Yahewa currentWeather state error: ${(forecastGroupState as ForecastGroupState.Error).message}"
+                is ForecastState.Error -> {
+                    val errorMessage = "Yahewa currentWeather state error: ${(forecastState as ForecastState.Error).message}"
                     Text(
                         text = errorMessage,
                         modifier = Modifier
@@ -61,15 +61,15 @@ fun ForecastScreen(
                     )
                 }
 
-                is ForecastGroupState.Success -> {
+                is ForecastState.Success -> {
                     // Ensure ForecastListComposable fills the remaining vertical space
                     ForecastGroupComposable(
-                        forecast = forecastGroupState.forecast,
+                        forecast = forecastState.forecast,
                         modifier = Modifier.fillMaxSize()
                             .padding((0.dp)
                     )
 //                    ForecastListComposable(
-//                        forecastRecords = forecastGroupState.forecast.forecastRecords,
+//                        forecastRecords = forecastState.forecast.forecastRecords,
 //                        modifier = Modifier
 //                            .fillMaxWidth()
 //                            .weight(1f) // Ensures LazyColumn occupies the remaining space

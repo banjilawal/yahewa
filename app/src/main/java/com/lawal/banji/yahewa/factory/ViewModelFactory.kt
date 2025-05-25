@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.lawal.banji.yahewa.repo.AppRepository
 import com.lawal.banji.yahewa.request.PermissionHandler
-import com.lawal.banji.yahewa.view.model.ForecastViewModel
+import com.lawal.banji.yahewa.view.model.AppViewModel
 import com.lawal.banji.yahewa.view.model.PermissionHandlerViewModel
 
 class WeatherViewModelFactory(
@@ -16,8 +16,8 @@ class WeatherViewModelFactory(
     @RequiresApi(Build.VERSION_CODES.O)
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ForecastViewModel::class.java)) {
-            return ForecastViewModel(repository) as T
+        if (modelClass.isAssignableFrom(AppViewModel::class.java)) {
+            return AppViewModel(repository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

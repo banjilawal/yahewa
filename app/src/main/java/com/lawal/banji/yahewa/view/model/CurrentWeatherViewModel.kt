@@ -37,7 +37,7 @@ class CurrentWeatherViewModel(private val repository: AppRepository) : ViewModel
         viewModelScope.launch {
             val location = getRandomCity()
             val coordinates = location.coordinates
-            queryCurrentWeatherByCoordinates(coordinates = coordinates, apiKey = AppDefault.API_KEY)
+            queryByCoordinates(coordinates = coordinates, apiKey = AppDefault.API_KEY)
         }
     }
 
@@ -68,7 +68,7 @@ class CurrentWeatherViewModel(private val repository: AppRepository) : ViewModel
 
         _coordinates.value = newCoordinates
         previousCoordinates = newCoordinates // Update cache for the ZIP code
-        queryCurrentWeatherByCoordinates(coordinates = newCoordinates, apiKey= AppDefault.API_KEY)
+        queryByCoordinates(coordinates = newCoordinates, apiKey= AppDefault.API_KEY)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -94,7 +94,7 @@ class CurrentWeatherViewModel(private val repository: AppRepository) : ViewModel
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun queryCurrentWeatherByCoordinates(coordinates: Coordinates, apiKey: String) {
+    private fun queryByCoordinates(coordinates: Coordinates, apiKey: String) {
         if (previousCoordinates == coordinates) {
             println("Coordinates $coordinates.latitude, $coordinates.longitude already queried. Skipping lookup.")
             return

@@ -19,12 +19,12 @@ import com.lawal.banji.yahewa.navigation.Screens
 import com.lawal.banji.yahewa.repo.AppRepository
 import com.lawal.banji.yahewa.response.LocationRequestHandler
 import com.lawal.banji.yahewa.ui.theme.YahewaTheme
-import com.lawal.banji.yahewa.view.model.ForecastViewModel
+import com.lawal.banji.yahewa.view.model.AppViewModel
 import com.lawal.banji.yahewa.factory.WeatherViewModelFactory
 
 class MainActivity : ComponentActivity() {
 
-    private val forecastViewModel: ForecastViewModel by viewModels {
+    private val appViewModel: AppViewModel by viewModels {
         WeatherViewModelFactory(AppRepository())
     }
 
@@ -40,13 +40,13 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             YahewaTheme {
-                val forecastState by forecastViewModel.currentWeatherState.collectAsState()
+                val forecastState by appViewModel.currentWeatherState.collectAsState()
 
                 Surface(color = MaterialTheme.colorScheme.background) {
                     val navController = rememberNavController() // Create the NavController
                     AppNavHost(
                         navController = navController,       // Pass the NavController to the NavHost
-                        forecastViewModel = forecastViewModel, // Pass the ViewModel for the currentWeather state
+                        appViewModel = appViewModel, // Pass the ViewModel for the currentWeather state
                         startDestination = Screens.Home.route // Define the starting route
                     )
 

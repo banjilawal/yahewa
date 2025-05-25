@@ -92,7 +92,7 @@ package com.lawal.banji.yahewa.destination
 ////@RequiresApi(Build.VERSION_CODES.O)
 ////@Composable
 ////fun ForecastGroupScreen(
-////    forecastGroupState: ForecastGroupState,
+////    forecastState: ForecastState,
 ////    onNavigate: (NavigationEvent) -> Unit = {},
 ////    onZipcodeEntered: (String) -> Unit
 //) {
@@ -111,8 +111,8 @@ package com.lawal.banji.yahewa.destination
 //                .padding(innerPadding)
 //                .background(DefaultDisplayBackgroundColor)
 //        ) {
-//            when (forecastGroupState) {
-//                is ForecastGroupState.Loading -> {
+//            when (forecastState) {
+//                is ForecastState.Loading -> {
 //                    // Show loading message
 //                    Text(
 //                        text = "Loading forecast predictions...",
@@ -120,9 +120,9 @@ package com.lawal.banji.yahewa.destination
 //                    )
 //                }
 //
-//                is ForecastGroupState.Error -> {
+//                is ForecastState.Error -> {
 //                    // Show error message
-//                    val errorMessage = "WeatherPrediction error: ${(forecastGroupState as ForecastGroupState.Error).message}"
+//                    val errorMessage = "WeatherPrediction error: ${(forecastState as ForecastState.Error).message}"
 //                    Text(
 //                        text = errorMessage,
 //                        modifier = Modifier.padding(16.dp),
@@ -130,10 +130,10 @@ package com.lawal.banji.yahewa.destination
 //                    )
 //                }
 //
-//                is ForecastGroupState.Success -> {
+//                is ForecastState.Success -> {
 //                    // Ensure the list is constrained properly
 //                    ForecastListComposable(
-//                        forecastRecords = forecastGroupState.forecast.forecastRecords,
+//                        forecastRecords = forecastState.forecast.forecastRecords,
 //                        modifier = Modifier
 //                            .fillMaxWidth()
 //                            .weight(1f) // Ensures the LazyColumn gets constrained height

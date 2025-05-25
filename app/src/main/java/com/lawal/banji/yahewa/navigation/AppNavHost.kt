@@ -30,7 +30,7 @@ import com.lawal.banji.yahewa.destination.HomeScreen
 import com.lawal.banji.yahewa.ui.theme.Black
 import com.lawal.banji.yahewa.ui.theme.DefaultDisplayBackgroundColor
 import com.lawal.banji.yahewa.ui.theme.White
-import com.lawal.banji.yahewa.view.model.ForecastViewModel
+import com.lawal.banji.yahewa.view.model.AppViewModel
 
 @Composable
 fun FloatingActionButton(
@@ -79,12 +79,12 @@ fun FloatingActionButton(
 @Composable
 fun AppNavHost(
     navController: NavHostController,
-    forecastViewModel: ForecastViewModel,
+    appViewModel: AppViewModel,
     startDestination: String = Screens.Home.route
 ) {
-    // Collect currentWeather states
-    val forecastState = forecastViewModel.currentWeatherState.collectAsState().value
-    val forecastGroupState = forecastViewModel.forecastGroupState.collectAsState().value
+
+    val currentWeatherState = appViewModel.currentWeatherState.collectAsState().value
+    val forecastState = appViewModel.forecastState.collectAsState().value
 
     Scaffold(
         bottomBar = {
@@ -102,12 +102,12 @@ fun AppNavHost(
             // HomeScreen
             composable(Screens.Home.route) {
                 HomeScreen(
-                    currentWeatherState = forecastState,
+                    currentWeatherState = currentWeatherState,
                     onNavigate = { itemId ->
                         navController.navigate(Screens.Details.createRoute(itemId.toString()))
                     },
                     onZipcodeEntered = { zipcode ->
-                        forecastViewModel.setZipcode(zipcode)
+                        appViewModel.setZipcode(zipcode)
                     }
                 )
             }
@@ -125,10 +125,10 @@ fun AppNavHost(
                     return@composable
                 }
                 DetailsScreen(
-                    currentWeatherState = forecastState,
+                    currentWeatherState = currentWeatherState,
                     itemId = itemId,
                     onZipcodeEntered = { zipcode ->
-                        forecastViewModel.setZipcode(zipcode)
+                        appViewModel.setZipcode(zipcode)
                     }
                 )
             }
@@ -136,13 +136,13 @@ fun AppNavHost(
             // ForecastsScreen
             composable(Screens.Forecasts.route) {
                 ForecastScreen(
-                    forecastGroupState = forecastGroupState,
+                    forecastState = forecastState,
                     onNavigate = {
                         // Direct navigation handling
                         navController.popBackStack()
                     },
                     onZipcodeEntered = { zipcode ->
-                        forecastViewModel.setZipcode(zipcode)
+                        appViewModel.setZipcode(zipcode)
                     }
                 )
             }
