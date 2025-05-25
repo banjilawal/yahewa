@@ -1,5 +1,6 @@
 package com.lawal.banji.yahewa.view.model
 
+import android.location.Location
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
@@ -28,6 +29,9 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
     private var _zipcode: MutableStateFlow<String?> = MutableStateFlow(null)
     val zipcode: StateFlow<String?> get() = _zipcode
 
+    private var _location: MutableStateFlow<Location?> = MutableStateFlow(null)
+    val location: StateFlow<Location?> get() = _location
+
     private val _cityLookupState = MutableStateFlow<CityLookupState>(CityLookupState.Loading)
     val cityLookupState: StateFlow<CityLookupState> get() = _cityLookupState
 
@@ -46,6 +50,10 @@ class ForecastViewModel(private val repository: ForecastRepository) : ViewModel(
             )
             fetchForecasts(location.coordinates.latitude, location.coordinates.longitude, AppDefault.API_KEY)
         }
+    }
+
+    fun updateLocation(location: Location) {
+        _location.value= location
     }
 
     // Public method to set the zip code so the ViewModel can handle fetching

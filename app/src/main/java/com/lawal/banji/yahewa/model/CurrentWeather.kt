@@ -28,9 +28,16 @@ data class Main(
     @SerializedName("humidity") val percentHumidity: Double
 )
 
+data class WeatherItem(
+    @SerializedName("id") val id : Int,
+    @SerializedName("main")  val phenomena: String,
+    @SerializedName("description") val  description: String,
+    @SerializedName("icon")  val iconId: String
+)
+
 data class CurrentWeather(
     @SerializedName("coord") val coordinates: Coordinates,
-    @SerializedName("weather") val weather: List<Weather>,
+    @SerializedName("weather") val weather: List<WeatherItem>,
     @SerializedName("main") val main: Main,
     @SerializedName("visibility") val visibility: Int,
     @SerializedName("wind") val wind: Wind,
