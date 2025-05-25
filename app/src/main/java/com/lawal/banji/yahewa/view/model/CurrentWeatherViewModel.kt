@@ -41,8 +41,8 @@ class CurrentWeatherViewModel(private val repository: AppRepository) : ViewModel
         }
     }
 
-    fun updateLocation(location: Location) {
-        _location.value= location
+    fun setLocation(newLocation: Location) {
+        _location.value= newLocation
     }
 
     // Public method to set the zip code so the ViewModel can handle fetching
@@ -55,7 +55,7 @@ class CurrentWeatherViewModel(private val repository: AppRepository) : ViewModel
 
         _zipCode.value = newZipCode
         previousZipCode = newZipCode // Update cache for the ZIP code
-        queryCurrentWeatherByZipCode(newZipCode, AppDefault.API_KEY)
+        queryByZipCode(newZipCode, AppDefault.API_KEY)
     }
 
     // Public method to set the zip code so the ViewModel can handle fetching
@@ -72,9 +72,9 @@ class CurrentWeatherViewModel(private val repository: AppRepository) : ViewModel
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun queryCurrentWeatherByZipCode(zipCode: String, apiKey: String) {
+    private fun queryByZipCode(zipCode: String, apiKey: String) {
         if (previousZipCode == zipCode) {
-            println("ZipCode $zipCode .longitude already queried. Skipping lookup.")
+            println("ZipCode $zipCode already  queried. Skipping lookup.")
             return
         }
 
@@ -83,11 +83,8 @@ class CurrentWeatherViewModel(private val repository: AppRepository) : ViewModel
             when (val queryResult = repository.requestCurrentWeatherByZipCode(zipCode, apiKey)) {
                 is QueryResponseState.Success -> {
                     _currentWeatherState.value = CurrentWeatherState.Success(queryResult.data)
-                }
-
-                is QueryResponseState.Error -> {
-                    _currentWeatherState.value =
-                        CurrentWeatherState.Error(queryResult.exception.message ?: "Unknown Error")
+                } is QueryResponseState.Error -> {
+                    _currentWeatherState.value = CurrentWeatherState.Error(queryResult.exception.message ?: "Unknown Error")
                 }
             }
         }
@@ -109,8 +106,7 @@ class CurrentWeatherViewModel(private val repository: AppRepository) : ViewModel
                     val coordinates = queryResult.data.coordinates
                     System.out.println("latitude:${coordinates.latitude} longitude:${coordinates.longitude} getting forecastRecords now")
                 } is QueryResponseState.Error -> {
-                    _currentWeatherState.value =
-                        CurrentWeatherState.Error("Error: ${queryResult.exception.message}")
+                    _currentWeatherState.value = CurrentWeatherState.Error("Error: ${queryResult.exception.message}")
                 }
             }
         }
