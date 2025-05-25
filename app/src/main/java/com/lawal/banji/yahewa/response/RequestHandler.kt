@@ -7,7 +7,7 @@ import android.location.Location
 import androidx.activity.ComponentActivity
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.lawal.banji.yahewa.request.LocationPermissionRequest
+import com.lawal.banji.yahewa.request.LocationPermissionHandler
 
 class LocationRequestHandler(
     private val activity: ComponentActivity,
@@ -17,13 +17,13 @@ class LocationRequestHandler(
     private val fusedLocationClient: FusedLocationProviderClient =
         LocationServices.getFusedLocationProviderClient(activity)
 
-    private val locationPermissionRequest = LocationPermissionRequest(activity)
+    private val locationPermissionRequest = LocationPermissionHandler(activity)
 
     /**
      * Public method to fetch the current location.
      */
     suspend fun getCurrentLocation() {
-        // Request permissions using LocationPermissionRequest
+        // Request permissions using LocationPermissionHandler
         locationPermissionRequest.request(
             onGranted = @androidx.annotation.RequiresPermission(allOf = [android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION]) { fetchLastLocation() },
             onDenied = { callback.onPermissionDenied() }

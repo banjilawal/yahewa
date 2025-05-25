@@ -14,7 +14,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import java.lang.ref.WeakReference
 
-abstract class PermissionRequest(
+abstract class PermissionHandler(
     activity: ComponentActivity,
     private val permissions: Array<String>
 ) : DefaultLifecycleObserver {
@@ -113,9 +113,9 @@ abstract class PermissionRequest(
     }
 }
 
-class LocationPermissionRequest(
+class LocationPermissionHandler(
     activity: ComponentActivity
-) : PermissionRequest(
+) : PermissionHandler(
     activity,
     arrayOf(
         Manifest.permission.ACCESS_FINE_LOCATION,
