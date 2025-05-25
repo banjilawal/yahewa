@@ -16,4 +16,5 @@ object AppDefault {
     const val DATA_FETCH_FAILURE_MESSAGE: String = "Failed ot fetch weather data."
     const val DATA_FETCH_SUCCESS_MESSAGE: String = "Weather data fetched successfully."
     const val DATA_NOT_FOUND_MESSAGE: String = "Weather data not found."
+    const val LOCATION_PERMISSION_REQUEST_CODE: Int = 1000
 }
