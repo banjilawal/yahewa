@@ -4,13 +4,13 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.lawal.banji.yahewa.repo.ForecastRepository
+import com.lawal.banji.yahewa.repo.AppRepository
 import com.lawal.banji.yahewa.request.PermissionHandler
 import com.lawal.banji.yahewa.view.model.ForecastViewModel
 import com.lawal.banji.yahewa.view.model.PermissionHandlerViewModel
 
 class WeatherViewModelFactory(
-    private val repository: ForecastRepository
+    private val repository: AppRepository
 ) : ViewModelProvider.Factory {
 
     @RequiresApi(Build.VERSION_CODES.O)

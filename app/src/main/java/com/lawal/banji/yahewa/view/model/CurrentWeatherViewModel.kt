@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lawal.banji.yahewa.model.Coordinates
 import com.lawal.banji.yahewa.model.CurrentWeatherState
-import com.lawal.banji.yahewa.repo.ForecastRepository
+import com.lawal.banji.yahewa.repo.AppRepository
 import com.lawal.banji.yahewa.repo.QueryResponseState
 import com.lawal.banji.yahewa.utils.AppDefault
 import com.lawal.banji.yahewa.utils.getRandomCity
@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
-class CurrentWeatherViewModel(private val repository: ForecastRepository) : ViewModel() {
+class CurrentWeatherViewModel(private val repository: AppRepository) : ViewModel() {
 
     private val _currentWeatherState = MutableStateFlow<CurrentWeatherState>(CurrentWeatherState.Loading)
     val currentWeatherState: StateFlow<CurrentWeatherState> get() = _currentWeatherState

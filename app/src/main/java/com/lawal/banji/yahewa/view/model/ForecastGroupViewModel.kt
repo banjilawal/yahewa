@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lawal.banji.yahewa.model.CityLookupState
 import com.lawal.banji.yahewa.model.ForecastGroupState
-import com.lawal.banji.yahewa.repo.ForecastRepository
+import com.lawal.banji.yahewa.repo.AppRepository
 import com.lawal.banji.yahewa.repo.QueryResponseState
 import com.lawal.banji.yahewa.utils.AppDefault
 import com.lawal.banji.yahewa.utils.getRandomCity
@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
-class ForecastGroupViewModel(private val repository: ForecastRepository) : ViewModel() {
+class ForecastGroupViewModel(private val repository: AppRepository) : ViewModel() {
 
     private val _forecastGroupState =
         MutableStateFlow<ForecastGroupState>(ForecastGroupState.Loading)

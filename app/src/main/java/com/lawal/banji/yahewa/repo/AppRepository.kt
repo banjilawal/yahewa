@@ -11,7 +11,7 @@ sealed class QueryResponseState<out T> {
         data class Error(val exception: Exception) : QueryResponseState<Nothing>()
 }
 
-class ForecastRepository {
+class AppRepository {
 
         suspend fun fetchByCoordinates(latitude: Double, longitude: Double, apiKey: String): QueryResponseState<CurrentWeather> {
                 return try {

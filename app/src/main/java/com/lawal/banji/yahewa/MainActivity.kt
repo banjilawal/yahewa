@@ -16,7 +16,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.compose.rememberNavController
 import com.lawal.banji.yahewa.navigation.AppNavHost
 import com.lawal.banji.yahewa.navigation.Screens
-import com.lawal.banji.yahewa.repo.ForecastRepository
+import com.lawal.banji.yahewa.repo.AppRepository
 import com.lawal.banji.yahewa.response.LocationRequestHandler
 import com.lawal.banji.yahewa.ui.theme.YahewaTheme
 import com.lawal.banji.yahewa.view.model.ForecastViewModel
@@ -25,7 +25,7 @@ import com.lawal.banji.yahewa.factory.WeatherViewModelFactory
 class MainActivity : ComponentActivity() {
 
     private val forecastViewModel: ForecastViewModel by viewModels {
-        WeatherViewModelFactory(ForecastRepository())
+        WeatherViewModelFactory(AppRepository())
     }
 
     private lateinit var locationRequestHandler: LocationRequestHandler
