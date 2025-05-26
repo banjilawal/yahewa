@@ -53,6 +53,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             YahewaTheme {
                 val currentWeatherState by currentWeatherViewModel.currentWeatherState.collectAsState()
+                val forecastGroupState by forecastViewModel.forecastState.collectAsState()
                 val forecastState by appViewModel.currentWeatherState.collectAsState()
 
                 Surface(color = MaterialTheme.colorScheme.background) {
