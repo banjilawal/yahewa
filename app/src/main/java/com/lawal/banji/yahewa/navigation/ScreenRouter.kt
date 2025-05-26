@@ -20,20 +20,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
-import com.lawal.banji.yahewa.destination.DetailsScreen
 import com.lawal.banji.yahewa.destination.ForecastScreen
 import com.lawal.banji.yahewa.destination.HomeScreen
 import com.lawal.banji.yahewa.ui.theme.Black
 import com.lawal.banji.yahewa.ui.theme.DefaultDisplayBackgroundColor
 import com.lawal.banji.yahewa.ui.theme.White
-import com.lawal.banji.yahewa.view.model.AppViewModel
+import com.lawal.banji.yahewa.view.model.CurrentWeatherViewModel
+import com.lawal.banji.yahewa.view.model.ForecastViewModel
 
 @Composable
-fun FloatingActionButton(
+fun RoutingFloatingButtonBar(
     navController: NavController,
     modifier: Modifier = Modifier,
     containerColor: Color = Black,
@@ -77,14 +75,15 @@ fun FloatingActionButton(
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AppNavHost(
+fun ScreenRouter(
     navController: NavHostController,
-    appViewModel: AppViewModel,
+    currentWeatherViewModel: CurrentWeatherViewModel,
+    forecastViewModel: ForecastViewModel,
     startDestination: String = Screens.Home.route
 ) {
 
-    val currentWeatherState = appViewModel.currentWeatherState.collectAsState().value
-    val forecastState = appViewModel.forecastState.collectAsState().value
+    val currentWeatherState = currentWeatherViewModel.currentWeatherState.collectAsState().value
+    val forecastState = forecastViewModel.forecastState.collectAsState().value
 
     Scaffold(
         bottomBar = {
@@ -107,28 +106,7 @@ fun AppNavHost(
                         navController.navigate(Screens.Details.createRoute(itemId.toString()))
                     },
                     onZipcodeEntered = { zipcode ->
-                        appViewModel.setZipcode(zipcode)
-                    }
-                )
-            }
-
-            // DetailsScreen
-            composable(
-                route = Screens.Details.route,
-                arguments = listOf(
-                    navArgument("itemId") { type = NavType.StringType }
-                )
-            ) { backStackEntry ->
-                val itemId = backStackEntry.arguments?.getString("itemId")
-                if (itemId == null) {
-                    navController.popBackStack() // Handle missing itemId gracefully
-                    return@composable
-                }
-                DetailsScreen(
-                    currentWeatherState = currentWeatherState,
-                    itemId = itemId,
-                    onZipcodeEntered = { zipcode ->
-                        appViewModel.setZipcode(zipcode)
+                        currentWeatherViewModel.setZipcode(zipcode)
                     }
                 )
             }
@@ -142,7 +120,7 @@ fun AppNavHost(
                         navController.popBackStack()
                     },
                     onZipcodeEntered = { zipcode ->
-                        appViewModel.setZipcode(zipcode)
+                        forecastViewModel.setZipcode(zipcode)
                     }
                 )
             }
@@ -151,7 +129,7 @@ fun AppNavHost(
 }
 
 @Composable
-fun ButtonBarComposable(navController: NavController) {
+fun RoutingButtonBar(navController: NavController) {
     BottomAppBar(
         containerColor = Black,
         contentColor = White
