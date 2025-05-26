@@ -36,7 +36,7 @@ class AppViewModel(private val repository: AppRepository) : ViewModel() {
     private val _cityLookupState = MutableStateFlow<CityLookupState>(CityLookupState.Loading)
     val cityLookupState: StateFlow<CityLookupState> get() = _cityLookupState
 
-    private var previousCoorinates: Pair<Double, Double>? = null // Cache for coordinates
+    private var previousCoordinates: Pair<Double, Double>? = null // Cache for coordinates
     private var previousZipCode: String? = null // Cache for ZIP code
 
     init {
@@ -73,12 +73,12 @@ class AppViewModel(private val repository: AppRepository) : ViewModel() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun fetchForecastByCoordinates(latitude: Double, longitude: Double, apiKey: String) {
         // Prevent a duplicate lookup by checking the cached coordinates
-        if (previousCoorinates == Pair(latitude, longitude)) {
+        if (previousCoordinates == Pair(latitude, longitude)) {
             println("Coordinates ($latitude, $longitude) already queried. Skipping lookup.")
             return
         }
 
-        previousCoorinates = Pair(latitude, longitude) // Update the coordinates cache
+        previousCoordinates = Pair(latitude, longitude) // Update the coordinates cache
 
         viewModelScope.launch {
             when (val queryResult = repository.fetchByCoordinates(

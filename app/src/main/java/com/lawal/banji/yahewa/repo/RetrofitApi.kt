@@ -3,6 +3,7 @@ package com.lawal.banji.yahewa.repo
 import com.lawal.banji.yahewa.model.City
 import com.lawal.banji.yahewa.model.CurrentWeather
 import com.lawal.banji.yahewa.model.Forecast
+import com.lawal.banji.yahewa.model.ZipCodeMetadata
 import com.lawal.banji.yahewa.utils.AppDefault
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -18,7 +19,7 @@ interface RetrofitApi {
     ): CurrentWeather
 
     @GET("weather")
-    suspend fun getCurrentWeathertByZipcode(
+    suspend fun getCurrentWeatherByZipcode(
         @Query("zip") zipCode: String,
         @Query("units") units: String = AppDefault.DEFAULT_MEASUREMENT_SYSTEM,
         @Query("appid") apiKey: String = AppDefault.API_KEY
@@ -31,6 +32,12 @@ interface RetrofitApi {
         @Query("units") units: String = AppDefault.DEFAULT_MEASUREMENT_SYSTEM,
         @Query("appid") apiKey: String = AppDefault.API_KEY
     ): CurrentWeather
+
+    @GET("geo/1.0/zip")
+    suspend fun getZipCodeMetadata(
+        @Query("zip") zipCode: String,
+        @Query("appid") apiKey: String = AppDefault.API_KEY
+    ): ZipCodeMetadata
 
     @GET("weather")
     suspend fun getForecastByZipcode(

@@ -4,6 +4,7 @@ import com.lawal.banji.yahewa.model.City
 import com.lawal.banji.yahewa.model.Coordinates
 import com.lawal.banji.yahewa.model.CurrentWeather
 import com.lawal.banji.yahewa.model.Forecast
+import com.lawal.banji.yahewa.model.ZipCodeMetadata
 import com.lawal.banji.yahewa.repo.RetrofitInstance.api
 
 sealed class QueryResponseState<out T> {
@@ -46,6 +47,17 @@ class AppRepository {
                                 count = numberOfRecords,
                                 apiKey = apiKey
                         )
+                        // Print the JSON response to the console
+//                        println("Forecasts JSON Response: $result")
+                        QueryResponseState.Success(result)
+                } catch (e: Exception) { QueryResponseState.Error(e)  }
+        }
+
+        suspend fun requestZipCoddMetadata(zipCode: String, apiKey:String): QueryResponseState<ZipCodeMetadata>{
+//                System.out.println("fINSIDE fetchForecastGroup latitude:$latitude longitude:$longitude count:$count")
+                return try {
+//                        println("finside the try block")
+                        val result = api.getZipCodeMetadata(zipCode = zipCode, apiKey = apiKey)
                         // Print the JSON response to the console
 //                        println("Forecasts JSON Response: $result")
                         QueryResponseState.Success(result)
