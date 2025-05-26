@@ -6,7 +6,8 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lawal.banji.yahewa.model.Coordinates
-import com.lawal.banji.yahewa.model.GeoLocationState
+import com.lawal.banji.yahewa.model.GeoCodingState
+import com.lawal.banji.yahewa.model.ReverseGeoCodingState
 import com.lawal.banji.yahewa.repo.AppRepository
 import com.lawal.banji.yahewa.repo.QueryResponseState
 import com.lawal.banji.yahewa.utils.AppDefault
@@ -16,10 +17,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
-class GeoLocationViewModel(private val repository: AppRepository) : ViewModel() {
+class GeoCodingViewModel(private val repository: AppRepository) : ViewModel() {
 
-    private val _geoLocationState = MutableStateFlow<GeoLocationState>(GeoLocationState.Loading)
-    val geoLocationState: StateFlow<GeoLocationState> get() = _geoLocationState
+    private val _geoCodingState = MutableStateFlow<GeoCodingState>(GeoCodingState.Loading)
+    val geoCodingState: StateFlow<GeoCodingState> get() = _geoCodingState
+
+    private val _reverseGeoCodingState = MutableStateFlow<ReverseGeoCodingState>(ReverseGeoCodingState.Loading)
+    val reverseGeoCodingState: StateFlow<ReverseGeoCodingState> get() = _reverseGeoCodingState
 
     private var _location: MutableStateFlow<Location?> = MutableStateFlow(null)
     val location: StateFlow<Location?> get() = _location
@@ -49,7 +53,7 @@ class GeoLocationViewModel(private val repository: AppRepository) : ViewModel() 
     @RequiresApi(Build.VERSION_CODES.O)
     fun setCoordinates(newCoordinates: Coordinates) {
         if (previousCoordinates == newCoordinates) {
-            Log.d("GeoLocationViewModel", "Coordinates $newCoordinates already queried. Skipping lookup.")
+            Log.d("GeoCodingViewModel", "Coordinates $newCoordinates already queried. Skipping lookup.")
             return
         }
 
@@ -64,7 +68,7 @@ class GeoLocationViewModel(private val repository: AppRepository) : ViewModel() 
     @RequiresApi(Build.VERSION_CODES.O)
     fun setZipCode(newZipCode: String) {
         if (previousZipCode == newZipCode) {
-            Log.d("GeoLocationViewModel", "ZIP code $newZipCode already queried. Skipping lookup.")
+            Log.d("GeoCodingViewModel", "ZIP code $newZipCode already queried. Skipping lookup.")
             return
         }
 
@@ -79,23 +83,23 @@ class GeoLocationViewModel(private val repository: AppRepository) : ViewModel() 
     @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun queryByZipCode(zipCode: String, apiKey: String) {
         try {
-            when (val queryResult = repository.requestGeoLocationByZipCode(zipCode, apiKey)) {
+            when (val queryResult = repository.requestGeoCodingByZipCode(zipCode, apiKey)) {
                 is QueryResponseState.Success -> {
-                    _geoLocationState.value = GeoLocationState.Success(queryResult.data)
+                    _geoCodingState.value = GeoCodingState.Success(queryResult.data)
                     val coordinates = Coordinates(
                         longitude = queryResult.data.longitude,
                         latitude = queryResult.data.latitude
                     )
-                    Log.d("GeoLocationViewModel", "latitude: ${coordinates.latitude}, longitude: ${coordinates.longitude}")
+                    Log.d("GeoCodingViewModel", "latitude: ${coordinates.latitude}, longitude: ${coordinates.longitude}")
                 }
                 is QueryResponseState.Error -> {
-                    _geoLocationState.value =
-                        GeoLocationState.Error("Error: ${queryResult.exception.message}")
+                    _geoCodingState.value =
+                        GeoCodingState.Error("Error: ${queryResult.exception.message}")
                 }
             }
         } catch (e: Exception) {
-            Log.e("GeoLocationViewModel", "Unexpected error during ZIP code query: ${e.message}")
-            _geoLocationState.value = GeoLocationState.Error("Unexpected error: ${e.message}")
+            Log.e("GeoCodingViewModel", "Unexpected error during ZIP code query: ${e.message}")
+            _geoCodingState.value = GeoCodingState.Error("Unexpected error: ${e.message}")
         }
     }
 
@@ -103,20 +107,19 @@ class GeoLocationViewModel(private val repository: AppRepository) : ViewModel() 
     @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun queryByCoordinates(coordinates: Coordinates, apiKey: String) {
         try {
-            when (val queryResult = repository.requestGeoLocationByCoordinates(coordinates, apiKey)) {
+            when (val queryResult = repository.requestReverseGeoCodingByCoordinates(coordinates, apiKey)) {
                 is QueryResponseState.Success -> {
-                    _geoLocationState.value = GeoLocationState.Success(queryResult.data)
-                    val zipCode = queryResult.data.zipCode
-                    Log.d("GeoLocationViewModel", "ZIP code fetched: $zipCode")
+                    _reverseGeoCodingState.value = ReverseGeoCodingState.Success(queryResult.data)
+                    Log.d("ReverseGeoCodingViewModel", "ZIP code fetched: $zipCode")
                 }
                 is QueryResponseState.Error -> {
-                    _geoLocationState.value =
-                        GeoLocationState.Error("Error: ${queryResult.exception.message}")
+                    _geoCodingState.value =
+                        GeoCodingState.Error("Error: ${queryResult.exception.message}")
                 }
             }
         } catch (e: Exception) {
-            Log.e("GeoLocationViewModel", "Unexpected error during coordinates query: ${e.message}")
-            _geoLocationState.value = GeoLocationState.Error("Unexpected error: ${e.message}")
+            Log.e("GeoCodingViewModel", "Unexpected error during coordinates query: ${e.message}")
+            _geoCodingState.value = GeoCodingState.Error("Unexpected error: ${e.message}")
         }
     }
 }

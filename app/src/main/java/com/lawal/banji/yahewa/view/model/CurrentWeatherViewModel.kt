@@ -76,23 +76,23 @@ class CurrentWeatherViewModel(private val repository: AppRepository) : ViewModel
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun queryByZipCode(zipCode: String, apiKey: String) {
-//        if (previousZipCode == zipCode) {
-//            println("ZipCode $zipCode already  queried. Skipping lookup.")
-//            return
-//        }
-
-        setZipcode(newZipCode = zipCode)
-        System.out.println("CurrentViewModel is going  to call repository.requestCurrentWeatherByZipCode  with zipcode  $zipCode ")
         viewModelScope.launch {
             when (val queryResult = repository.requestCurrentWeatherByZipCode(zipCode, apiKey)) {
                 is QueryResponseState.Success -> {
                     _currentWeatherState.value = CurrentWeatherState.Success(queryResult.data)
-                } is QueryResponseState.Error -> {
-                    _currentWeatherState.value = CurrentWeatherState.Error(queryResult.exception.message ?: "Unknown Error")
+                    val latitude = queryResult.data.coordinates.latitude
+                    val longitude = queryResult.data.coordinates.longitude
+                    System.out.println("fetched for Zipcode:$zipCode latitude:$latitude longitude:$longitude getting forecastRecords now")
+                }
+
+                is QueryResponseState.Error -> {
+                    _currentWeatherState.value =
+                        CurrentWeatherState.Error(queryResult.exception.message ?: "Unknown Error")
                 }
             }
         }
     }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun queryByCoordinates(coordinates: Coordinates, apiKey: String) {

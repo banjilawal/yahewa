@@ -20,7 +20,7 @@ class LocationRequestHandler(
     private val locationPermissionRequest = LocationPermissionHandler(activity)
 
     /**
-     * Public method to fetch the current geoLocation.
+     * Public method to fetch the current geoCoding.
      */
     suspend fun getCurrentLocation() {
         // Request permissions using LocationPermissionHandler
@@ -31,33 +31,33 @@ class LocationRequestHandler(
     }
 
     /**
-     * Fetch the last known geoLocation.
+     * Fetch the last known geoCoding.
      */
     @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
     private fun fetchLastLocation() {
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location ->
                 if (location != null) {
-                    // Successfully retrieved geoLocation
+                    // Successfully retrieved geoCoding
                     callback.onLocationReceived(location)
                 } else {
-                    // No geoLocation available
+                    // No geoCoding available
                     callback.onLocationUnavailable()
                 }
             }
             .addOnFailureListener { exception ->
-                // Handle geoLocation retrieval errors
+                // Handle geoCoding retrieval errors
                 callback.onLocationError(exception)
             }
     }
 
     /**
-     * Callback interface to handle geoLocation results.
+     * Callback interface to handle geoCoding results.
      */
     interface LocationCallback {
-        fun onLocationReceived(location: Location) // GeoLocation fetched successfully
-        fun onLocationUnavailable() // GeoLocation is unavailable
+        fun onLocationReceived(location: Location) // GeoCoding fetched successfully
+        fun onLocationUnavailable() // GeoCoding is unavailable
         fun onPermissionDenied() // Permissions were denied
-        fun onLocationError(e: Exception) // Error occurred during geoLocation retrieval
+        fun onLocationError(e: Exception) // Error occurred during geoCoding retrieval
     }
 }

@@ -1,10 +1,10 @@
 package com.lawal.banji.yahewa.repo
 
-import com.lawal.banji.yahewa.model.City
 import com.lawal.banji.yahewa.model.Coordinates
 import com.lawal.banji.yahewa.model.CurrentWeather
 import com.lawal.banji.yahewa.model.Forecast
-import com.lawal.banji.yahewa.model.GeoLocation
+import com.lawal.banji.yahewa.model.GeoCoding
+import com.lawal.banji.yahewa.model.ReverseGeoCoding
 import com.lawal.banji.yahewa.model.ZipCodeMetadata
 import com.lawal.banji.yahewa.repo.RetrofitInstance.api
 
@@ -22,18 +22,19 @@ class AppRepository {
                 } catch (e: Exception) { QueryResponseState.Error(e)  }
         }
 
-        suspend fun requestGeoLocationByZipCode(zipCode: String, apiKey: String): QueryResponseState<GeoLocation> {
+        suspend fun requestGeoCodingByZipCode(zipCode: String, apiKey: String): QueryResponseState<GeoCoding> {
                 return try {
-                        val result = api.getGeoLocationByZipCode(zipCode = zipCode, apiKey = apiKey)
+                        val result = api.getGeoCodingByZipCode(zipCode = zipCode, apiKey = apiKey)
                         QueryResponseState.Success(result)
                 } catch (e: Exception) { QueryResponseState.Error(e)  }
         }
 
-        suspend fun requestGeoLocationByCoordinates(coordinates: Coordinates, apiKey: String): QueryResponseState<GeoLocation> {
+        suspend fun requestReverseGeoCodingByCoordinates(coordinates: Coordinates, apiKey: String): QueryResponseState<ReverseGeoCoding> {
                 return try {
-                        val result = api.getGeoLocationByCoordinates(latitude = coordinates.latitude, longitude = coordinates.longitude, apiKey = apiKey)
+                        val result = api.getReverseGeoCodingByCoordinates(latitude = coordinates.latitude, longitude = coordinates.longitude, apiKey = apiKey)
                         // Print the JSON response to the console
                         println("Reverse Geocoding JSON Response: $result")
+
                         QueryResponseState.Success(result)
                 } catch (e: Exception) { QueryResponseState.Error(e) }
         }
@@ -118,7 +119,7 @@ class AppRepository {
         ): QueryResponseState<Forecast> {
 //                System.out.println("fINSIDE fetchForecastGroup latitude:$latitude longitude:$longitude count:$count")
                 return try {
-//                        println("finside the try block")
+//                        println("inside the try block")
                         val result = api.getForecasts(latitude = latitude, longitude = longitude, count = count , apiKey = apiKey)
                         // Print the JSON response to the console
 //                        println("Forecasts JSON Response: $result")
@@ -126,7 +127,7 @@ class AppRepository {
                 } catch (e: Exception) { QueryResponseState.Error(e)  }
         }
 
-        suspend fun fetchReverseGeoCoding(latitude: Double, longitude: Double, apiKey: String): QueryResponseState<City> {
+        suspend fun fetchReverseGeoCoding(latitude: Double, longitude: Double, apiKey: String): QueryResponseState<ReverseGeoCoding> {
                 return try {
                         val result = api.getReverseGeoEncoding(latitude = latitude, longitude = longitude, apiKey = apiKey)
                         // Print the JSON response to the console

@@ -1,13 +1,11 @@
 package com.lawal.banji.yahewa.model
 
 import com.google.gson.annotations.SerializedName
-import com.lawal.banji.yahewa.utils.AppDefault
 
 data class City(
-//    @SerializedName("id") val id: Int? = null,
     @SerializedName("name") val name: String,
     @SerializedName("state") val state: String? = null,
-    @SerializedName("country") val country: String? = "US",
+    @SerializedName("country") val country: String? = null,
     @SerializedName("timezone") val timezone: Int? = null,
     @SerializedName("coord") val coordinates: Coordinates,
     var zipCode: String? = null
@@ -38,24 +36,34 @@ data class Coordinates(
     @SerializedName("lat") val latitude: Double
 )
 
-data class GeoLocation(
-//    @SerializedName("id") val id: Int? = null,
+data class GeoCoding(
     @SerializedName("name") val name: String,
-    @SerializedName("state") val state: String? = null,
-    @SerializedName("country") val country: String? = AppDefault.COUNTRY,
-    @SerializedName("timezone") val timezone: Int? = null,
+    @SerializedName("country") val country: String? = null,
     @SerializedName("zip") val zipCode: String,
     @SerializedName("lon") val longitude: Double,
     @SerializedName("lat") val latitude: Double,
 ) {
-    // Computed property to return coordinates
-    val coordinates: Pair<Double, Double>
-        get() = latitude to longitude
+    // Computed property to return coordinates as a Coordinates object
+    val coordinates: Coordinates
+        get() = Coordinates(longitude = longitude, latitude = latitude)
 }
 
+sealed class GeoCodingState {
+    object Loading : GeoCodingState() // Represents a loading state while forecastRecords are being fetched
+    data class Success(val geoCoding: GeoCoding) : GeoCodingState()
+    data class Error(val message: String) : GeoCodingState() // Represents an error state with a message
+}
 
-sealed class GeoLocationState {
-    object Loading : GeoLocationState() // Represents a loading state while forecastRecords are being fetched
-    data class Success(val geoLocation: GeoLocation) : GeoLocationState()
-    data class Error(val message: String) : GeoLocationState() // Represents an error state with a message
+data class ReverseGeoCoding(
+    @SerializedName("name") val name: String,
+    @SerializedName("country") val country: String?,
+    @SerializedName("lon") val longitude: Double,
+    @SerializedName("lat") val latitude: Double,
+    @SerializedName("state") val state: String? = null,
+)
+
+sealed class ReverseGeoCodingState {
+    object Loading : ReverseGeoCodingState() // Represents a loading state while forecastRecords are being fetched
+    data class Success(val geoCoding: ReverseGeoCoding) : ReverseGeoCodingState()
+    data class Error(val message: String) : ReverseGeoCodingState() // Represents an error state with a message
 }
