@@ -44,8 +44,8 @@ class ForecastViewModel(private val repository: AppRepository) : ViewModel() {
 
     init {
         viewModelScope.launch {
-            val location = getRandomCity()
-            val coordinates = location.coordinates
+            val city = getRandomCity()
+            val coordinates = city.coordinates
             queryByCoordinates(coordinates = coordinates , apiKey = AppDefault.API_KEY)
         }
     }
@@ -57,10 +57,10 @@ class ForecastViewModel(private val repository: AppRepository) : ViewModel() {
     // Public method to set the zip code so the ViewModel can handle fetching
     @RequiresApi(Build.VERSION_CODES.O)
     fun setZipcode(newZipCode: String) {
-        if (previousZipCode == newZipCode) {
-            println("ZIP code $newZipCode already queried. Skipping lookup.")
-            return
-        }
+//        if (previousZipCode == newZipCode) {
+//            println("ZIP code $newZipCode already queried. Skipping lookup.")
+//            return
+//        }
 
         _zipCode.value = newZipCode
         previousZipCode = newZipCode // Update cache for the ZIP code
@@ -69,10 +69,10 @@ class ForecastViewModel(private val repository: AppRepository) : ViewModel() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun setCoordinates(newCoordinates: Coordinates) {
-        if (previousCoordinates == newCoordinates) {
-            println("$newCoordinates  already queried. Skipping lookup.")
-            return
-        }
+//        if (previousCoordinates == newCoordinates) {
+//            println("$newCoordinates  already queried. Skipping lookup.")
+//            return
+//        }
 
         _coordinates.value = newCoordinates
         previousCoordinates = newCoordinates // Update cache for the ZIP code
@@ -81,12 +81,14 @@ class ForecastViewModel(private val repository: AppRepository) : ViewModel() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getZipCodeMetadata(zipCode: String, apiKey: String) {
+        System.out.println("ForecastViewModel is getting the metadata for  $zipCode with  repository.requestZipCoddMetadata")
         viewModelScope.launch {
             when (val queryResult = repository.requestZipCoddMetadata(zipCode, apiKey = apiKey)) {
                 is QueryResponseState.Success -> {
                     _zipCodeMetadataState.value = ZipCodeMetadataState.Success(queryResult.data)
                     val latitude = queryResult.data.latitude
                     val longitude = queryResult.data.longitude
+                    System.out.println("ForecastViewModel received longitude $longitude and latitude $latitude for zip code  $zipCode")
                     setCoordinates(Coordinates(latitude, longitude))
                 } is QueryResponseState.Error -> {
                 _forecastState.value =
@@ -98,16 +100,17 @@ class ForecastViewModel(private val repository: AppRepository) : ViewModel() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun queryByZipCode(zipCode: String, apiKey: String) {
-        if (previousZipCode == zipCode) {
-            println("ZipCode $zipCode already  queried. Skipping lookup.")
-            return
-        }
-        setZipcode(newZipCode = zipCode)
+//        if (previousZipCode == zipCode) {
+//            println("ZipCode $zipCode already  queried. Skipping lookup.")
+//            return
+//        }
+//        setZipcode(newZipCode = zipCode)
         getZipCodeMetadata(zipCode, apiKey)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun queryByCoordinates(coordinates: Coordinates, apiKey: String) {
+        System.out.println("ForecastViewModel is getting the forecast  for coordinates  ${coordinates.latitude}, ${coordinates.longitude}")
         viewModelScope.launch {
             when (val queryResult = repository.requestForecastByCoordinates(
                 coordinates = coordinates,
@@ -117,13 +120,14 @@ class ForecastViewModel(private val repository: AppRepository) : ViewModel() {
             ) {
                 is QueryResponseState.Success -> {
                     _forecastState.value = ForecastState.Success(queryResult.data)
+                    val cityName = queryResult.data.city.name
                     val country = queryResult.data.city.country
                     val sunset  = queryResult.data.forecastRecords[0].sunset
                     val maxTemperature = queryResult.data.forecastRecords[0].temperature.max
-                    println("fetched for Country:$country maxTemp:$maxTemperature sunset:  $sunset")
+                    System.out.println("ForecastViewModel  successfully   got  $cityName forecastRecords for country $country with sunset at $sunset and max temperature of $maxTemperature")
                 } is QueryResponseState.Error -> {
                     _forecastState.value =
-                        ForecastState.Error("Failed to fetch currentWeather data: ${queryResult.exception.message}")
+                        ForecastState.Error("Failed to fetch forecast data: ${queryResult.exception.message}")
                 }
             }
         }

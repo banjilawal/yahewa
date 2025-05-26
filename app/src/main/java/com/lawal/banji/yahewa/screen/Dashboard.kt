@@ -82,7 +82,7 @@ fun WeatherDetailsDisplay(currentWeather: CurrentWeather) {
 
         /*
         * Node Type: CustomBox
-         * Description: Displays the name of the city or location.
+         * Description: Displays the name of the city or geoLocation.
          * Color: PowderBlue
          * Modifier: weight(0.75f)
          * Text Style: headlineLarge

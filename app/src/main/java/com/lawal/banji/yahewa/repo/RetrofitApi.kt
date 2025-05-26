@@ -3,6 +3,7 @@ package com.lawal.banji.yahewa.repo
 import com.lawal.banji.yahewa.model.City
 import com.lawal.banji.yahewa.model.CurrentWeather
 import com.lawal.banji.yahewa.model.Forecast
+import com.lawal.banji.yahewa.model.GeoLocation
 import com.lawal.banji.yahewa.model.ZipCodeMetadata
 import com.lawal.banji.yahewa.utils.AppDefault
 import retrofit2.http.GET
@@ -39,6 +40,21 @@ interface RetrofitApi {
         @Query("appid") apiKey: String = AppDefault.API_KEY
     ): ZipCodeMetadata
 
+    @GET("geo/1.0/zip")
+    suspend fun getGeoLocationByZipCode(
+        @Query("zip") zipCode: String,
+        @Query("appid") apiKey: String = AppDefault.API_KEY
+    ): GeoLocation
+
+    @GET("geo/1.0/reverse")
+    suspend fun getGeoLocationByCoordinates(
+        @Query("lat") latitude: Double,
+        @Query("lon") longitude: Double,
+        @Query("limit") limit: Int = AppDefault.NUMBER_OF_REVERSE_GEO_ENCODING_RESULTS,
+        @Query("appid") apiKey: String = AppDefault.API_KEY
+    ): GeoLocation
+
+
     @GET("weather")
     suspend fun getForecastByZipcode(
         @Query("zip") zipCode: String,
@@ -50,7 +66,7 @@ interface RetrofitApi {
     suspend fun getReverseGeoEncoding(
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,
-        @Query("limit") limit: Int = 1,
+        @Query("limit") limit: Int = AppDefault.NUMBER_OF_REVERSE_GEO_ENCODING_RESULTS,
         @Query("appid") apiKey: String = AppDefault.API_KEY
     ): City
 

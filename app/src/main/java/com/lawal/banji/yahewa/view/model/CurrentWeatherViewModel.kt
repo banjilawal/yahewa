@@ -35,8 +35,9 @@ class CurrentWeatherViewModel(private val repository: AppRepository) : ViewModel
 
     init {
         viewModelScope.launch {
-            val location = getRandomCity()
-            val coordinates = location.coordinates
+            val city = getRandomCity()
+            val coordinates = city.coordinates
+            System.out.println("CurrentViewModel is getting current weather conditions for  $city with  repository.requestCurrentWeatherByCoordinates")
             queryByCoordinates(coordinates = coordinates, apiKey = AppDefault.API_KEY)
         }
     }
@@ -48,37 +49,40 @@ class CurrentWeatherViewModel(private val repository: AppRepository) : ViewModel
     // Public method to set the zip code so the ViewModel can handle fetching
     @RequiresApi(Build.VERSION_CODES.O)
     fun setZipcode(newZipCode: String) {
-        if (previousZipCode == newZipCode) {
-            println("ZIP code $newZipCode already queried. Skipping lookup.")
-            return
-        }
+//        if (previousZipCode == newZipCode) {
+//            println("ZIP code $newZipCode already queried. Skipping lookup.")
+//            return
+//        }
 
         _zipCode.value = newZipCode
         previousZipCode = newZipCode // Update cache for the ZIP code
+        System.out.println("CurrentViewModel is going to call repository.requestCurrentWeatherByZipCode with zipcode $newZipCode")
         queryByZipCode(newZipCode, AppDefault.API_KEY)
     }
 
     // Public method to set the zip code so the ViewModel can handle fetching
     @RequiresApi(Build.VERSION_CODES.O)
     fun setCoordinates(newCoordinates: Coordinates) {
-        if (previousCoordinates == newCoordinates) {
-            println("ZIP code $coordinates  already queried. Skipping lookup.")
-            return
-        }
+//        if (previousCoordinates == newCoordinates) {
+//            println("ZIP code $coordinates  already queried. Skipping lookup.")
+//            return
+//        }
 
         _coordinates.value = newCoordinates
         previousCoordinates = newCoordinates // Update cache for the ZIP code
+        System.out.println("CurrentViewModel is going to call repository.requestCurrentWeatherByCoordinates with new coordinates $newCoordinates")
         queryByCoordinates(coordinates = newCoordinates, apiKey= AppDefault.API_KEY)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun queryByZipCode(zipCode: String, apiKey: String) {
-        if (previousZipCode == zipCode) {
-            println("ZipCode $zipCode already  queried. Skipping lookup.")
-            return
-        }
+//        if (previousZipCode == zipCode) {
+//            println("ZipCode $zipCode already  queried. Skipping lookup.")
+//            return
+//        }
 
         setZipcode(newZipCode = zipCode)
+        System.out.println("CurrentViewModel is going  to call repository.requestCurrentWeatherByZipCode  with zipcode  $zipCode ")
         viewModelScope.launch {
             when (val queryResult = repository.requestCurrentWeatherByZipCode(zipCode, apiKey)) {
                 is QueryResponseState.Success -> {
@@ -92,13 +96,14 @@ class CurrentWeatherViewModel(private val repository: AppRepository) : ViewModel
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun queryByCoordinates(coordinates: Coordinates, apiKey: String) {
-        if (previousCoordinates == coordinates) {
-            println("Coordinates $coordinates.latitude, $coordinates.longitude already queried. Skipping lookup.")
-            return
-        }
+////        if (previousCoordinates == coordinates) {
+////            println("Coordinates $coordinates.latitude, $coordinates.longitude already queried. Skipping lookup.")
+////            return
+////        }
 
-       setCoordinates(newCoordinates = coordinates)// Update the coordinates cache
+//       setCoordinates(newCoordinates = coordinates)// Update the coordinates cache
         viewModelScope.launch {
+            System.out.println("latitude:${coordinates.latitude} longitude:${coordinates.longitude} getting currentWeather now")
             when (val queryResult = repository.requestCurrentWeatherByCoordinates(coordinates = coordinates, apiKey = apiKey)) {
                 is QueryResponseState.Success -> {
                     _currentWeatherState.value = CurrentWeatherState.Success(queryResult.data)

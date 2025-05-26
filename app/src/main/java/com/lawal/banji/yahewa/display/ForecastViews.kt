@@ -44,8 +44,8 @@ fun ForecastComposable(forecastRecord: ForecastRecord, modifier: Modifier = Modi
     val solarTransitionTimes = "sunrise: ${forecastRecord.sunrise} sunset: ${forecastRecord.sunset}"
     val humidity = "${forecastRecord.humidity} % humidity"
     val temperatureRange = "hi ${forecastRecord.temperature.max} / ${forecastRecord.temperature.min} lo"
-    val iconId = forecastRecord.weather[0].iconId
-    val description = forecastRecord.weather[0].description
+    val iconId = forecastRecord.weatherItems[0].iconId
+    val description = forecastRecord.weatherItems[0].description
     val dateString = Instant.ofEpochMilli(forecastRecord.sunset * 1000)
         .atZone(ZoneId.systemDefault())
         .format(DateTimeFormatter.ofPattern("EEEE, MMMM dd yyyy", Locale.getDefault()))

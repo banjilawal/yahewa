@@ -53,6 +53,20 @@ class ForecastViewModelFactory(
     }
 }
 
+//class GeoLocationModelViewFactory(
+//    private val repository: AppRepository
+//) : ViewModelProvider.Factory {
+//
+//    @RequiresApi(Build.VERSION_CODES.O)
+//    @Suppress("UNCHECKED_CAST")
+//    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+//        if (modelClass.isAssignableFrom(GeoLocationModelViewViewModel::class.java)) {
+//            return GeoLocationModelViewModel(repository) as T
+//        }
+//        throw IllegalArgumentException("Unknown ViewModel class")
+//    }
+//}
+
 class PermissionHandlerViewModelFactory(
     private val permissionHandler: PermissionHandler
 ) : ViewModelProvider.Factory {

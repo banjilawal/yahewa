@@ -49,9 +49,63 @@ val zipCodes = listOf(
     "61602", // Peoria, IL
     "58102", // Fargo, ND
     "83702", // Boise, ID
-    "50309"  // Des Moines, IA
+    "50309",  // Des Moines, IA
+    "04101", // Portland, ME
+    "06103", // Hartford, CT
+    "03101", // Manchester, NH
+    "03766", // Lebanon, NH
+    "05701", // Rutland, VT
+    "12207", // Albany, NY
+    "14604", // Rochester, NY
+    "14202", // Buffalo, NY
+    "00918", // San Juan, PR
+    "06111", // Newington, CT
+    "02903", // Providence, RI
+    "19901", // Dover, DE
+    "19801", // Wilmington, DE
+    "01060", // Northampton, MA
+    "02601", // Hyannis, MA
+    "04032", // Freeport, ME
+    "02840", // Newport, RI
+    "08901", // New Brunswick, NJ
+    "08540", // Princeton, NJ
+    "07030", // Hoboken, NJ
+    "06360", // Norwich, CT
+    "01810", // Andover, MA
+    "04401", // Bangor, ME
+    "10573", // Port Chester, NY
+    "17602", // Lancaster, PA
+    "18701", // Wilkes-Barre, PA
+    "14222", // Elmwood Village, Buffalo, NY
+    "02886", // Warwick, RI
+    "03060", // Nashua, NH
+    "01002", // Amherst, MA
+    "18505", // Scranton (South), PA
+    "68106", // Ralston, NE
+    "06510", // New Haven, CT
+    "05401", // Burlington, VT
+    "02139", // Cambridge, MA
+    "06340", // Groton, CT
+    "06032", // Farmington, CT
+    "12305", // Schenectady, NY
+    "13202", // Syracuse, NY
+    "17101", // Harrisburg, PA
+    "25301", // Charleston, WV
+    "26505", // Morgantown, WV
+    "24740", // Princeton, WV
+    "21502", // Cumberland, MD
+    "27949", // Kitty Hawk, NC
+    "26847", // Petersburg, WV
+    "16335", // Meadville, PA
+    "02806", // Barrington, RI
+    "19530", // Kutztown, PA
+    "06238"  // Coventry, CT
 )
 
 fun getRandomZipCode(): String {
+    while (zipCodes.isEmpty()) {
+        // Keeps trying until the list is non-empty
+        Thread.sleep(100) // Prevents a busy loop. Adjust delay as needed.
+    }
     return zipCodes.random()
 }

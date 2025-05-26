@@ -41,15 +41,15 @@ class AppViewModel(private val repository: AppRepository) : ViewModel() {
 
     init {
         viewModelScope.launch {
-            val location = getRandomCity()
+            val city = getRandomCity()
 
             // Fetch the currentWeather
             fetchForecastByCoordinates(
-                latitude = location.coordinates.latitude,
-                longitude = location.coordinates.longitude,
+                latitude = city.coordinates.latitude,
+                longitude = city.coordinates.longitude,
                 apiKey = AppDefault.API_KEY
             )
-            fetchForecasts(location.coordinates.latitude, location.coordinates.longitude, AppDefault.API_KEY)
+            fetchForecasts(city.coordinates.latitude, city.coordinates.longitude, AppDefault.API_KEY)
         }
     }
 

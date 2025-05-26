@@ -45,8 +45,8 @@ fun ScreenRoutingFloatingActionButton(
 
     // Determine the button label based on the current route
     val buttonLabel = when (route) {
-        Screens.Forecast.route -> "Forecast"
-        Screens.Current.route -> "Current Weather"
+        Screens.Forecast.route -> "Current Weather"
+        Screens.Current.route -> "Forecast"
         else -> ""
     }
 

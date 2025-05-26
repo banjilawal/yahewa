@@ -79,5 +79,9 @@ val cities = setOf(
 )
 
 fun getRandomCity(): City {
+    while (cities.isEmpty()) {
+        // Keeps trying until the list is non-empty
+        Thread.sleep(100) // Prevents a busy loop. Adjust delay as needed.
+    }
     return cities.random()
 }

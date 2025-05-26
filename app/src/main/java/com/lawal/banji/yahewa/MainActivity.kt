@@ -36,9 +36,9 @@ class MainActivity : ComponentActivity() {
         ForecastViewModelFactory(AppRepository())
     }
 
-    private val appViewModel: AppViewModel by viewModels {
-        WeatherViewModelFactory(AppRepository())
-    }
+//    private val appViewModel: AppViewModel by viewModels {
+//        WeatherViewModelFactory(AppRepository())
+//    }
 
     private lateinit var locationRequestHandler: LocationRequestHandler
 
@@ -53,8 +53,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             YahewaTheme {
                 val currentWeatherState by currentWeatherViewModel.currentWeatherState.collectAsState()
-                val forecastGroupState by forecastViewModel.forecastState.collectAsState()
-                val forecastState by appViewModel.currentWeatherState.collectAsState()
+                val forecastState by forecastViewModel.forecastState.collectAsState()
+//                val forecastState by appViewModel.currentWeatherState.collectAsState()
 
                 Surface(color = MaterialTheme.colorScheme.background) {
                     val navController = rememberNavController() // Create the NavController
@@ -64,7 +64,6 @@ class MainActivity : ComponentActivity() {
                         forecastViewModel = forecastViewModel,
                         startDestination = Screens.Current.route // Define the starting route
                     )
-
                 }
             }
         }

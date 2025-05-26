@@ -25,7 +25,7 @@ data class ForecastRecord (
     @SerializedName("feels_like") val feelsLike: FeelsLike,
     @SerializedName("pressure") val pressure: Double,
     @SerializedName("humidity") val humidity: Double,
-    @SerializedName("weather") val weather: List<Weather>,
+    @SerializedName("weather") val weatherItems: List<WeatherItem>,
     @SerializedName("speed") val windSpeed: Double,
     @SerializedName("deg") val windOrientation: Double,
     @SerializedName("gust") val windGusts: Double,

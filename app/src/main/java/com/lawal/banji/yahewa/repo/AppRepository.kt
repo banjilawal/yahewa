@@ -4,6 +4,7 @@ import com.lawal.banji.yahewa.model.City
 import com.lawal.banji.yahewa.model.Coordinates
 import com.lawal.banji.yahewa.model.CurrentWeather
 import com.lawal.banji.yahewa.model.Forecast
+import com.lawal.banji.yahewa.model.GeoLocation
 import com.lawal.banji.yahewa.model.ZipCodeMetadata
 import com.lawal.banji.yahewa.repo.RetrofitInstance.api
 
@@ -21,16 +22,36 @@ class AppRepository {
                 } catch (e: Exception) { QueryResponseState.Error(e)  }
         }
 
+        suspend fun requestGeoLocationByZipCode(zipCode: String, apiKey: String): QueryResponseState<GeoLocation> {
+                return try {
+                        val result = api.getGeoLocationByZipCode(zipCode = zipCode, apiKey = apiKey)
+                        QueryResponseState.Success(result)
+                } catch (e: Exception) { QueryResponseState.Error(e)  }
+        }
+
+        suspend fun requestGeoLocationByCoordinates(coordinates: Coordinates, apiKey: String): QueryResponseState<GeoLocation> {
+                return try {
+                        val result = api.getGeoLocationByCoordinates(latitude = coordinates.latitude, longitude = coordinates.longitude, apiKey = apiKey)
+                        // Print the JSON response to the console
+                        println("Reverse Geocoding JSON Response: $result")
+                        QueryResponseState.Success(result)
+                } catch (e: Exception) { QueryResponseState.Error(e) }
+        }
+
         suspend fun requestCurrentWeatherByCoordinates(coordinates: Coordinates, apiKey: String): QueryResponseState<CurrentWeather> {
+                System.out.println("Inside requestCurrentWeatherByCoordinates with $coordinates")
                 return try {
                         val result = api.getCurrentWeatherByCoordinates(latitude = coordinates.latitude, longitude = coordinates.longitude, apiKey = apiKey)
+                        System.out.println("JSON current weather response for coordinates $coordinates is $result")
                         QueryResponseState.Success(result)
                 } catch (e: Exception) { QueryResponseState.Error(e)  }
         }
 
         suspend fun requestCurrentWeatherByZipCode(zipCode: String, apiKey: String): QueryResponseState<CurrentWeather> {
+                System.out.println("Inside requestCurrentWeatherByZipCode with  $zipCode")
                 return try {
                         val result = api.getForecastByZipcode(zipCode = zipCode, apiKey = apiKey)
+                        System.out.println("JSON current weather response for zip code :$zipCode is $result")
                         QueryResponseState.Success(result)
                 } catch (e: Exception) {  QueryResponseState.Error(e)  }
         }
