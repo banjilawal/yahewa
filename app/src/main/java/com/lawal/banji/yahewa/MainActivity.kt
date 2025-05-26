@@ -62,7 +62,7 @@ class MainActivity : ComponentActivity() {
                         navController = navController,       // Pass the NavController to the NavHost
                         currentWeatherViewModel = currentWeatherViewModel,
                         forecastViewModel = forecastViewModel,
-                        startDestination = Screens.Home.route // Define the starting route
+                        startDestination = Screens.Current.route // Define the starting route
                     )
 
                 }

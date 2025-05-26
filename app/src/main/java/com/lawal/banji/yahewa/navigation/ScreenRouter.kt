@@ -22,8 +22,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.lawal.banji.yahewa.destination.ForecastScreen
-import com.lawal.banji.yahewa.destination.HomeScreen
+import com.lawal.banji.yahewa.destination.CurrentWeatherScreen
+import com.lawal.banji.yahewa.destination.NewForecastScreen
 import com.lawal.banji.yahewa.ui.theme.Black
 import com.lawal.banji.yahewa.ui.theme.DefaultDisplayBackgroundColor
 import com.lawal.banji.yahewa.ui.theme.White
@@ -31,7 +31,7 @@ import com.lawal.banji.yahewa.view.model.CurrentWeatherViewModel
 import com.lawal.banji.yahewa.view.model.ForecastViewModel
 
 @Composable
-fun RoutingFloatingButtonBar(
+fun ScreenRoutingFloatingActionButton(
     navController: NavController,
     modifier: Modifier = Modifier,
     containerColor: Color = Black,
@@ -41,24 +41,23 @@ fun RoutingFloatingButtonBar(
     val currentRoute by navController.currentBackStackEntryFlow.collectAsState(initial = null)
 
     // Determine the current route (null-safe)
-    val route = currentRoute?.destination?.route ?: Screens.Home.route
+    val route = currentRoute?.destination?.route ?: Screens.Current.route
 
     // Determine the button label based on the current route
     val buttonLabel = when (route) {
-        Screens.Home.route -> "Get Forecasts"
-        Screens.Forecasts.route -> "Get Current Weather"
+        Screens.Forecast.route -> "Forecast"
+        Screens.Current.route -> "Current Weather"
         else -> ""
     }
 
     // Define the FloatingActionButton composable
     FloatingActionButton(
         onClick = {
-            // Handle button click based on current route
-            if (route == Screens.Home.route) {
-                navController.navigate(Screens.Forecasts.route)
-            } else if (route == Screens.Forecasts.route) {
-                navController.navigate(Screens.Home.route) {
-                    popUpTo(Screens.Home.route) { inclusive = true }
+            if (route == Screens.Current.route) {
+                navController.navigate(Screens.Forecast.route)
+            } else if (route == Screens.Forecast.route) {
+                navController.navigate(Screens.Current.route) {
+                    popUpTo(Screens.Current.route) { inclusive = true }
                 }
             }
         },
@@ -72,14 +71,13 @@ fun RoutingFloatingButtonBar(
     }
 }
 
-
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ScreenRouter(
     navController: NavHostController,
     currentWeatherViewModel: CurrentWeatherViewModel,
     forecastViewModel: ForecastViewModel,
-    startDestination: String = Screens.Home.route
+    startDestination: String = Screens.Current.route
 ) {
 
     val currentWeatherState = currentWeatherViewModel.currentWeatherState.collectAsState().value
@@ -87,7 +85,7 @@ fun ScreenRouter(
 
     Scaffold(
         bottomBar = {
-            RoutingButtonBar(navController = navController)
+            ScreenRoutingButtonBar(navController = navController)
         },
     ) { innerPadding ->
         NavHost(
@@ -98,29 +96,27 @@ fun ScreenRouter(
                 .padding(0.5.dp)
                 .background(DefaultDisplayBackgroundColor)
         ) {
-            // HomeScreen
-            composable(Screens.Home.route) {
-                HomeScreen(
+
+            composable(Screens.Current.route) {
+                CurrentWeatherScreen(
                     currentWeatherState = currentWeatherState,
                     onNavigate = { itemId ->
                         navController.navigate(Screens.Details.createRoute(itemId.toString()))
                     },
-                    onZipcodeEntered = { zipcode ->
-                        currentWeatherViewModel.setZipcode(zipcode)
+                    onZipcodeEntered = { zipCode ->
+                        currentWeatherViewModel.setZipcode(zipCode)
                     }
                 )
             }
 
-            // ForecastsScreen
-            composable(Screens.Forecasts.route) {
-                ForecastScreen(
+            composable(Screens.Forecast.route) {
+                NewForecastScreen(
                     forecastState = forecastState,
-                    onNavigate = {
-                        // Direct navigation handling
-                        navController.popBackStack()
+                    onNavigate = { itemId ->
+                        navController.navigate(Screens.Details.createRoute(itemId.toString()))
                     },
-                    onZipcodeEntered = { zipcode ->
-                        forecastViewModel.setZipcode(zipcode)
+                    onZipcodeEntered = { zipCode ->
+                        forecastViewModel.setZipcode(zipCode)
                     }
                 )
             }
@@ -128,8 +124,9 @@ fun ScreenRouter(
     }
 }
 
+
 @Composable
-fun RoutingButtonBar(navController: NavController) {
+fun ScreenRoutingButtonBar(navController: NavController) {
     BottomAppBar(
         containerColor = Black,
         contentColor = White
@@ -139,9 +136,10 @@ fun RoutingButtonBar(navController: NavController) {
             contentAlignment = Alignment.Center,
             modifier = Modifier.fillMaxWidth().padding(0.dp)
         ) {
-            FloatingActionButton(
+            ScreenRoutingFloatingActionButton(
                 navController = navController,
-                modifier = Modifier.align(Alignment.Center).padding(0.dp).fillMaxWidth().fillMaxHeight()// Center the FAB
+                modifier = Modifier.align(Alignment.Center).padding(0.dp).fillMaxWidth()
+                    .fillMaxHeight()// Center the FAB
             )
         }
     }
