@@ -40,20 +40,46 @@ android {
 }
 
 dependencies {
-
+    // General Jetpack Compose libraries
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
+
+    // Include the runtime dependency explicitly (required for derivedStateOf)
+    implementation("androidx.compose.runtime:runtime:1.6.0")
+
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
+
+    // Material3 for modern UI components
     implementation(libs.androidx.material3)
+
+    // Navigation (Compose)
+    implementation(libs.androidx.navigation.compose)
+
+    // Retrofit and other libraries
+    implementation(libs.coil.compose)
+    implementation(libs.logging.interceptor)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    // Room and other libraries
+    implementation(libs.androidx.room.common.jvm)
+    implementation(libs.androidx.contentpager)
+    implementation(libs.androidx.runtime.livedata)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.play.services.location)
+
+    // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+
+    // Debugging tools
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }

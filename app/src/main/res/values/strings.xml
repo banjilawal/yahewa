@@ -1,3 +1,31 @@
 <resources>
     <string name="app_name">Yahewa</string>
+    <string name="welcome_message">Welcome to Yahewa!</string>
+    <string name="welcome_subtitle">Your Weather Helper</string>
+    <string name="white_space">\u0020</string>
+    <string name="degree_symbol">&#176;</string>
+    <string name="default_temperature_scale">F</string>
+
+    <string name="current_temperature">72&#176; F</string>
+    <string name="feels_like_temperature">Feels like 78&#176; F</string>
+    <string name="low_temperature">Low 65&#176; F</string>
+    <string name="high_temperature">High 80&#176; F</string>
+    <string name="percent_humidity">Humidity 100%</string>
+    <string name="pressure">1023 hPa</string>
+
+
+    <string name="api_key">43d92973340fa3166680bbe3af8d3943</string>
+    <string name="zip_code_placeholder">Enter ZIP Code</string>
+    <string name="zip_code_error">Please enter a valid ZIP code</string>
+
+    <string name="imperial_pressure_unit">inHg</string>
+    <string name="metric_pressure_unit">hPa</string>
+    <string name="default_weather_icon_id">01d</string>
+    <string name="default_city">St Paul, MN</string>
+    <string name="default_zipcode">55404</string>
+    <string name="default_weather_description">Sunny</string>
+
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="location_not_found">Location not found</string>
+    <string name="weather_data_error">No weather data available</string>
 </resources>
