@@ -17,7 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.lawal.banji.yahewa.factory.CurrentWeatherViewModelFactory
 import com.lawal.banji.yahewa.factory.ForecastViewModelFactory
 import com.lawal.banji.yahewa.factory.WeatherViewModelFactory
-import com.lawal.banji.yahewa.navigation.AppNavHost
+import com.lawal.banji.yahewa.navigation.ScreenRouter
 import com.lawal.banji.yahewa.navigation.Screens
 import com.lawal.banji.yahewa.repo.AppRepository
 import com.lawal.banji.yahewa.response.LocationRequestHandler
@@ -58,9 +58,10 @@ class MainActivity : ComponentActivity() {
 
                 Surface(color = MaterialTheme.colorScheme.background) {
                     val navController = rememberNavController() // Create the NavController
-                    AppNavHost(
+                    ScreenRouter(
                         navController = navController,       // Pass the NavController to the NavHost
-                        appViewModel = appViewModel, // Pass the ViewModel for the currentWeather state
+                        currentWeatherViewModel = currentWeatherViewModel,
+                        forecastViewModel = forecastViewModel,
                         startDestination = Screens.Home.route // Define the starting route
                     )
 
