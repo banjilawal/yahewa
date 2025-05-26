@@ -64,6 +64,6 @@ data class ReverseGeoCoding(
 
 sealed class ReverseGeoCodingState {
     object Loading : ReverseGeoCodingState() // Represents a loading state while forecastRecords are being fetched
-    data class Success(val geoCoding: ReverseGeoCoding) : ReverseGeoCodingState()
+    data class Success(val reverseGeoCoding: ReverseGeoCoding) : ReverseGeoCodingState()
     data class Error(val message: String) : ReverseGeoCodingState() // Represents an error state with a message
 }

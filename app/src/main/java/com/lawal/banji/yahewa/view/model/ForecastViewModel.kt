@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.lawal.banji.yahewa.model.CityLookupState
 import com.lawal.banji.yahewa.model.Coordinates
 import com.lawal.banji.yahewa.model.ForecastState
-import com.lawal.banji.yahewa.model.ZipCodeMetadataState
+import com.lawal.banji.yahewa.model.GeoCoding
 import com.lawal.banji.yahewa.repo.AppRepository
 import com.lawal.banji.yahewa.repo.QueryResponseState
 import com.lawal.banji.yahewa.utils.AppDefault
@@ -24,17 +24,17 @@ class ForecastViewModel(private val repository: AppRepository) : ViewModel() {
         MutableStateFlow<ForecastState>(ForecastState.Loading)
     val forecastState: StateFlow<ForecastState> get() = _forecastState
 
-    private var _coordinates: MutableStateFlow<Coordinates?> = MutableStateFlow(null)
-    val coordinates: StateFlow<Coordinates?> get() = _coordinates
+    private var _coordinatesState: MutableStateFlow<Coordinates?> = MutableStateFlow(null)
+    val coordinates: StateFlow<Coordinates?> get() = _coordinatesState
 
-    private var _zipCode: MutableStateFlow<String?> = MutableStateFlow(null)
-    val zipCode: StateFlow<String?> get() = _zipCode
+    private var _zipCodeState: MutableStateFlow<String?> = MutableStateFlow(null)
+    val zipCode: StateFlow<String?> get() = _zipCodeState
 
-    private var _zipCodeMetadataState = MutableStateFlow<ZipCodeMetadataState>(ZipCodeMetadataState.Loading)
-    val zipCodeMetadataState:  StateFlow<ZipCodeMetadataState> get() = _zipCodeMetadataState
+    private var _geoCodingState: MutableStateFlow<GeoCoding?> = MutableStateFlow(null)
+    val goeCodingState:  StateFlow<GeoCoding?> get() = _geoCodingState
 
-    private var _location: MutableStateFlow<Location?> = MutableStateFlow(null)
-    val location: StateFlow<Location?> get() = _location
+    private var _locationState: MutableStateFlow<Location?> = MutableStateFlow(null)
+    val location: StateFlow<Location?> get() = _locationState
 
     private val _cityLookupState = MutableStateFlow<CityLookupState>(CityLookupState.Loading)
     val cityLookupState: StateFlow<CityLookupState> get() = _cityLookupState
@@ -51,7 +51,7 @@ class ForecastViewModel(private val repository: AppRepository) : ViewModel() {
     }
 
     fun updateLocation(location: Location) {
-        _location.value= location
+        _locationState.value= location
     }
 
     // Public method to set the zip code so the ViewModel can handle fetching
@@ -62,9 +62,10 @@ class ForecastViewModel(private val repository: AppRepository) : ViewModel() {
 //            return
 //        }
 
-        _zipCode.value = newZipCode
+        _zipCodeState.value = newZipCode
         previousZipCode = newZipCode // Update cache for the ZIP code
-        queryByZipCode(newZipCode, AppDefault.API_KEY)
+        System.out.println("ForecastViewModel .setCoordinates has updated the coordinates to $newZipCode")
+        forecastByZipCodeHelper(newZipCode, AppDefault.API_KEY)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -74,28 +75,9 @@ class ForecastViewModel(private val repository: AppRepository) : ViewModel() {
 //            return
 //        }
 
-        _coordinates.value = newCoordinates
+        _coordinatesState.value = newCoordinates
         previousCoordinates = newCoordinates // Update cache for the ZIP code
         queryByCoordinates(coordinates = newCoordinates, apiKey= AppDefault.API_KEY)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun getZipCodeMetadata(zipCode: String, apiKey: String) {
-        System.out.println("ForecastViewModel is getting the metadata for  $zipCode with  repository.requestZipCoddMetadata")
-        viewModelScope.launch {
-            when (val queryResult = repository.requestZipCoddMetadata(zipCode, apiKey = apiKey)) {
-                is QueryResponseState.Success -> {
-                    _zipCodeMetadataState.value = ZipCodeMetadataState.Success(queryResult.data)
-                    val latitude = queryResult.data.latitude
-                    val longitude = queryResult.data.longitude
-                    System.out.println("ForecastViewModel received longitude $longitude and latitude $latitude for zip code  $zipCode")
-                    setCoordinates(Coordinates(latitude, longitude))
-                } is QueryResponseState.Error -> {
-                _forecastState.value =
-                    ForecastState.Error("Failed to fetch currentWeather data: ${queryResult.exception.message}")
-            }
-            }
-        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -105,12 +87,33 @@ class ForecastViewModel(private val repository: AppRepository) : ViewModel() {
 //            return
 //        }
 //        setZipcode(newZipCode = zipCode)
-        getZipCodeMetadata(zipCode, apiKey)
+        System.out.println("ForecastViewModel is going to call repository.requestForecastByZipCode with zipcode $zipCode")
+        forecastByZipCodeHelper(zipCode, apiKey)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun forecastByZipCodeHelper(zipCode: String, apiKey: String) {
+        System.out.println("ZipCodeHelper is  calling repository.requestGeoCodingByZipCode with  $zipCode")
+        viewModelScope.launch {
+            when (val queryResult = repository.requestGeoCodingByZipCode(zipCode, apiKey = apiKey)) {
+                is QueryResponseState.Success -> {
+                    _geoCodingState.value = queryResult.data
+                    System.out.println("ZipCodeHelper received geoCoding data  $_geoCodingState.value?")
+                    val latitude = queryResult.data.latitude
+                    val longitude = queryResult.data.longitude
+                    System.out.println("ForecastViewModel received longitude $longitude and latitude $latitude for zip code  $zipCode")
+                    setCoordinates(Coordinates(latitude = latitude, longitude = longitude))
+                } is QueryResponseState.Error -> {
+                _forecastState.value =
+                    ForecastState.Error("Failed to fetch currentWeather data: ${queryResult.exception.message}")
+            }
+            }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun queryByCoordinates(coordinates: Coordinates, apiKey: String) {
-        System.out.println("ForecastViewModel is getting the forecast  for coordinates  ${coordinates.latitude}, ${coordinates.longitude}")
+        System.out.println("ForecastViewModel is getting the forecast  for coordinates  $coordinates")
         viewModelScope.launch {
             when (val queryResult = repository.requestForecastByCoordinates(
                 coordinates = coordinates,
