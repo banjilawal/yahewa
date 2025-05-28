@@ -45,10 +45,10 @@ class AppRepository {
                 } catch (e: Exception) { QueryResponseState.Error(e) }
         }
 
-        suspend fun requestCurrentWeatherByCoordinates(coordinate: Coordinate, apiKey: String): QueryResponseState<CurrentWeather> {
+        suspend fun requestCurrentWeatherByCoordinate(coordinate: Coordinate, apiKey: String): QueryResponseState<CurrentWeather> {
                 System.out.println("Inside requestCurrentWeatherByCoordinates with $coordinate")
                 return try {
-                        val result = api.getCurrentWeatherByCoordinates(latitude = coordinate.latitude, longitude = coordinate.longitude, apiKey = apiKey)
+                        val result = api.getCurrentWeatherByCoordinate(latitude = coordinate.latitude, longitude = coordinate.longitude, apiKey = apiKey)
                         System.out.println("JSON current weather response for coordinate $coordinate is $result")
                         QueryResponseState.Success(result)
                 } catch (e: Exception) { QueryResponseState.Error(e)  }

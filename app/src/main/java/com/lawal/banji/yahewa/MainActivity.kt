@@ -9,6 +9,8 @@ import androidx.lifecycle.lifecycleScope
 import com.lawal.banji.yahewa.factory.GeoCodingViewModelFactory
 import com.lawal.banji.yahewa.model.GeoCodeState
 import com.lawal.banji.yahewa.repo.AppRepository
+import com.lawal.banji.yahewa.utils.AppDefault
+import com.lawal.banji.yahewa.utils.getRandomCity
 import com.lawal.banji.yahewa.view.model.GeoCodeViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -22,6 +24,10 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val randomCity = getRandomCity() // Assume this gives you a random city with coordinate
+        geoCodeViewModel.loadData(randomCity.coordinate, AppDefault.API_KEY)
+
+        // Observe states to react to data
         observeGeoCodeState()
     }
 

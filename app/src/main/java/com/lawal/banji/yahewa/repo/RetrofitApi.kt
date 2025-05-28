@@ -12,7 +12,7 @@ import retrofit2.http.Query
 interface RetrofitApi {
 
     @GET("weather")
-    suspend fun getCurrentWeatherByCoordinates(
+    suspend fun getCurrentWeatherByCoordinate(
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,
         @Query("units") units: String = AppDefault.DEFAULT_MEASUREMENT_SYSTEM,
