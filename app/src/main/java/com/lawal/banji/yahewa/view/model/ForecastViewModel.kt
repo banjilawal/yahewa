@@ -35,8 +35,8 @@ package com.lawal.banji.yahewa.view.model
 //    private var _locationState: MutableStateFlow<Location?> = MutableStateFlow(null)
 //    val location: StateFlow<Location?> get() = _locationState
 //
-//    private val _cityLookupState = MutableStateFlow<CityLookupState>(CityLookupState.Loading)
-//    val cityLookupState: StateFlow<CityLookupState> get() = _cityLookupState
+//    private val _cityLookupState = MutableStateFlow<CityState>(CityState.Loading)
+//    val cityState: StateFlow<CityState> get() = _cityLookupState
 
 //    private var previousCoordinates: Coordinate? = null // Cache for coordinate
 //    private var previousZipCode: String? = null // Cache for ZIP code

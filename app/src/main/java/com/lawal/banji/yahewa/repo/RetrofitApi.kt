@@ -4,7 +4,6 @@ import com.lawal.banji.yahewa.model.CurrentWeather
 import com.lawal.banji.yahewa.model.Forecast
 import com.lawal.banji.yahewa.model.GeoCode
 import com.lawal.banji.yahewa.model.ReverseGeoCoding
-import com.lawal.banji.yahewa.model.ZipCodeMetadata
 import com.lawal.banji.yahewa.utils.AppDefault
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -26,26 +25,14 @@ interface RetrofitApi {
         @Query("appid") apiKey: String = AppDefault.API_KEY
     ): CurrentWeather
 
-    @GET("weather")
-    suspend fun getForecastByZipcode(
-        @Query("zip") zipCode: String,
-        @Query("units") units: String = AppDefault.DEFAULT_MEASUREMENT_SYSTEM,
-        @Query("appid") apiKey: String = AppDefault.API_KEY
-    ): CurrentWeather
-
-    @GET("weather")
-    suspend fun getForecastByCoordinates(
+    @GET("forecast/daily")
+    suspend fun getForecastByCoordinate(
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,
         @Query("units") units: String = AppDefault.DEFAULT_MEASUREMENT_SYSTEM,
+        @Query("cnt") count: Int = AppDefault.NUMBER_OF_FORECASTS,
         @Query("appid") apiKey: String = AppDefault.API_KEY
-    ): CurrentWeather
-
-    @GET("geo/1.0/zip")
-    suspend fun getZipCodeMetadata(
-        @Query("zip") zipCode: String,
-        @Query("appid") apiKey: String = AppDefault.API_KEY
-    ): ZipCodeMetadata
+    ): Forecast
 
     @GET("geo/1.0/zip")
     suspend fun getGeoCodeByZipCode(
@@ -83,14 +70,7 @@ interface RetrofitApi {
         @Query("appid") apiKey: String = AppDefault.API_KEY
     ): ReverseGeoCoding
 
-    @GET("forecast/daily")
-    suspend fun getForecasts(
-        @Query("lat") latitude: Double,
-        @Query("lon") longitude: Double,
-        @Query("units") units: String = AppDefault.DEFAULT_MEASUREMENT_SYSTEM,
-        @Query("cnt") count: Int = AppDefault.NUMBER_OF_FORECASTS,
-        @Query("appid") apiKey: String = AppDefault.API_KEY
-    ): Forecast
+
 }
 
 

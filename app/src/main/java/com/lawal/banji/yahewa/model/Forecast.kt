@@ -39,7 +39,6 @@ data class Forecast(
     @SerializedName("cnt") val numberOfForecasts: Int,
     @SerializedName("list") val forecastRecords: List<ForecastRecord>
 )
-
 sealed class ForecastState {
     object Loading : ForecastState() // Represents a loading state while forecastRecords are being fetched
     data class Success(val forecast: Forecast) : ForecastState()

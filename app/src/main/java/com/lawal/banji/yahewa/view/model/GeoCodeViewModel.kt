@@ -80,7 +80,7 @@ class GeoCodeViewModel(private val repository: AppRepository) : ViewModel() {
 //        if (coordinate == (_geoCodeState.value as GeoCodeState.Success).geoCode.coordinate) {
 //            println("Forecast for coordinate $coordinate already queried. Skipping lookup.")
 //        }
-        forecastQueryResponseHandler(repository.requestForecastByCoordinates(coordinate, numberOfRecords, apiKey))
+        forecastQueryResponseHandler(repository.requestForecastByCoordinate(coordinate, numberOfRecords, apiKey))
     }
 
     suspend fun fetchForecastByZipCode(zipCode: String, numberOfRecords: Int, apiKey:String) {
