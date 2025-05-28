@@ -36,7 +36,7 @@ data class WeatherItem(
 )
 
 data class CurrentWeather(
-    @SerializedName("coord") val coordinates: Coordinates,
+    @SerializedName("coord") val coordinate: Coordinate,
     @SerializedName("weather") val weatherItems: List<WeatherItem>,
     @SerializedName("main") val main: Main,
     @SerializedName("visibility") val visibility: Int,
@@ -45,7 +45,7 @@ data class CurrentWeather(
     @SerializedName("dt") val unixTime: Long,
     @SerializedName("sys") val  sys: Sys,
     @SerializedName("timezone") val timezone: Int,
-    @SerializedName("name") val city: String,
+    @SerializedName("name") val cityName: String,
     var state: String? = null
 )
 

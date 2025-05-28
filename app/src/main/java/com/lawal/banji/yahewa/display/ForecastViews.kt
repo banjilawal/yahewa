@@ -144,8 +144,8 @@ fun ForecastGroupComposable(
 ) {
     val totalForecasts = forecast.numberOfForecasts
     val title = "$totalForecasts day Forecasts for ${forecast.city.name}, ${forecast.city.country}"
-    val coordinates = "lat: ${forecast.city.coordinates.latitude}, " +
-            "lon: ${forecast.city.coordinates.longitude}"
+    val coordinates = "lat: ${forecast.city.coordinate.latitude}, " +
+            "lon: ${forecast.city.coordinate.longitude}"
 
     Column(
         modifier = modifier

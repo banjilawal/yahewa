@@ -11,8 +11,8 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
 /**
- * Requests both fine and coarse geoCoding permissions dynamically.
- * @return `true` if both geoCoding permissions are granted, otherwise `false`.
+ * Requests both fine and coarse geoCode permissions dynamically.
+ * @return `true` if both geoCode permissions are granted, otherwise `false`.
  */
 suspend fun ComponentActivity.requestLocationPermissions(): Boolean {
     return suspendCancellableCoroutine { continuation ->
@@ -38,22 +38,22 @@ suspend fun ComponentActivity.requestLocationPermissions(): Boolean {
 }
 
 /**
- * Retrieves the user's last known geoCoding using FusedLocationProviderClient.
- * @return The last known [Location], or `null` if geoCoding retrieval fails.
+ * Retrieves the user's last known geoCode using FusedLocationProviderClient.
+ * @return The last known [Location], or `null` if geoCode retrieval fails.
  */
 suspend fun FusedLocationProviderClient.getCurrentLocationSafely(activity: ComponentActivity): Location? {
-    // Ensure geoCoding permissions are granted before fetching geoCoding
+    // Ensure geoCode permissions are granted before fetching geoCode
     val hasPermission = activity.requestLocationPermissions()
     if (!hasPermission) {
         return null // Permissions denied, return null
     }
 
-    // Fetch the last known geoCoding
+    // Fetch the last known geoCode
     return suspendCancellableCoroutine { continuation ->
         this.lastLocation.addOnSuccessListener { location ->
-            continuation.resume(location) // Return geoCoding if available
+            continuation.resume(location) // Return geoCode if available
         }.addOnFailureListener {
-            continuation.resume(null) // Return null if geoCoding retrieval fails
+            continuation.resume(null) // Return null if geoCode retrieval fails
         }
     }
 }

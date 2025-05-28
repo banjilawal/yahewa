@@ -82,7 +82,7 @@ fun WeatherDetailsDisplay(currentWeather: CurrentWeather) {
 
         /*
         * Node Type: CustomBox
-         * Description: Displays the name of the city or geoCoding.
+         * Description: Displays the name of the city or geoCode.
          * Color: PowderBlue
          * Modifier: weight(0.75f)
          * Text Style: headlineLarge
@@ -92,7 +92,7 @@ fun WeatherDetailsDisplay(currentWeather: CurrentWeather) {
         * */
         CustomBox(color = PowderBlue, modifier = Modifier.weight(0.75f)) {
             CustomText(
-                content = currentWeather.city,
+                content = currentWeather.cityName,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.headlineLarge
             )

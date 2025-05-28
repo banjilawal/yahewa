@@ -36,7 +36,7 @@ class AppViewModel(private val repository: AppRepository) : ViewModel() {
     private val _cityLookupState = MutableStateFlow<CityLookupState>(CityLookupState.Loading)
     val cityLookupState: StateFlow<CityLookupState> get() = _cityLookupState
 
-    private var previousCoordinates: Pair<Double, Double>? = null // Cache for coordinates
+    private var previousCoordinates: Pair<Double, Double>? = null // Cache for coordinate
     private var previousZipCode: String? = null // Cache for ZIP code
 
     init {
@@ -45,11 +45,11 @@ class AppViewModel(private val repository: AppRepository) : ViewModel() {
 
             // Fetch the currentWeather
             fetchForecastByCoordinates(
-                latitude = city.coordinates.latitude,
-                longitude = city.coordinates.longitude,
+                latitude = city.coordinate.latitude,
+                longitude = city.coordinate.longitude,
                 apiKey = AppDefault.API_KEY
             )
-            fetchForecasts(city.coordinates.latitude, city.coordinates.longitude, AppDefault.API_KEY)
+            fetchForecasts(city.coordinate.latitude, city.coordinate.longitude, AppDefault.API_KEY)
         }
     }
 
@@ -72,13 +72,13 @@ class AppViewModel(private val repository: AppRepository) : ViewModel() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun fetchForecastByCoordinates(latitude: Double, longitude: Double, apiKey: String) {
-        // Prevent a duplicate lookup by checking the cached coordinates
+        // Prevent a duplicate lookup by checking the cached coordinate
         if (previousCoordinates == Pair(latitude, longitude)) {
-            println("Coordinates ($latitude, $longitude) already queried. Skipping lookup.")
+            println("Coordinate ($latitude, $longitude) already queried. Skipping lookup.")
             return
         }
 
-        previousCoordinates = Pair(latitude, longitude) // Update the coordinates cache
+        previousCoordinates = Pair(latitude, longitude) // Update the coordinate cache
 
         viewModelScope.launch {
             when (val queryResult = repository.fetchByCoordinates(
@@ -106,8 +106,8 @@ class AppViewModel(private val repository: AppRepository) : ViewModel() {
             when (val queryResult = repository.fetchByZipcode(zipcode, apiKey)) {
                 is QueryResponseState.Success -> {
                     _currentWeatherState.value = CurrentWeatherState.Success(queryResult.data)
-                    val latitude = queryResult.data.coordinates.latitude
-                    val longitude = queryResult.data.coordinates.longitude
+                    val latitude = queryResult.data.coordinate.latitude
+                    val longitude = queryResult.data.coordinate.longitude
                     System.out.println("fetched for Zipcode:$zipcode latitude:$latitude longitude:$longitude getting forecastRecords now")
                     fetchForecasts(latitude, longitude, apiKey)
                 }

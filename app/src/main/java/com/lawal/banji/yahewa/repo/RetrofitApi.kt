@@ -2,7 +2,7 @@ package com.lawal.banji.yahewa.repo
 
 import com.lawal.banji.yahewa.model.CurrentWeather
 import com.lawal.banji.yahewa.model.Forecast
-import com.lawal.banji.yahewa.model.GeoCoding
+import com.lawal.banji.yahewa.model.GeoCode
 import com.lawal.banji.yahewa.model.ReverseGeoCoding
 import com.lawal.banji.yahewa.model.ZipCodeMetadata
 import com.lawal.banji.yahewa.utils.AppDefault
@@ -48,16 +48,24 @@ interface RetrofitApi {
     ): ZipCodeMetadata
 
     @GET("geo/1.0/zip")
-    suspend fun getGeoCodingByZipCode(
+    suspend fun getGeoCodeByZipCode(
         @Query("zip") zipCode: String,
         @Query("appid") apiKey: String = AppDefault.API_KEY
-    ): GeoCoding
+    ): GeoCode
 
     @GET("geo/1.0/direct")
-    suspend fun getGeoCodingByCityName(
+    suspend fun getGeoCodeByCityName(
         @Query("q") cityName: String,
         @Query("appid") apiKey: String = AppDefault.API_KEY
-    ): GeoCoding
+    ): GeoCode
+
+    @GET("geo/1.0/reverse")
+    suspend fun getGeoCodeByCoordinate(
+        @Query("lat") latitude: Double,
+        @Query("lon") longitude: Double,
+        @Query("limit") limit: Int = AppDefault.NUMBER_OF_REVERSE_GEO_ENCODING_RESULTS,
+        @Query("appid") apiKey: String = AppDefault.API_KEY
+    ): GeoCode
 
     @GET("geo/1.0/reverse")
     suspend fun getReverseGeoCodingByCoordinates(

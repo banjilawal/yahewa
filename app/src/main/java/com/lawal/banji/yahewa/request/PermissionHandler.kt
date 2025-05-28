@@ -123,7 +123,7 @@ class LocationPermissionHandler(
     )
 ) {
     override fun hasPermissions(context: Context): Boolean {
-        // Only require fine geoCoding permission for the permissions to be considered granted
+        // Only require fine geoCode permission for the permissions to be considered granted
         return ContextCompat.checkSelfPermission(
             context,
             Manifest.permission.ACCESS_FINE_LOCATION

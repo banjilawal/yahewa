@@ -20,7 +20,7 @@ class LocationRequestHandler(
     private val locationPermissionRequest = LocationPermissionHandler(activity)
 
     /**
-     * Public method to fetch the current geoCoding.
+     * Public method to fetch the current geoCode.
      */
     suspend fun getCurrentLocation() {
         // Request permissions using LocationPermissionHandler
@@ -31,33 +31,33 @@ class LocationRequestHandler(
     }
 
     /**
-     * Fetch the last known geoCoding.
+     * Fetch the last known geoCode.
      */
     @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
     private fun fetchLastLocation() {
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location ->
                 if (location != null) {
-                    // Successfully retrieved geoCoding
+                    // Successfully retrieved geoCode
                     callback.onLocationReceived(location)
                 } else {
-                    // No geoCoding available
+                    // No geoCode available
                     callback.onLocationUnavailable()
                 }
             }
             .addOnFailureListener { exception ->
-                // Handle geoCoding retrieval errors
+                // Handle geoCode retrieval errors
                 callback.onLocationError(exception)
             }
     }
 
     /**
-     * Callback interface to handle geoCoding results.
+     * Callback interface to handle geoCode results.
      */
     interface LocationCallback {
-        fun onLocationReceived(location: Location) // GeoCoding fetched successfully
-        fun onLocationUnavailable() // GeoCoding is unavailable
+        fun onLocationReceived(location: Location) // GeoCode fetched successfully
+        fun onLocationUnavailable() // GeoCode is unavailable
         fun onPermissionDenied() // Permissions were denied
-        fun onLocationError(e: Exception) // Error occurred during geoCoding retrieval
+        fun onLocationError(e: Exception) // Error occurred during geoCode retrieval
     }
 }

@@ -37,7 +37,7 @@ import java.util.Locale
 @Composable
 fun CurrentWeatherView(currentWeather: CurrentWeather) {
 
-    val city = currentWeather.city
+    val city = currentWeather.cityName
     val state = currentWeather.state
     val country = currentWeather.sys.country
 

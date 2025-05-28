@@ -7,7 +7,7 @@ data class City(
     @SerializedName("state") val state: String? = null,
     @SerializedName("country") val country: String? = null,
     @SerializedName("timezone") val timezone: Int? = null,
-    @SerializedName("coord") val coordinates: Coordinates,
+    @SerializedName("coord") val coordinate: Coordinate,
     var zipCode: String? = null
 )
 
@@ -31,27 +31,32 @@ sealed class ZipCodeMetadataState {
     data class Error(val message: String) : ZipCodeMetadataState() // Represents an error state with a message
 }
 
-data class Coordinates(
+data class Coordinate(
     @SerializedName("lon") val longitude: Double,
     @SerializedName("lat") val latitude: Double
 )
 
-data class GeoCoding(
-    @SerializedName("name") val name: String,
-    @SerializedName("country") val country: String? = null,
-    @SerializedName("zip") val zipCode: String,
-    @SerializedName("lon") val longitude: Double,
-    @SerializedName("lat") val latitude: Double,
-) {
-    // Computed property to return coordinates as a Coordinates object
-    val coordinates: Coordinates
-        get() = Coordinates(longitude = longitude, latitude = latitude)
+sealed class CoordinateState {
+    object Loading : CoordinateState() // Represents a loading state while forecastRecords are being fetched
+    data class Success(val coordinate: Coordinate) : CoordinateState()
+    data class Error(val message: String) : CoordinateState() // Represents an error state with a message
 }
 
-sealed class GeoCodingState {
-    object Loading : GeoCodingState() // Represents a loading state while forecastRecords are being fetched
-    data class Success(val geoCoding: GeoCoding) : GeoCodingState()
-    data class Error(val message: String) : GeoCodingState() // Represents an error state with a message
+data class GeoCode(
+    @SerializedName("name") val name: String,
+    @SerializedName("lon") val longitude: Double,
+    @SerializedName("lat") val latitude: Double,
+    @SerializedName("country") val country: String? = null,
+    @SerializedName("zip") val zipCode: String? = null,
+    @SerializedName("state") val state: String? = null,
+) {
+    val coordinate: Coordinate
+        get() = Coordinate(longitude = longitude, latitude = latitude)
+}
+sealed class GeoCodeState {
+    object Loading : GeoCodeState() // Represents a loading state while forecastRecords are being fetched
+    data class Success(val geoCode: GeoCode) : GeoCodeState()
+    data class Error(val message: String) : GeoCodeState() // Represents an error state with a message
 }
 
 data class ReverseGeoCoding(

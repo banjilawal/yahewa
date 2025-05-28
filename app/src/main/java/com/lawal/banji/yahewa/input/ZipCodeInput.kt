@@ -40,7 +40,7 @@ fun LocationButton(
     ) {
         Icon(
             imageVector = Icons.Default.LocationOn,
-            contentDescription = "Use My GeoCoding"
+            contentDescription = "Use My GeoCode"
         )
     }
 }
@@ -54,7 +54,7 @@ fun showInvalidZipCodeToast(context: Context) {
 }
 
 fun showFetchingLocationToast(context: Context) {
-    Toast.makeText(context, "Fetching current geoCoding...", Toast.LENGTH_SHORT).show()
+    Toast.makeText(context, "Fetching current geoCode...", Toast.LENGTH_SHORT).show()
 }
 
 @Composable
