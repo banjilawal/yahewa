@@ -32,10 +32,18 @@ data class GeoCode(
     @SerializedName("lat") val latitude: Double,
     @SerializedName("country") val country: String? = null,
     @SerializedName("zip") val zipCode: String? = null,
-    @SerializedName("state") val state: String? = null,
+    @SerializedName("state") var state: String? = null,
 ) {
     val coordinate: Coordinate
         get() = Coordinate(longitude = longitude, latitude = latitude)
+
+    fun getTitle(): String {
+        var title = "$name, $country"
+        if (state != null && state!!.isNotEmpty() && country!!.isNotEmpty() &&  country?.uppercase()   == "US") {
+            title = "$name, $state"
+        }
+        return title
+    }
 }
 sealed class GeoCodeState {
     object Loading : GeoCodeState()

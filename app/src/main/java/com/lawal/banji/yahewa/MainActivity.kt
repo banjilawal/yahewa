@@ -9,7 +9,6 @@ import androidx.lifecycle.lifecycleScope
 import com.lawal.banji.yahewa.factory.GeoCodingViewModelFactory
 import com.lawal.banji.yahewa.model.GeoCodeState
 import com.lawal.banji.yahewa.repo.AppRepository
-import com.lawal.banji.yahewa.utils.AppDefault
 import com.lawal.banji.yahewa.utils.getRandomCity
 import com.lawal.banji.yahewa.view.model.GeoCodeViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -25,10 +24,11 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val randomCity = getRandomCity() // Assume this gives you a random city with coordinate
-        geoCodeViewModel.loadData(randomCity.coordinate, AppDefault.API_KEY)
-
-        // Observe states to react to data
+        geoCodeViewModel.loadDataByCoordinate(coordinate = randomCity.coordinate)
         observeGeoCodeState()
+
+//        geoCodeViewModel.loadDataByZipCode(getRandomZipCode(), AppDefault.API_KEY)
+//        observeGeoCodeState()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -44,7 +44,9 @@ class MainActivity : ComponentActivity() {
                     is GeoCodeState.Success -> {
                         val coordinate = state.geoCode.coordinate
                         val name = state.geoCode.name
-                        println("GeoCodeViewModel: Coordinates received - Latitude = ${coordinate.latitude}, Longitude = ${coordinate.longitude} from $name")
+                        val geoCode = state.geoCode
+                        println("GeoCodeViewModel: Geocode information received - $geoCode")
+                 //       println("GeoCodeViewModel: Coordinates received - Latitude = ${coordinate.latitude}, Longitude = ${coordinate.longitude} from $name")
                     }
 
                     is GeoCodeState.Error -> {

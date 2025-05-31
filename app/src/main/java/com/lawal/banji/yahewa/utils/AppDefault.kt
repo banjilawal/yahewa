@@ -16,7 +16,7 @@ object AppDefault {
     const val DEBOUNCE_MILLISECONDS: Long = 500L
     const val API_KEY: String = "43d92973340fa3166680bbe3af8d3943"
     const val NUMBER_OF_FORECASTS: Int = 16
-    const val NUMBER_OF_REVERSE_GEO_ENCODING_RESULTS: Int = 1
+    const val NUMBER_OF_GEOCODE_RESULTS: Int = 1
     const val DEFAULT_MEASUREMENT_SYSTEM: String = "imperial"
     const val DATA_FETCH_FAILURE_MESSAGE: String = "Failed ot fetch weather data."
     const val DATA_FETCH_SUCCESS_MESSAGE: String = "Weather data fetched successfully."

@@ -14,3 +14,17 @@ object RetrofitInstance {
             .create(RetrofitApi::class.java)
     }
 }
+
+//object RetrofitInstanceGeo {
+//    private const val GEO_BASE_URL = "https://api.openweathermap.org/geo/1.0/"
+//
+//    val api: GeoRetrofitApi by lazy {
+//        Retrofit.Builder()
+//            .baseUrl(GEO_BASE_URL)
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .build()
+//            .create(GeoRetrofitApi::class.java)
+//    }
+//}
+
+
