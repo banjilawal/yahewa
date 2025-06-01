@@ -27,19 +27,20 @@ sealed class CoordinateState {
 }
 
 data class GeoCode(
-    @SerializedName("name") val name: String,
-    @SerializedName("lon") val longitude: Double,
-    @SerializedName("lat") val latitude: Double,
-    @SerializedName("country") val country: String? = null,
-    @SerializedName("zip") val zipCode: String? = null,
+    @SerializedName("name") var name: String,
+    @SerializedName("lon") var longitude: Double,
+    @SerializedName("lat") var latitude: Double,
+    @SerializedName("country") var country: String? = null,
+    @SerializedName("zip") var zipCode: String? = null,
     @SerializedName("state") var state: String? = null,
+    @SerializedName("timezone") var timezone: Int? = null
 ) {
     val coordinate: Coordinate
         get() = Coordinate(longitude = longitude, latitude = latitude)
 
     fun getTitle(): String {
         var title = "$name, $country"
-        if (state != null && state!!.isNotEmpty() && country!!.isNotEmpty() &&  country?.uppercase()   == "US") {
+        if (state!!.isNotEmpty() && country!!.isNotEmpty() &&  country   == "US") {
             title = "$name, $state"
         }
         return title
