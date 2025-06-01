@@ -3,8 +3,8 @@ package com.lawal.banji.yahewa.model
 import android.os.CountDownTimer
 
 class ExpirationTimer(
+    private val IintervalMilliseconds: Long = 1000L,
     private val millisecondsDuration: Long,
-    private val intervalMilliseconds: Long,
     private val onTickCallback: (remainingTimeMillis: Long) -> Unit,
     private val onFinishCallback: () -> Unit
 ) {
@@ -12,7 +12,7 @@ class ExpirationTimer(
     
     fun start() {
         reset()
-        countDownTimer = object : CountDownTimer(millisecondsDuration, intervalMilliseconds) {
+        countDownTimer = object : CountDownTimer(millisecondsDuration, IintervalMilliseconds) {
             override fun onTick(millisecondsUntilFinished: Long) { onTickCallback(millisecondsUntilFinished) }
             override fun onFinish() { onFinishCallback() }
         }

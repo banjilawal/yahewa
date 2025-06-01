@@ -34,22 +34,24 @@ interface RetrofitApi {
         @Query("appid") apiKey: String = AppDefault.API_KEY
     ): Forecast
 
-    @GET("geo/1.0/zip")
+    @GET()
     suspend fun getGeoCodeByZipCode(
+        @Url url: String = "http://api.openweathermap.org/geo/1.0/zip",
         @Query("zip") zipCode: String,
         @Query("appid") apiKey: String = AppDefault.API_KEY
-    ): GeoCode
+    ): List<GeoCode>
 
-    @GET("geo/1.0/direct")
+    @GET()
     suspend fun getGeoCodeByCityName(
+        @Url url: String = "https://api.openweathermap.org/geo/1.0/direct",
         @Query("q") cityName: String,
         @Query("limit") limit: Int = AppDefault.NUMBER_OF_GEOCODE_RESULTS,
         @Query("appid") apiKey: String = AppDefault.API_KEY
-    ): GeoCode
+    ): List<GeoCode>
 
     @GET()
     suspend fun getReverseGeoCode(
-        @Url url: String= "https://api.openweathermap.org/geo/1.0/reverse",
+        @Url url: String = "https://api.openweathermap.org/geo/1.0/reverse",
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,
         @Query("limit") limit: Int = AppDefault.NUMBER_OF_GEOCODE_RESULTS,

@@ -24,11 +24,12 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val randomCity = getRandomCity() // Assume this gives you a random city with coordinate
-        geoCodeViewModel.loadDataByCoordinate(coordinate = randomCity.coordinate)
-        observeGeoCodeState()
+        geoCodeViewModel.loadDataByCoordinate(coordinate = getRandomCity().coordinate)
+//        geoCodeViewModel.loadDataByCityName(cityName = getRandomCity().name)
+//        geoCodeViewModel.loadDataByZipCode(getRandomZipCode())
 
-//        geoCodeViewModel.loadDataByZipCode(getRandomZipCode(), AppDefault.API_KEY)
-//        observeGeoCodeState()
+
+        observeGeoCodeState()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

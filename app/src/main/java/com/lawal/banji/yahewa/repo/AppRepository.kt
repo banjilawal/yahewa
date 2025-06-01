@@ -13,14 +13,16 @@ sealed class QueryResponseState<out T> {
 
 class AppRepository {
 
-        suspend fun requestGeoCodeByCityName(cityName: String): QueryResponseState<GeoCode> {
+        suspend fun requestGeoCodeByCityName(cityName: String): QueryResponseState<List<GeoCode>> {
+                println("Inside requestGeoCodeByCityName with $cityName")
                 return try {
+                        println("Inside try block of requestGeoCodeByCityName")
                         val result = api.getGeoCodeByCityName(cityName = cityName)
                         QueryResponseState.Success(result)
                 } catch (e: Exception) { QueryResponseState.Error(e)  }
         }
 
-        suspend fun requestGeoCodeByZipCode(zipCode: String): QueryResponseState<GeoCode> {
+        suspend fun requestGeoCodeByZipCode(zipCode: String): QueryResponseState<List<GeoCode>> {
                 return try {
                         val result = api.getGeoCodeByZipCode(zipCode = zipCode)
                         QueryResponseState.Success(result)
