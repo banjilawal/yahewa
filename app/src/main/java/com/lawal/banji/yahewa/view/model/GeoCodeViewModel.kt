@@ -1,5 +1,6 @@
 package com.lawal.banji.yahewa.view.model
 import android.os.Build
+import android.os.CountDownTimer
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,6 +20,8 @@ import kotlinx.coroutines.launch
 @RequiresApi(Build.VERSION_CODES.O)
 class GeoCodeViewModel(private val repository: AppRepository) : ViewModel() {
 
+    val CACHE_MINUTES: Long = 5 * 60 * 1000
+
     private var _geoCodeState: MutableStateFlow<GeoCodeState?> =
         MutableStateFlow<GeoCodeState?>(GeoCodeState.Loading)
     val geoCodeState: StateFlow<GeoCodeState?> get() = _geoCodeState
@@ -34,8 +37,12 @@ class GeoCodeViewModel(private val repository: AppRepository) : ViewModel() {
     private var currentZipCode: String? = null
     private var currentCoordinate: Coordinate? = null
 
+    private var cachedCurrentWeather: CurrentWeather? = null
+    private var countdownTimer: CountDownTimer? = null
+    private var isCacheValid: Boolean = false
+
     fun loadDataByCoordinate(coordinate: Coordinate) {
-        if (coordinate == currentCoordinate) {
+        if (coordinate == currentCoordinate && isCacheValid) {
             println("loadDataByCoordinate: Coordinate $coordinate already queried. Skipping lookup.")
             return
         }
@@ -46,11 +53,12 @@ class GeoCodeViewModel(private val repository: AppRepository) : ViewModel() {
         viewModelScope.launch {
             currentWeatherQueryResponseHandler(repository.requestCurrentWeatherByCoordinate(coordinate = coordinate))
             forecastQueryResponseHandler(repository.requestForecastByCoordinate(coordinate = coordinate))
+            resetCountdownTimer()
         }
     }
 
     fun loadDataByZipCode(zipCode: String) {
-        if (zipCode == currentZipCode) {
+        if (zipCode == currentZipCode && isCacheValid) {
             println("loadDataByZipCode: Zip code $zipCode already queried. Skipping lookup.")
             return
         }
@@ -61,6 +69,7 @@ class GeoCodeViewModel(private val repository: AppRepository) : ViewModel() {
         viewModelScope.launch {
             currentWeatherQueryResponseHandler(repository.requestCurrentWeatherByZipCode(zipCode = zipCode),)
             forecastQueryResponseHandler(repository.requestForecastByCoordinate(coordinate = currentCoordinate!!))
+            resetCountdownTimer()
         }
     }
 
@@ -68,6 +77,7 @@ class GeoCodeViewModel(private val repository: AppRepository) : ViewModel() {
         when (queryResponseState) {
             is QueryResponseState.Success -> {
                 val currentWeather = queryResponseState.data
+                cachedCurrentWeather = currentWeather
                 _currentWeatherState.value = CurrentWeatherState.Success(currentWeather = currentWeather)
                 updateGeoCodeFromWeather(currentWeather)
 
@@ -121,5 +131,18 @@ class GeoCodeViewModel(private val repository: AppRepository) : ViewModel() {
                 _geoCodeState.value = GeoCodeState.Error(errorMessage)
             }
         }
+    }
+
+    private fun resetCountdownTimer() {
+        countdownTimer?.cancel() // Cancel previous timer
+        isCacheValid = true
+        countdownTimer = object : CountDownTimer(CACHE_MINUTES, 1000) {
+            override fun onTick(millisUntilFinished: Long) { println("Cache countdown: ${millisUntilFinished / 1000} seconds remaining") }
+            override fun onFinish() {
+                println("Cache expired")
+                isCacheValid = false
+            }
+        }
+        countdownTimer?.start()
     }
 }
