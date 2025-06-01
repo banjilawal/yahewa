@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 @RequiresApi(Build.VERSION_CODES.O)
 class GeoCodeViewModel(private val repository: AppRepository) : ViewModel() {
 
-    val CACHE_MINUTES: Long = 5 * 60 * 1000
+    val MILLISECONDS_CACHE_LIFETIME: Long = 5 * 60 * 1000
 
     private var _geoCodeState: MutableStateFlow<GeoCodeState?> =
         MutableStateFlow<GeoCodeState?>(GeoCodeState.Loading)
@@ -136,7 +136,7 @@ class GeoCodeViewModel(private val repository: AppRepository) : ViewModel() {
     private fun resetCountdownTimer() {
         countdownTimer?.cancel() // Cancel previous timer
         isCacheValid = true
-        countdownTimer = object : CountDownTimer(CACHE_MINUTES, 1000) {
+        countdownTimer = object : CountDownTimer(MILLISECONDS_CACHE_LIFETIME, 1000) {
             override fun onTick(millisUntilFinished: Long) { println("Cache countdown: ${millisUntilFinished / 1000} seconds remaining") }
             override fun onFinish() {
                 println("Cache expired")
