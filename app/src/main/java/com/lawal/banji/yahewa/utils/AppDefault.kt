@@ -22,7 +22,7 @@ object AppDefault {
     const val DATA_FETCH_SUCCESS_MESSAGE: String = "Weather data fetched successfully."
     const val DATA_NOT_FOUND_MESSAGE: String = "Weather data not found."
     const val LOCATION_PERMISSION_REQUEST_CODE: Int = 1000
-    const val CACHE_LIFETIME_MILLISECONDS: Long = 1* 6 * 1000L
+    const val CACHE_LIFETIME_MILLISECONDS: Long = 5 * 60 * 1000L
     const val MILLISECONDS_PER_SECOND: Long = 1000L
 
 }

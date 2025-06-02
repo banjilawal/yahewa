@@ -10,9 +10,11 @@ import com.lawal.banji.yahewa.factory.GeoCodingViewModelFactory
 import com.lawal.banji.yahewa.model.GeoCodeState
 import com.lawal.banji.yahewa.repo.AppRepository
 import com.lawal.banji.yahewa.utils.getRandomCity
+import com.lawal.banji.yahewa.utils.getRandomZipCode
 import com.lawal.banji.yahewa.view.model.GeoCodeViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
 
@@ -24,12 +26,35 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val randomCity = getRandomCity() // Assume this gives you a random city with coordinate
-        geoCodeViewModel.loadDataByCoordinate(coordinate = getRandomCity().coordinate)
+//        geoCodeViewModel.loadDataByCoordinate(coordinate = getRandomCity().coordinate)
 //        geoCodeViewModel.loadDataByCityName(cityName = getRandomCity().name)
 //        geoCodeViewModel.loadDataByZipCode(getRandomZipCode())
-
-
+        sendRandomQuery()
         observeGeoCodeState()
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun sendRandomQuery() {
+        when (Random.nextInt(3)) { // Randomly generates 0, 1, or 2
+            0 -> {
+                val city = getRandomCity()
+                println("Loading data by coordinate: ${city.coordinate}")
+                repeat(3) { geoCodeViewModel.loadDataByCoordinate(coordinate = city.coordinate) }
+            }
+
+            1 -> {
+                val city = getRandomCity()
+                println("Loading data by city name: ${city.name}")
+                repeat(3) { geoCodeViewModel.loadDataByCityName(cityName = city.name) }
+            }
+
+            2 -> {
+                val randomZipCode = getRandomZipCode()
+                println("Loading data by zip code: $randomZipCode")
+                repeat(3) { geoCodeViewModel.loadDataByZipCode(zipCode = randomZipCode) }
+            }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -47,12 +72,13 @@ class MainActivity : ComponentActivity() {
                         val name = state.geoCode.name
                         val geoCode = state.geoCode
                         println("GeoCodeViewModel: Geocode information received - $geoCode")
-                 //       println("GeoCodeViewModel: Coordinates received - Latitude = ${coordinate.latitude}, Longitude = ${coordinate.longitude} from $name")
+                        //       println("GeoCodeViewModel: Coordinates received - Latitude = ${coordinate.latitude}, Longitude = ${coordinate.longitude} from $name")
                     }
 
                     is GeoCodeState.Error -> {
                         println("GeoCodeViewModel: Error occurred - ${state.message}")
                     }
+
                     null -> {
                         println("GeoCodeViewModel: Null state!")
                     }

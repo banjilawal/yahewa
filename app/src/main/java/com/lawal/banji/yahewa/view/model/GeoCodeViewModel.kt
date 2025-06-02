@@ -52,7 +52,7 @@ class GeoCodeViewModel(private val repository: AppRepository) : ViewModel() {
 
     fun loadDataByCoordinate(coordinate: Coordinate) {
         if (currentCoordinate == coordinate && isCacheValid) {
-            println("loadDataByCoordinate: Coordinate $coordinate already queried. Skipping lookup.")
+            println("LOAD_DATA_BY_COORDINATE Coordinate $coordinate already queried. SENDING CACHED DATE.")
             return
         }
 
@@ -60,14 +60,18 @@ class GeoCodeViewModel(private val repository: AppRepository) : ViewModel() {
         currentCoordinate = coordinate
         println("loadDataByCoordinate: $coordinate")
         viewModelScope.launch {
-            currentWeatherQueryResponseHandler(repository.requestCurrentWeatherByCoordinate(coordinate = coordinate))
+            currentWeatherQueryResponseHandler(
+                repository.requestCurrentWeatherByCoordinate(
+                    coordinate = coordinate
+                )
+            )
             forecastQueryResponseHandler(repository.requestForecastByCoordinate(coordinate = coordinate))
         }
     }
 
     fun loadDataByZipCode(zipCode: String) {
-        if (currentZipCode == zipCode && isCacheValid()) {
-            println("loadDataByZipCode: Zip code $zipCode already queried. Skipping lookup.")
+        if (currentZipCode != null && currentZipCode!!.isNotEmpty() && currentZipCode == zipCode && isCacheValid()) {
+            println("LOAD_DATA_BY_ZIP Zip code $zipCode already queried. Sending cached DATA.")
             return
         }
 
@@ -82,7 +86,7 @@ class GeoCodeViewModel(private val repository: AppRepository) : ViewModel() {
 
     fun loadDataByCityName(cityName: String) {
         if (currentCityName == cityName && isCacheValid()) {
-            println("loadDataByCityName: $cityName already queried. Skipping lookup.")
+            println("LOAD_DATA_BY_CITY NAME: $cityName already queried. SENDING CACHED_DATA.")
             return
         }
 
@@ -91,36 +95,46 @@ class GeoCodeViewModel(private val repository: AppRepository) : ViewModel() {
         println("loadDataByCityName: $cityName")
         viewModelScope.launch {
             currentCoordinate = coordinateFromCityName(cityName = cityName)
-            currentWeatherQueryResponseHandler(repository.requestCurrentWeatherByCoordinate(coordinate = currentCoordinate!!))
+            currentWeatherQueryResponseHandler(
+                repository.requestCurrentWeatherByCoordinate(
+                    coordinate = currentCoordinate!!
+                )
+            )
             forecastQueryResponseHandler(repository.requestForecastByCoordinate(coordinate = currentCoordinate!!))
         }
     }
 
-    private suspend  fun  currentWeatherQueryResponseHandler(queryResponseState: QueryResponseState<CurrentWeather>) {
+    private suspend fun currentWeatherQueryResponseHandler(queryResponseState: QueryResponseState<CurrentWeather>) {
         when (queryResponseState) {
             is QueryResponseState.Success -> {
                 val currentWeather = queryResponseState.data
                 cachedCurrentWeather = currentWeather
-                _currentWeatherState.value = CurrentWeatherState.Success(currentWeather = currentWeather)
+                _currentWeatherState.value =
+                    CurrentWeatherState.Success(currentWeather = currentWeather)
                 updateGeoCodeFromWeather(currentWeather)
 
                 println("currentWeatherResponseHandler set geoCode to: ${(_geoCodeState.value as GeoCodeState.Success).geoCode.toString()}")
                 println("Current weather for ${currentWeather.cityName}, ${currentWeather.sys.country} is $currentWeather")
-            } is QueryResponseState.Error -> {
-                val errorMessage = "Error fetching current weather: ${queryResponseState.exception.message}"
+            }
+
+            is QueryResponseState.Error -> {
+                val errorMessage =
+                    "Error fetching current weather: ${queryResponseState.exception.message}"
                 _currentWeatherState.value = CurrentWeatherState.Error(errorMessage)
                 _geoCodeState.value = GeoCodeState.Error(errorMessage)
             }
         }
     }
 
-   private suspend  fun forecastQueryResponseHandler(queryResponseState: QueryResponseState<Forecast>) {
+    private suspend fun forecastQueryResponseHandler(queryResponseState: QueryResponseState<Forecast>) {
         when (queryResponseState) {
             is QueryResponseState.Success -> {
                 val forecast = queryResponseState.data
                 _forecastState.value = ForecastState.Success(forecast = forecast)
                 println("$forecast.forecastRecords.size day forecast for $forecast.city.name, $forecast.city.country")
-            } is QueryResponseState.Error -> {
+            }
+
+            is QueryResponseState.Error -> {
                 val errorMessage = "Error fetching forecast ${queryResponseState.exception.message}"
                 _forecastState.value = ForecastState.Error(errorMessage)
                 _geoCodeState.value = GeoCodeState.Error(errorMessage)
@@ -128,7 +142,7 @@ class GeoCodeViewModel(private val repository: AppRepository) : ViewModel() {
         }
     }
 
-    private suspend fun updateGeoCodeFromWeather(currentWeather: CurrentWeather)  {
+    private suspend fun updateGeoCodeFromWeather(currentWeather: CurrentWeather) {
         val geoCode: GeoCode = GeoCode(
             name = currentWeather.cityName,
             country = currentWeather.sys.country,
@@ -137,19 +151,23 @@ class GeoCodeViewModel(private val repository: AppRepository) : ViewModel() {
             timezone = currentWeather.timezone,
             zipCode = currentZipCode
         )
+        currentCityName = currentWeather.cityName
         currentCoordinate = currentWeather.coordinate
         _geoCodeState.value = GeoCodeState.Success(geoCode = geoCode)
         stateGeoCodeLookup()
     }
 
-    private suspend fun  stateGeoCodeLookup() {
-        val response =repository.requestReverseGeoCode(coordinate = (_geoCodeState.value as GeoCodeState.Success).geoCode.coordinate)
+    private suspend fun stateGeoCodeLookup() {
+        val response =
+            repository.requestReverseGeoCode(coordinate = (_geoCodeState.value as GeoCodeState.Success).geoCode.coordinate)
         println("state lookup response $response")
         when (response) {
             is QueryResponseState.Success<List<GeoCode>> -> {
                 val newState = response.data.first().state
                 (_geoCodeState.value as GeoCodeState.Success).geoCode.state = newState
-            } is QueryResponseState.Error -> {
+            }
+
+            is QueryResponseState.Error -> {
                 val errorMessage = "Error fetching US state: ${response.exception.message}"
                 _geoCodeState.value = GeoCodeState.Error(errorMessage)
             }
@@ -189,17 +207,4 @@ class GeoCodeViewModel(private val repository: AppRepository) : ViewModel() {
             }
         }
     }
-
-//    private fun resetCountdownTimer() {
-//        countdownTimer?.cancel() // Cancel previous timer
-//        isCacheValid = true
-//        countdownTimer = object : CountDownTimer(CACHE_LIFETIME_MILLISECONDS, 1000) {
-//            override fun onTick(millisUntilFinished: Long) { println("Cache countdown: ${millisUntilFinished / 1000} seconds remaining") }
-//            override fun onFinish() {
-//                println("Cache expired")
-//                isCacheValid = false
-//            }
-//        }
-//        countdownTimer?.start()
-//    }
 }
