@@ -30,31 +30,3 @@ class Request (
     fun revokePermission(permissionID: Int) {}
     fun requestPermission(permission: String) {}
 }
-//
-//sealed class RequestState {
-//    data class Granted(val request: Request): RequestState()
-//    data class Denied(val request: Request): RequestState()
-//    data class Error(val message: String): RequestState()
-//}
-//
-//class PermissionHelper(private val activity: Activity) {
-//
-//    // Request permissions
-//    fun requestPermissions(
-//        permissions: List<String>,
-//        requestCode: Int
-//    ) {
-//        ActivityCompat.requestPermissions(
-//            activity,
-//            permissions.toTypedArray(),
-//            requestCode
-//        )
-//    }
-//
-//    // Check if all permissions are granted
-//    fun arePermissionsGranted(permissions: List<String>): Boolean {
-//        return permissions.all { permission ->
-//            ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED
-//        }
-//    }
-//}

@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import com.lawal.banji.yahewa.factory.GeoCodingViewModelFactory
 import com.lawal.banji.yahewa.model.GeoCodeState
 import com.lawal.banji.yahewa.repo.AppRepository
+import com.lawal.banji.yahewa.request.PermissionHandler
 import com.lawal.banji.yahewa.utils.getRandomCity
 import com.lawal.banji.yahewa.utils.getRandomZipCode
 import com.lawal.banji.yahewa.view.model.GeoCodeViewModel
@@ -18,6 +19,7 @@ import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
 
+    private var permissionHandler : PermissionHandler = PermissionHandler(this)
     private val geoCodeViewModel: GeoCodeViewModel by viewModels {
         GeoCodingViewModelFactory(AppRepository())
     }
@@ -25,14 +27,14 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val randomCity = getRandomCity() // Assume this gives you a random city with coordinate
+//        val randomCity = getRandomCity() // Assume this gives you a random city with coordinate
 //        geoCodeViewModel.loadDataByCoordinate(coordinate = getRandomCity().coordinate)
 //        geoCodeViewModel.loadDataByCityName(cityName = getRandomCity().name)
 //        geoCodeViewModel.loadDataByZipCode(getRandomZipCode())
+        setupPermissionHandling()
         sendRandomQuery()
         observeGeoCodeState()
     }
-
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun sendRandomQuery() {
@@ -86,6 +88,38 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    private fun setupPermissionHandling() {
+        permissionHandler = PermissionHandler(this)
+        observePermissionState()
+
+        if  (permissionHandler.hasPermissions()) {
+            println("Permissions are already granted!")
+        } else {
+            println("Requesting permissions...")
+            permissionHandler.requestPermissions()
+        }
+
+//        findViewById<Button>(R.id.requestPermissionsButton).setOnClickListener {
+//            if (!permissionHandler.hasPermissions()) {
+//                permissionHandler.requestPermissions()
+//            } else {
+//                println("Permissions are already granted!")
+//            }
+//        }
+    }
+
+    private fun observePermissionState() {
+        lifecycleScope.launchWhenStarted {
+            permissionHandler.permissionState.collect { state ->
+                state.forEach { (permission, isGranted) ->
+                    println("Permission: $permission, Granted: $isGranted")
+                }
+            }
+        }
+    }
+
+
 }
 
 
