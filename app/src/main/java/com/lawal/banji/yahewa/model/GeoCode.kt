@@ -9,7 +9,12 @@ data class City(
     @SerializedName("timezone") val timezone: Int? = null,
     @SerializedName("coord") val coordinate: Coordinate,
     var zipCode: String? = null
-)
+) {
+    override fun toString(): String {
+        return "name:name, $state  $zipCode country:$country" +
+                "\nlongitude:${coordinate.longitude}\nlatitude$coordinate.latitude "
+    }
+}
 sealed class CityState {
     object Loading : CityState()
     data class Success(val city: City) : CityState()
@@ -39,11 +44,10 @@ data class GeoCode(
         get() = Coordinate(longitude = longitude, latitude = latitude)
 
     fun getTitle(): String {
-        var title = "$name, $country"
-        if (state!!.isNotEmpty() && country!!.isNotEmpty() &&  country   == "US") {
-            title = "$name, $state"
-        }
-        return title
+        return "$name, $state $zipCode $country"
+    }
+    override fun toString(): String {
+        return  "$name, $state $zipCode. $country"
     }
 }
 sealed class GeoCodeState {

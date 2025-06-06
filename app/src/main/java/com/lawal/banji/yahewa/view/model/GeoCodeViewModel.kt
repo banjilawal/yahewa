@@ -15,7 +15,6 @@ import com.lawal.banji.yahewa.model.GeoCodeState
 import com.lawal.banji.yahewa.repo.AppRepository
 import com.lawal.banji.yahewa.repo.QueryResponseState
 import com.lawal.banji.yahewa.utils.AppDefault.CACHE_LIFETIME_MILLISECONDS
-import com.lawal.banji.yahewa.utils.AppDefault.MILLISECONDS_PER_SECOND
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -40,10 +39,11 @@ class GeoCodeViewModel(private val repository: AppRepository) : ViewModel() {
     private var currentCoordinate: Coordinate? = null
 
     private var cachedCurrentWeather: CurrentWeather? = null
+    private var cachedForecast: Forecast? = null
     private val expirationTimer: ExpirationTimer = ExpirationTimer(
         millisecondsDuration = CACHE_LIFETIME_MILLISECONDS,
         onTickCallback = { remainingTime ->
-            println("Cache valid for ${remainingTime / MILLISECONDS_PER_SECOND} seconds")
+//            println("Cache valid for ${remainingTime / MILLISECONDS_PER_SECOND} seconds")
         },
         onFinishCallback = { isCacheValid = false }
     )
@@ -52,47 +52,52 @@ class GeoCodeViewModel(private val repository: AppRepository) : ViewModel() {
 
     fun loadDataByCoordinate(coordinate: Coordinate) {
         if (currentCoordinate == coordinate && isCacheValid) {
-            println("LOAD_DATA_BY_COORDINATE Coordinate $coordinate already queried. SENDING CACHED DATE.")
+//            println("LOAD_DATA_BY_COORDINATE Coordinate" +
+//                    " $coordinate already queried. SENDING CACHED DATE.")
             return
         }
 
         resetCache()
         currentCoordinate = coordinate
-        println("loadDataByCoordinate: $coordinate")
+//        println("loadDataByCoordinate: $coordinate")
         viewModelScope.launch {
             currentWeatherQueryResponseHandler(
                 repository.requestCurrentWeatherByCoordinate(
                     coordinate = coordinate
                 )
             )
-            forecastQueryResponseHandler(repository.requestForecastByCoordinate(coordinate = coordinate))
+            forecastQueryResponseHandler(
+                repository.requestForecastByCoordinate(coordinate = coordinate)
+            )
+            println("${(_geoCodeState.value as GeoCodeState.Success).geoCode} $cachedCurrentWeather\n$cachedForecast")
         }
     }
 
     fun loadDataByZipCode(zipCode: String) {
         if (currentZipCode != null && currentZipCode!!.isNotEmpty() && currentZipCode == zipCode && isCacheValid()) {
-            println("LOAD_DATA_BY_ZIP Zip code $zipCode already queried. Sending cached DATA.")
+//            println("LOAD_DATA_BY_ZIP Zip code $zipCode already queried. Sending cached DATA.")
             return
         }
 
         resetCache()
         currentZipCode = zipCode
-        println("loadDataByZipCode: $zipCode")
+//        println("loadDataByZipCode: $zipCode")
         viewModelScope.launch {
             currentWeatherQueryResponseHandler(repository.requestCurrentWeatherByZipCode(zipCode = zipCode),)
             forecastQueryResponseHandler(repository.requestForecastByCoordinate(coordinate = currentCoordinate!!))
+            println("${(_geoCodeState.value as GeoCodeState.Success).geoCode} $cachedCurrentWeather\n$cachedForecast")
         }
     }
 
     fun loadDataByCityName(cityName: String) {
         if (currentCityName == cityName && isCacheValid()) {
-            println("LOAD_DATA_BY_CITY NAME: $cityName already queried. SENDING CACHED_DATA.")
+//            println("LOAD_DATA_BY_CITY NAME: $cityName already queried. SENDING CACHED_DATA.")
             return
         }
 
         resetCache()
         currentCityName = cityName
-        println("loadDataByCityName: $cityName")
+//        println("loadDataByCityName: $cityName")
         viewModelScope.launch {
             currentCoordinate = coordinateFromCityName(cityName = cityName)
             currentWeatherQueryResponseHandler(
@@ -101,6 +106,7 @@ class GeoCodeViewModel(private val repository: AppRepository) : ViewModel() {
                 )
             )
             forecastQueryResponseHandler(repository.requestForecastByCoordinate(coordinate = currentCoordinate!!))
+            println("${(_geoCodeState.value as GeoCodeState.Success).geoCode} $cachedCurrentWeather\n$cachedForecast")
         }
     }
 
@@ -113,8 +119,9 @@ class GeoCodeViewModel(private val repository: AppRepository) : ViewModel() {
                     CurrentWeatherState.Success(currentWeather = currentWeather)
                 updateGeoCodeFromWeather(currentWeather)
 
-                println("currentWeatherResponseHandler set geoCode to: ${(_geoCodeState.value as GeoCodeState.Success).geoCode.toString()}")
-                println("Current weather for ${currentWeather.cityName}, ${currentWeather.sys.country} is $currentWeather")
+//                println("current weather for  " +
+//                        "${(_geoCodeState.value as GeoCodeState.Success).geoCode}\n$currentWeather"
+//                )
             }
 
             is QueryResponseState.Error -> {
@@ -131,7 +138,8 @@ class GeoCodeViewModel(private val repository: AppRepository) : ViewModel() {
             is QueryResponseState.Success -> {
                 val forecast = queryResponseState.data
                 _forecastState.value = ForecastState.Success(forecast = forecast)
-                println("$forecast.forecastRecords.size day forecast for $forecast.city.name, $forecast.city.country")
+                println("$forecast")
+                cachedForecast = forecast
             }
 
             is QueryResponseState.Error -> {
@@ -160,7 +168,7 @@ class GeoCodeViewModel(private val repository: AppRepository) : ViewModel() {
     private suspend fun stateGeoCodeLookup() {
         val response =
             repository.requestReverseGeoCode(coordinate = (_geoCodeState.value as GeoCodeState.Success).geoCode.coordinate)
-        println("state lookup response $response")
+//        println("state lookup response $response")
         when (response) {
             is QueryResponseState.Success<List<GeoCode>> -> {
                 val newState = response.data.first().state
@@ -194,14 +202,14 @@ class GeoCodeViewModel(private val repository: AppRepository) : ViewModel() {
 
     private suspend fun coordinateFromCityName(cityName: String): Coordinate? {
         val response = repository.requestGeoCodeByCityName(cityName = cityName)
-        println("state lookup response $response")
+//        println("state lookup response $response")
         when (response) {
             is QueryResponseState.Success<List<GeoCode>> -> {
                 return response.data.first().coordinate
             }
 
             is QueryResponseState.Error -> {
-                val errorMessage = "Error fetching US state: ${response.exception.message}"
+                val errorMessage = "Error fetching country's  state/region: ${response.exception.message}"
                 _geoCodeState.value = GeoCodeState.Error(errorMessage)
                 return null
             }

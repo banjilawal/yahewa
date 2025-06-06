@@ -1,6 +1,7 @@
 package com.lawal.banji.yahewa.model
 
 import com.google.gson.annotations.SerializedName
+import com.lawal.banji.yahewa.utils.convertUnixToDateString
 
 data class Temperature(
     @SerializedName("day") val day: Double,
@@ -9,7 +10,11 @@ data class Temperature(
     @SerializedName("night") val night: Double,
     @SerializedName("eve") val evening: Double,
     @SerializedName("morn") val morn: Double
-)
+) {
+    override fun toString(): String {
+        return "$day Fahrenheit"
+    }
+}
 
 data class FeelsLike(
     @SerializedName("day") val day: Double,
@@ -32,13 +37,26 @@ data class ForecastRecord (
     @SerializedName("clouds") val percentCloudiness: Double,
     @SerializedName("pop") val precipitationProbability: Double,
     @SerializedName("rain") val rainVolume: Double
-)
+) {
+    override fun toString(): String {
+        val time: String =  convertUnixToDateString(sunrise)
+        return "$time  $temperature $rainVolume inches rain, wind:$windSpeed m/hr $weatherItems"
+    }
+}
 
 data class Forecast(
     @SerializedName("city") val city: City,
     @SerializedName("cnt") val numberOfForecasts: Int,
     @SerializedName("list") val forecastRecords: List<ForecastRecord>
-)
+) {
+    override fun toString(): String {
+        val stringBuilder  = StringBuilder()
+        for (forecastRecord in forecastRecords) {
+           stringBuilder.append("$forecastRecord\n")
+        }
+        return stringBuilder.toString()
+    }
+}
 sealed class ForecastState {
     object Loading : ForecastState() // Represents a loading state while forecastRecords are being fetched
     data class Success(val forecast: Forecast) : ForecastState()

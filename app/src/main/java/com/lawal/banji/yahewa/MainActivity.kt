@@ -40,19 +40,19 @@ class MainActivity : ComponentActivity() {
             0 -> {
                 val city = getRandomCity()
                 println("Loading data by coordinate: ${city.coordinate}")
-                repeat(3) { geoCodeViewModel.loadDataByCoordinate(coordinate = city.coordinate) }
+                repeat(1) { geoCodeViewModel.loadDataByCoordinate(coordinate = city.coordinate) }
             }
 
             1 -> {
                 val city = getRandomCity()
                 println("Loading data by city name: ${city.name}")
-                repeat(3) { geoCodeViewModel.loadDataByCityName(cityName = city.name) }
+                repeat(1) { geoCodeViewModel.loadDataByCityName(cityName = city.name) }
             }
 
             2 -> {
                 val randomZipCode = getRandomZipCode()
                 println("Loading data by zip code: $randomZipCode")
-                repeat(3) { geoCodeViewModel.loadDataByZipCode(zipCode = randomZipCode) }
+                repeat(1) { geoCodeViewModel.loadDataByZipCode(zipCode = randomZipCode) }
             }
         }
     }

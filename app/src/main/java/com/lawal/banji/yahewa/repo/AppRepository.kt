@@ -14,9 +14,9 @@ sealed class QueryResponseState<out T> {
 class AppRepository {
 
         suspend fun requestGeoCodeByCityName(cityName: String): QueryResponseState<List<GeoCode>> {
-                println("Inside requestGeoCodeByCityName with $cityName")
+//                println("Inside requestGeoCodeByCityName with $cityName")
                 return try {
-                        println("Inside try block of requestGeoCodeByCityName")
+//                        println("Inside try block of requestGeoCodeByCityName")
                         val result = api.getGeoCodeByCityName(cityName = cityName)
                         QueryResponseState.Success(result)
                 } catch (e: Exception) { QueryResponseState.Error(e)  }
@@ -30,28 +30,28 @@ class AppRepository {
         }
 
         suspend fun requestReverseGeoCode(coordinate: Coordinate): QueryResponseState<List<GeoCode>> {
-                println("Inside requestGeoCodeByCoordinate with $coordinate")
+//                println("Inside requestGeoCodeByCoordinate with $coordinate")
                 return try {
                         val result = api.getReverseGeoCode(latitude=coordinate.latitude, longitude=coordinate.longitude)
-                        println("JSON reverse geocode response for coordinate $coordinate is $result")
+//                        println("JSON reverse geocode response for coordinate $coordinate is $result")
                         QueryResponseState.Success(result)
                 } catch (e: Exception) { QueryResponseState.Error(e)  }
         }
 
         suspend fun requestCurrentWeatherByCoordinate(coordinate: Coordinate): QueryResponseState<CurrentWeather> {
-                println("Inside requestCurrentWeatherByCoordinate with $coordinate")
+//                println("Inside requestCurrentWeatherByCoordinate with $coordinate")
                 return try {
                         val result = api.getCurrentWeatherByCoordinate(latitude = coordinate.latitude, longitude = coordinate.longitude)
-                        println("JSON current weather response for coordinate $coordinate is $result")
+//                        println("JSON current weather response for coordinate $coordinate is $result")
                         QueryResponseState.Success(result)
                 } catch (e: Exception) { QueryResponseState.Error(e)  }
         }
 
         suspend fun requestCurrentWeatherByZipCode(zipCode: String): QueryResponseState<CurrentWeather> {
-                println("Inside requestCurrentWeatherByZipCode with  $zipCode")
+//                println("Inside requestCurrentWeatherByZipCode with  $zipCode")
                 return try {
                         val result = api.getCurrentWeatherByZipcode(zipCode = zipCode)
-                        println("JSON current weather response for zip code :$zipCode is $result")
+//                        println("JSON current weather response for zip code :$zipCode is $result")
                         QueryResponseState.Success(result)
                 } catch (e: Exception) {  QueryResponseState.Error(e)  }
         }
