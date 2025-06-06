@@ -50,9 +50,11 @@ data class Forecast(
     @SerializedName("list") val forecastRecords: List<ForecastRecord>
 ) {
     override fun toString(): String {
+        var counter:Int = 1
         val stringBuilder  = StringBuilder()
         for (forecastRecord in forecastRecords) {
-           stringBuilder.append("$forecastRecord\n")
+           stringBuilder.append("$counter $forecastRecord\n")
+            counter++
         }
         return stringBuilder.toString()
     }

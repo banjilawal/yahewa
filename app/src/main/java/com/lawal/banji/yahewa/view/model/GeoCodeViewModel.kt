@@ -66,10 +66,8 @@ class GeoCodeViewModel(private val repository: AppRepository) : ViewModel() {
                     coordinate = coordinate
                 )
             )
-            forecastQueryResponseHandler(
-                repository.requestForecastByCoordinate(coordinate = coordinate)
-            )
-            println("${(_geoCodeState.value as GeoCodeState.Success).geoCode} $cachedCurrentWeather\n$cachedForecast")
+            forecastQueryResponseHandler(repository.requestForecastByCoordinate(coordinate = coordinate))
+            printInfo()
         }
     }
 
@@ -85,7 +83,7 @@ class GeoCodeViewModel(private val repository: AppRepository) : ViewModel() {
         viewModelScope.launch {
             currentWeatherQueryResponseHandler(repository.requestCurrentWeatherByZipCode(zipCode = zipCode),)
             forecastQueryResponseHandler(repository.requestForecastByCoordinate(coordinate = currentCoordinate!!))
-            println("${(_geoCodeState.value as GeoCodeState.Success).geoCode} $cachedCurrentWeather\n$cachedForecast")
+            printInfo()
         }
     }
 
@@ -106,8 +104,12 @@ class GeoCodeViewModel(private val repository: AppRepository) : ViewModel() {
                 )
             )
             forecastQueryResponseHandler(repository.requestForecastByCoordinate(coordinate = currentCoordinate!!))
-            println("${(_geoCodeState.value as GeoCodeState.Success).geoCode} $cachedCurrentWeather\n$cachedForecast")
+           printInfo()
         }
+    }
+
+    private fun printInfo() {
+        println("${(_geoCodeState.value as GeoCodeState.Success).geoCode} $cachedCurrentWeather\nForecast\n$cachedForecast")
     }
 
     private suspend fun currentWeatherQueryResponseHandler(queryResponseState: QueryResponseState<CurrentWeather>) {
@@ -138,7 +140,7 @@ class GeoCodeViewModel(private val repository: AppRepository) : ViewModel() {
             is QueryResponseState.Success -> {
                 val forecast = queryResponseState.data
                 _forecastState.value = ForecastState.Success(forecast = forecast)
-                println("$forecast")
+//                println("$forecast")
                 cachedForecast = forecast
             }
 

@@ -45,13 +45,13 @@ class MainActivity : ComponentActivity() {
 
             1 -> {
                 val city = getRandomCity()
-                println("Loading data by city name: ${city.name}")
+//                println("Loading data by city name: ${city.name}")
                 repeat(1) { geoCodeViewModel.loadDataByCityName(cityName = city.name) }
             }
 
             2 -> {
                 val randomZipCode = getRandomZipCode()
-                println("Loading data by zip code: $randomZipCode")
+//                println("Loading data by zip code: $randomZipCode")
                 repeat(1) { geoCodeViewModel.loadDataByZipCode(zipCode = randomZipCode) }
             }
         }
@@ -64,14 +64,14 @@ class MainActivity : ComponentActivity() {
             geoCodeViewModel.geoCodeState.collectLatest { state ->
                 when (state) {
                     is GeoCodeState.Loading -> {
-                        println("GeoCodeViewModel: Loading geocode information...")
+//                        println("GeoCodeViewModel: Loading geocode information...")
                     }
 
                     is GeoCodeState.Success -> {
                         val coordinate = state.geoCode.coordinate
                         val name = state.geoCode.name
                         val geoCode = state.geoCode
-                        println("GeoCodeViewModel: Geocode information received - $geoCode")
+//                        println("GeoCodeViewModel: Geocode information received - $geoCode")
                         //       println("GeoCodeViewModel: Coordinates received - Latitude = ${coordinate.latitude}, Longitude = ${coordinate.longitude} from $name")
                     }
 

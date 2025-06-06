@@ -17,7 +17,7 @@ fun Long.toDateTimeString(): String {
 
 fun convertUnixToDateString(unixLong: Long): String {
     // Convert from milliseconds to a readable date.
-    val date = Date(unixLong)
+    val date = Date(unixLong * 1000)
     val format = SimpleDateFormat("yyyy-MMMM-dd") // Example: October 26, 2023
     return format.format(date)
 }

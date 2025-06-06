@@ -1,6 +1,9 @@
 package com.lawal.banji.yahewa.model
 
 import com.google.gson.annotations.SerializedName
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 data class City(
     @SerializedName("name") val name: String,
@@ -47,7 +50,11 @@ data class GeoCode(
         return "$name, $state $zipCode $country"
     }
     override fun toString(): String {
-        return  "$name, $state $zipCode. $country"
+        val currentTime = SimpleDateFormat("EEEE, MMMM dd, yyyy hh:mm a", Locale.getDefault()).format(Date())
+
+        val zipStr: String = zipCode?.let { "zip:$it" } ?: ""
+        val stateStr: String = state?.let { "state:$it" } ?: ""
+        return  "$name $zipStr $stateStr $country $currentTime"
     }
 }
 sealed class GeoCodeState {
