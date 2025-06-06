@@ -28,7 +28,7 @@
 //import com.lawal.banji.yahewa.ui.theme.White
 //import com.lawal.banji.yahewa.view.model.CurrentWeatherViewModel
 //import com.lawal.banji.yahewa.view.model.ForecastViewModel
-//import com.lawal.banji.yahewa.view.model.GeoCodeViewModel
+//import com.lawal.banji.yahewa.view.model.AppViewModel
 //
 //@RequiresApi(Build.VERSION_CODES.O)
 //@Composable
@@ -36,7 +36,7 @@
 //    navController: NavHostController,
 //    currentWeatherViewModel: CurrentWeatherViewModel,
 //    forecastViewModel: ForecastViewModel,
-//    geoCodingViewModel: GeoCodeViewModel, // ViewModel for managing ZIP code & coordinate
+//    geoCodingViewModel: AppViewModel, // ViewModel for managing ZIP code & coordinate
 //    startDestination: String = Screens.Current.route
 //) {
 //    // Observe states from the ViewModels
@@ -64,7 +64,7 @@
 //                    currentWeatherState = currentWeatherState,
 //                    onNavigate = {},
 //                    onZipcodeEntered = { zipCode ->
-//                        geoCodingViewModel.setZipCode(zipCode) // Update state via GeoCodeViewModel
+//                        geoCodingViewModel.setZipCode(zipCode) // Update state via AppViewModel
 //                    }
 //                )
 //            }
@@ -75,7 +75,7 @@
 //                    forecastState = forecastState,
 //                    onNavigate = {},
 //                    onZipcodeEntered = { zipCode ->
-//                        geoCodingViewModel.setZipCode(zipCode) // Update state via GeoCodeViewModel
+//                        geoCodingViewModel.setZipCode(zipCode) // Update state via AppViewModel
 //                    }
 //                )
 //            }
@@ -190,14 +190,14 @@
 //    navController: NavHostController,
 //    currentWeatherViewModel: CurrentWeatherViewModel,
 //    forecastViewModel: ForecastViewModel,
-//    geoCodingViewModel: GeoCodeViewModel, // Add GeoCodeViewModel here
+//    geoCodingViewModel: AppViewModel, // Add AppViewModel here
 //    startDestination: String = Screens.Current.route
 //) {
 //    // States from ViewModels
 //    val currentWeatherState = currentWeatherViewModel.currentWeatherState.collectAsState().value
 //    val forecastState = forecastViewModel.forecastState.collectAsState().value
 //
-//    // Observe zipCode and coordinate from GeoCodeViewModel
+//    // Observe zipCode and coordinate from AppViewModel
 //    val currentZipCode = geoCodingViewModel.zipCode.collectAsState().value
 //    val currentCoordinates = geoCodingViewModel.coordinate.collectAsState().value
 //
@@ -219,7 +219,7 @@
 //                        navController.navigate(Screens.Details.createRoute(itemId.toString()))
 //                    },
 //                    onZipcodeEntered = { zipCode ->
-//                        // Update GeoCodeViewModel whenever a zip code is entered
+//                        // Update AppViewModel whenever a zip code is entered
 //                        geoCodingViewModel.setZipCode(zipCode)
 //                    }
 //                )
@@ -232,7 +232,7 @@
 //                        navController.navigate(Screens.Details.createRoute(itemId.toString()))
 //                    },
 //                    onZipcodeEntered = { zipCode ->
-//                        // Update GeoCodeViewModel when ZIP code is entered
+//                        // Update AppViewModel when ZIP code is entered
 //                        geoCodingViewModel.setZipCode(zipCode)
 //                    }
 //                )

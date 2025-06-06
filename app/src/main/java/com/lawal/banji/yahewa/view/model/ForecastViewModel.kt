@@ -16,7 +16,7 @@ package com.lawal.banji.yahewa.view.model
 //@RequiresApi(Build.VERSION_CODES.O)
 //class ForecastViewModel(
 //    private val repository: AppRepository,
-//    private val geoCodingViewModel: GeoCodeViewModel
+//    private val geoCodingViewModel: AppViewModel
 //) : ViewModel() {
 //
 //    private val _forecastState =

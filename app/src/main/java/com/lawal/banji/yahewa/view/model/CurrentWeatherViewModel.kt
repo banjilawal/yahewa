@@ -16,7 +16,7 @@
 //@RequiresApi(Build.VERSION_CODES.O)
 //class CurrentWeatherViewModel(
 //    private val repository: AppRepository,
-//    private val geoCodingViewModel: GeoCodeViewModel
+//    private val geoCodingViewModel: AppViewModel
 //) : ViewModel() {
 //
 //    private val _currentWeatherState = MutableStateFlow<CurrentWeatherState>(CurrentWeatherState.Loading)

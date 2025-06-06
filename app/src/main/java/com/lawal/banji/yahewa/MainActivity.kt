@@ -12,7 +12,7 @@ import com.lawal.banji.yahewa.repo.AppRepository
 import com.lawal.banji.yahewa.request.PermissionHandler
 import com.lawal.banji.yahewa.utils.getRandomCity
 import com.lawal.banji.yahewa.utils.getRandomZipCode
-import com.lawal.banji.yahewa.view.model.GeoCodeViewModel
+import com.lawal.banji.yahewa.view.model.AppViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlin.random.Random
@@ -20,7 +20,7 @@ import kotlin.random.Random
 class MainActivity : ComponentActivity() {
 
     private var permissionHandler : PermissionHandler = PermissionHandler(this)
-    private val geoCodeViewModel: GeoCodeViewModel by viewModels {
+    private val appViewModel: AppViewModel by viewModels {
         GeoCodingViewModelFactory(AppRepository())
     }
 
@@ -28,9 +28,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        val randomCity = getRandomCity() // Assume this gives you a random city with coordinate
-//        geoCodeViewModel.loadDataByCoordinate(coordinate = getRandomCity().coordinate)
-//        geoCodeViewModel.loadDataByCityName(cityName = getRandomCity().name)
-//        geoCodeViewModel.loadDataByZipCode(getRandomZipCode())
+//        appViewModel.loadDataByCoordinate(coordinate = getRandomCity().coordinate)
+//        appViewModel.loadDataByCityName(cityName = getRandomCity().name)
+//        appViewModel.loadDataByZipCode(getRandomZipCode())
         setupPermissionHandling()
         sendRandomQuery()
         observeGeoCodeState()
@@ -42,19 +42,19 @@ class MainActivity : ComponentActivity() {
             0 -> {
                 val city = getRandomCity()
                 println("Loading data by coordinate: ${city.coordinate}")
-                repeat(1) { geoCodeViewModel.loadDataByCoordinate(coordinate = city.coordinate) }
+                repeat(1) { appViewModel.loadDataByCoordinate(coordinate = city.coordinate) }
             }
 
             1 -> {
                 val city = getRandomCity()
 //                println("Loading data by city name: ${city.name}")
-                repeat(1) { geoCodeViewModel.loadDataByCityName(cityName = city.name) }
+                repeat(1) { appViewModel.loadDataByCityName(cityName = city.name) }
             }
 
             2 -> {
                 val randomZipCode = getRandomZipCode()
 //                println("Loading data by zip code: $randomZipCode")
-                repeat(1) { geoCodeViewModel.loadDataByZipCode(zipCode = randomZipCode) }
+                repeat(1) { appViewModel.loadDataByZipCode(zipCode = randomZipCode) }
             }
         }
     }
@@ -63,26 +63,26 @@ class MainActivity : ComponentActivity() {
     private fun observeGeoCodeState() {
         // Observe the `geoCodeState` StateFlow directly
         lifecycleScope.launch {
-            geoCodeViewModel.geoCodeState.collectLatest { state ->
+            appViewModel.geoCodeState.collectLatest { state ->
                 when (state) {
                     is GeoCodeState.Loading -> {
-//                        println("GeoCodeViewModel: Loading geocode information...")
+//                        println("AppViewModel: Loading geocode information...")
                     }
 
                     is GeoCodeState.Success -> {
                         val coordinate = state.geoCode.coordinate
                         val name = state.geoCode.name
                         val geoCode = state.geoCode
-//                        println("GeoCodeViewModel: Geocode information received - $geoCode")
-                        //       println("GeoCodeViewModel: Coordinates received - Latitude = ${coordinate.latitude}, Longitude = ${coordinate.longitude} from $name")
+//                        println("AppViewModel: Geocode information received - $geoCode")
+                        //       println("AppViewModel: Coordinates received - Latitude = ${coordinate.latitude}, Longitude = ${coordinate.longitude} from $name")
                     }
 
                     is GeoCodeState.Error -> {
-                        println("GeoCodeViewModel: Error occurred - ${state.message}")
+                        println("AppViewModel: Error occurred - ${state.message}")
                     }
 
                     null -> {
-                        println("GeoCodeViewModel: Null state!")
+                        println("AppViewModel: Null state!")
                     }
                 }
             }
@@ -147,20 +147,20 @@ class MainActivity : ComponentActivity() {
 //import com.lawal.banji.yahewa.ui.theme.YahewaTheme
 //import com.lawal.banji.yahewa.view.model.CurrentWeatherViewModel
 //import com.lawal.banji.yahewa.view.model.ForecastViewModel
-//import com.lawal.banji.yahewa.view.model.GeoCodeViewModel
+//import com.lawal.banji.yahewa.view.model.AppViewModel
 //
 //class MainActivity : ComponentActivity() {
 //
-//    private val geoCodeViewModel: GeoCodeViewModel by viewModels {
+//    private val appViewModel: AppViewModel by viewModels {
 //        GeoCodingViewModelFactory(AppRepository())
 //    }
 //
 //    private val currentWeatherViewModel: CurrentWeatherViewModel by viewModels {
-//        CurrentWeatherViewModelFactory(AppRepository(), geoCodeViewModel)
+//        CurrentWeatherViewModelFactory(AppRepository(), appViewModel)
 //    }
 //
 //    private val forecastViewModel: ForecastViewModel by viewModels {
-//        ForecastViewModelFactory(AppRepository(), geoCodeViewModel)
+//        ForecastViewModelFactory(AppRepository(), appViewModel)
 //    }
 //
 ////    private val appViewModel: AppViewModel by viewModels {
@@ -189,7 +189,7 @@ class MainActivity : ComponentActivity() {
 //                        navController = navController,       // Pass the NavController to the NavHost
 //                        currentWeatherViewModel = currentWeatherViewModel,
 //                        forecastViewModel = forecastViewModel,
-//                        geoCodeViewModel = geoCodeViewModel,
+//                        appViewModel = appViewModel,
 //                        startDestination = Screens.Current.route // Define the starting route
 //                    )
 //                }

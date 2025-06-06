@@ -8,7 +8,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.lawal.banji.yahewa.repo.AppRepository
-import com.lawal.banji.yahewa.view.model.GeoCodeViewModel
+import com.lawal.banji.yahewa.view.model.AppViewModel
 
 //import com.lawal.banji.yahewa.view.model.PermissionHandlerViewModel
 //
@@ -28,7 +28,7 @@ import com.lawal.banji.yahewa.view.model.GeoCodeViewModel
 //
 //class CurrentWeatherViewModelFactory(
 //    private val repository: AppRepository,
-//    private val geoCodingViewModel: GeoCodeViewModel
+//    private val geoCodingViewModel: AppViewModel
 //) : ViewModelProvider.Factory {
 //
 //    @RequiresApi(Build.VERSION_CODES.O)
@@ -43,7 +43,7 @@ import com.lawal.banji.yahewa.view.model.GeoCodeViewModel
 //
 //class ForecastViewModelFactory(
 //    private val repository: AppRepository,
-//    private val geoCodingViewModel: GeoCodeViewModel
+//    private val geoCodingViewModel: AppViewModel
 //) : ViewModelProvider.Factory {
 //
 //    @RequiresApi(Build.VERSION_CODES.O)
@@ -63,8 +63,8 @@ class GeoCodingViewModelFactory(
     @RequiresApi(Build.VERSION_CODES.O)
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(GeoCodeViewModel::class.java)) {
-            return GeoCodeViewModel(repository) as T
+        if (modelClass.isAssignableFrom(AppViewModel::class.java)) {
+            return AppViewModel(repository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
