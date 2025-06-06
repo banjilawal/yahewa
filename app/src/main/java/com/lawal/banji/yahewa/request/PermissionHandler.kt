@@ -1,17 +1,18 @@
 package com.lawal.banji.yahewa.request
 
 import android.Manifest
+import android.content.pm.PackageManager
 import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.core.content.ContextCompat
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 class PermissionHandler(
-    val activity: ComponentActivity,
+    private val activity: ComponentActivity,
     private val permissions: Array<String> = DEFAULT_PERMISSIONS
-) : DefaultLifecycleObserver {
+) {
 
     companion object {
         private val DEFAULT_PERMISSIONS = arrayOf(
@@ -25,24 +26,30 @@ class PermissionHandler(
     )
     val permissionState: StateFlow<Map<String, Boolean>> get() = _permissionState
 
-    private lateinit var multiplePermissionLauncher: ActivityResultLauncher<Array<String>>
+    private var multiplePermissionLauncher: ActivityResultLauncher<Array<String>>? = null
 
-    init {
-        startPermissionLauncher()
-        activity.lifecycle.addObserver(this)
+    fun requestPermissions() {
+        if (multiplePermissionLauncher == null) {
+            // Initialize the launcher when permissions are first requested
+            multiplePermissionLauncher = activity.registerForActivityResult(
+                ActivityResultContracts.RequestMultiplePermissions()
+            ) { permissionsResult ->
+                // Update the StateFlow with the latest permission results
+                _permissionState.value = permissionsResult
+            }
+        }
+        // Launch the permission request
+        multiplePermissionLauncher?.launch(permissions)
     }
 
-    private fun startPermissionLauncher() {
-        multiplePermissionLauncher = activity.registerForActivityResult(
-            ActivityResultContracts.RequestMultiplePermissions()) { permissions -> {}
+    fun hasPermissions(): Boolean {
+        // Check if all specified permissions are already granted
+        return permissions.all { permission ->
+            ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED
         }
     }
-
-    fun revokePermission() {}
-
-    private fun handlePermissionResult(isGranted: Boolean) {
-    }
 }
+
 //    private val
 //
 //    private val _permissionRequestState = MutableStateFlow<PermissionRequestState>(PermissionRequestState.Loading)
