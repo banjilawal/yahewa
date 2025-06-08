@@ -6,7 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.lifecycleScope
-import com.lawal.banji.yahewa.factory.GeoCodingViewModelFactory
+import com.lawal.banji.yahewa.factory.AppViewModelFactory
 import com.lawal.banji.yahewa.model.GeoCodeState
 import com.lawal.banji.yahewa.repo.AppRepository
 import com.lawal.banji.yahewa.request.PermissionHandler
@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
 
     private var permissionHandler : PermissionHandler = PermissionHandler(this)
     private val appViewModel: AppViewModel by viewModels {
-        GeoCodingViewModelFactory(AppRepository())
+        AppViewModelFactory(AppRepository())
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -139,7 +139,7 @@ class MainActivity : ComponentActivity() {
 //import androidx.navigation.compose.rememberNavController
 //import com.lawal.banji.yahewa.factory.CurrentWeatherViewModelFactory
 //import com.lawal.banji.yahewa.factory.ForecastViewModelFactory
-//import com.lawal.banji.yahewa.factory.GeoCodingViewModelFactory
+//import com.lawal.banji.yahewa.factory.AppViewModelFactory
 //import com.lawal.banji.yahewa.navigation.ScreenRouter
 //import com.lawal.banji.yahewa.navigation.Screens
 //import com.lawal.banji.yahewa.repo.AppRepository
@@ -152,7 +152,7 @@ class MainActivity : ComponentActivity() {
 //class MainActivity : ComponentActivity() {
 //
 //    private val appViewModel: AppViewModel by viewModels {
-//        GeoCodingViewModelFactory(AppRepository())
+//        AppViewModelFactory(AppRepository())
 //    }
 //
 //    private val currentWeatherViewModel: CurrentWeatherViewModel by viewModels {

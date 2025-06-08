@@ -56,13 +56,18 @@ import com.lawal.banji.yahewa.view.model.AppViewModel
 //    }
 //}
 
-class GeoCodingViewModelFactory(
+/*
+
+ */
+class AppViewModelFactory(
     private val repository: AppRepository
 ) : ViewModelProvider.Factory {
 
     @RequiresApi(Build.VERSION_CODES.O)
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
+
+        // If the ViewModel source is not AppViewModel throw  an exception.
         if (modelClass.isAssignableFrom(AppViewModel::class.java)) {
             return AppViewModel(repository) as T
         }
