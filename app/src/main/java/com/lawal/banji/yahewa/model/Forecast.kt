@@ -9,7 +9,7 @@ data class Temperature(
     @SerializedName("max") val max: Double,
     @SerializedName("night") val night: Double,
     @SerializedName("eve") val evening: Double,
-    @SerializedName("morn") val morn: Double
+    @SerializedName("morn") val morning: Double
 ) {
     override fun toString(): String {
         return "$day Fahrenheit"
@@ -20,7 +20,7 @@ data class FeelsLike(
     @SerializedName("day") val day: Double,
     @SerializedName("night") val night: Double,
     @SerializedName("eve") val evening: Double,
-    @SerializedName("morn") val morn: Double
+    @SerializedName("morn") val morning: Double
 )
 
 data class ForecastRecord (
