@@ -11,17 +11,17 @@
 @startuml
 package view.model {
     class AppViewModel {
-        + currentCityName: String?
-        + currentZipCode: String?
-        + currentCoordinate: Coordinate?
-        + cachedCurrentWeather: CurrentWeather?
-        + cachedForecast: Forecast? = null
-        + <i>expirationTimer</i>: ExpirationTimer
+        - currentCityName: String?
+        - currentZipCode: String?
+        - currentCoordinate: Coordinate?
+        - cachedCurrentWeather: CurrentWeather?
+        - cachedForecast: Forecast? = null
+        - <i>expirationTimer</i>: ExpirationTimer
         + _geoCodeState: MutableStateFlow<GeoCodeState?>
-        + <i>geoCodeState</i>: StateFlow<GeoCodeState?>
         + _currentWeatherState: MutableStateFlow<CurrentWeatherState?>
-        + <i>currentWeatherState</i>: StateFlow<CurrentWeatherState?>
         + _forecastState: MutableStateFlow<ForecastState?>
+        + <i>geoCodeState</i>: StateFlow<GeoCodeState?>
+        + <i>currentWeatherState</i>: StateFlow<CurrentWeatherState?>
         + <i>forecastState</i>: StateFlow<ForecastState?>
          + loadDataByCoordinate(coordinate: Coordinate)
          + loadDataByZipCode(zipCode: String)

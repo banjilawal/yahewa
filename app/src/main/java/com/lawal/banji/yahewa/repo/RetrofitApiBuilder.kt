@@ -3,7 +3,7 @@ package com.lawal.banji.yahewa.repo
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object RetrofitInstance {
+object RetrofitApiBuilder {
     private const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
 
     val api: RetrofitApi by lazy {

@@ -4,7 +4,7 @@ import com.lawal.banji.yahewa.model.Coordinate
 import com.lawal.banji.yahewa.model.CurrentWeather
 import com.lawal.banji.yahewa.model.Forecast
 import com.lawal.banji.yahewa.model.GeoCode
-import com.lawal.banji.yahewa.repo.RetrofitInstance.api
+import com.lawal.banji.yahewa.repo.RetrofitApiBuilder.api
 
 sealed class QueryResponseState<out T> {
         data class Success<out T>(val data: T) : QueryResponseState<T>()

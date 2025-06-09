@@ -43,10 +43,10 @@ package model {
     }
     
     class WeatherItem <<immutable>> {
-    + <i>id</i>: Int
-    + <i>phenomena</i>: String
-    + <i>description</i>: String
-    + <i>iconId</i>: String
+        + <i>id</i>: Int
+        + <i>phenomena</i>: String
+        + <i>description</i>: String
+        + <i>iconId</i>: String
     }
     
     class Main <<immutable>> {
