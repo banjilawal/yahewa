@@ -1,4 +1,22 @@
 # Model Package
+
+## Table of Contents
+1. [Purpose](#pupose)
+2. [Classes  in ``Model` Package](#classes-in-model-package)
+3. [Higher Level  Classes](#higher-level-classes)
+4. [Geographic Location Classes](#geographic-location-classes)
+     - [`Coordinate`](#coordinate)
+     - [`GeoCode`](#GeoCode)
+     - [Sealed GeocodeState](#sealed-geocodestate)
+5. [Weather Classes](#weather-related-classes)
+6. [Forecast Classes](#forecast-classes)
+7. [UML Relationship Diagrams](#uml-relationship-diagrams)
+8. [Example Usage](#example-usage)
+9. [Package Dependencies](#package-dependencies)
+10. [Best Practices](#best-practices)
+11. [Future Improvements](#future-improvements)
+
+
 ---
 ## Purpose
 
@@ -9,8 +27,228 @@ The `model` package contains data structures that:
 4. Represents Data Transfer Object (DTO) intermediary between repository, ViewModel, and UI layers.
 
 ---
-## Class Relationships in Model Package
-````plantuml
+### Higher Level Classes
+- Aggregations of
+
+---
+## Classes in `Model` Package
+Classes in the package are fairly simple.
+
+### Geographic Location Classes
+#### `Coordinate`
+#### `GeoCode`
+#### Sealed `GeoCodeState`
+- Abstract class that represents result of API request for GeoCode instance.
+- Concrete subclasses of GeoCodeState:
+    - **Loading** Singleton for creating an instance of GeoCode fromAPI response.
+    - **Success** Returns a  GeoCode instance if API request was successful.
+- **Error** Holds error message and exceptions thrown if the API request fails.
+  sealed class GeoCodeState  <<immutable>> {
+  object Loading : GeoCodeState()
+  data class Success(val geoCode: GeoCode) : GeoCodeState()
+  data class Error(val message: String) : GeoCodeState() // Represents an error state with a message
+  }
+
+```plantuml
+@startuml
+' Abstract sealed class
+abstract class GeoCodeState
+
+' Subclasses of GeoCodeState
+class Loading  <<immutable>> {
+<<singleton>> ' Creates GeoCode object
+}
+
+class Success  <<immutable>> {
++ <i>geoCode</i>: GeoCode
+}
+
+class Error  <<immutable>> {
++ <i>message</i>: String
+}
+
+' Representing inheritance relationships
+GeoCodeState <|--- Loading
+GeoCodeState <|--up- Success
+GeoCodeState <|--- Error
+
+' Aggregation or Instantiation Relationship
+GeoCodeState ..> Loading : creates
+GeoCodeState ..> Success : creates
+GeoCodeState ..> Error : creates
+
+' Abstract class representing the sealed class
+abstract class CurrentWeatherState  <<immutable>> {
+ + loading(): Loading
+  + createError(message: String): Error
+ + createSuccess(currentWeather: CurrentWeather): Success
+}
+
+' Subclasses
+
+class Loading  <<immutable>> {
+ + Loading: <<singleton>> 
+}
+
+class Success  <<immutable>> {
+ + <i>currentWeather</i>: CurrentWeather
+}
+
+class Error  <<immutable>> {
+ + <i>message</i>: String
+}
+
+' Inheritance Relationships
+CurrentWeatherState <|--- Loading
+CurrentWeatherState <|--up- Success
+CurrentWeatherState <|--- Error
+
+' Aggregation or Instantiation Relationship
+CurrentWeatherState ..> Loading : creates
+CurrentWeatherState ..> Success : creates
+CurrentWeatherState ..> Error : creates
+
+@enduml
+```
+
+---
+## Weather Classes
+Classes about current weather conditions.
+
+### 1. **WeatherData**
+- Represents the weather information fetched from an API or local cache.
+- **Example Fields**:
+    - `temperature: Double`
+    - `humidity: Int`
+    - `weatherCondition: String`
+
+   ```kotlin
+   data class WeatherData(
+       val temperature: Double,
+       val humidity: Int,
+       val weatherCondition: String
+   )
+   ```
+
+### Sealed Class: CurrentWeatherState
+
+`CurrentWeatherState` is a sealed class in Kotlin that represents the different states of weather data loading. It has the following subtypes:
+
+1. **Object**: `Loading`
+    - Represents the loading state while fetching weather data.
+
+2. **Data Class**: `Success`
+    - Contains the successfully fetched weather data.
+    - Fields:
+        - `currentWeather: CurrentWeather`
+
+3. **Data Class**: `Error`
+    - Represents an error state with a message.
+    - Fields:
+        - `message: String`
+
+
+### 2. **`Location`**
+- Represents the user's current or selected location.
+- **Example Fields**:
+    - `latitude: Double`
+    - `longitude: Double`
+    - `cityName: String`
+
+   ```kotlin
+   data class Location(
+       val latitude: Double,
+       val longitude: Double,
+       val cityName: String
+   )
+   ```
+
+#### Sealed `CurrentWeatherState`
+- Holds outcome of CurrentWeather API request. Possible states:
+    - Loading
+    - Success
+    - Error
+- Enforces error handling contract
+-  Simplifies error handling
+
+```plantuml
+@startuml
+' Abstract class representing the sealed class
+abstract class CurrentWeatherState  <<immutable>> {
+ + loading(): Loading
+  + createError(message: String): Error
+ + createSuccess(currentWeather: CurrentWeather): Success
+}
+
+' Subclasses
+
+class Loading  <<immutable>> {
+ + Loading: <<singleton>> 
+}
+
+class Success  <<immutable>> {
+ + <i>currentWeather</i>: CurrentWeather
+}
+
+class Error  <<immutable>> {
+ + <i>message</i>: String
+}
+
+' Inheritance Relationships
+CurrentWeatherState <|--- Loading
+CurrentWeatherState <|--up- Success
+CurrentWeatherState <|--- Error
+
+' Aggregation or Instantiation Relationship
+CurrentWeatherState ..> Loading : creates
+CurrentWeatherState ..> Success : creates
+CurrentWeatherState ..> Error : creates
+
+' Sealed class ForecastState
+abstract class ForecastState
+
+class Loading <<immutable>> {
+}
+
+class Success  <<immutable>> {
+ + <i>forecast</i>: Forecast
+}
+
+class Error  <<immutable>> {
++ String message
+}
+
+ForecastState <|-- Loading
+ForecastState <|-- Success
+ForecastState <|-- Error
+@enduml
+```
+
+---
+## Forecast Classes
+Forecasts are predictions about the weather for a number of days.
+
+- [Forecast](#3-forecast)
+### 3. **`Forecast`**
+- Represents hourly or daily forecast data.
+- **Example Fields**:
+    - `date: String`
+    - `highTemperature: Double`
+    - `lowTemperature: Double`
+    - `description: String`
+
+   ```kotlin
+   data class Forecast(
+       val date: String,
+       val highTemperature: Double,
+       val lowTemperature: Double,
+       val description: String
+   )
+   ```
+  
+---
+## UML Relationship Diagrams
+```plantuml
 @startuml
 package model {
 
@@ -142,7 +380,6 @@ package model {
     WeatherItem "*" --left--* "1" ForecastRecord
     WeatherItem "*" --right--* "1" CurrentWeather
     
-    
     ' Relationships
     
 
@@ -151,227 +388,6 @@ package model {
 }
 @enduml
 ```
-
----
-## Classes in This Package
-Classes in the package are fairly simple.
-
-### Classes Related to Geographic Locations
-#### Sealed GeoCodeState
-- Abstract class that represents result of API request for GeoCode instance.
-- Concrete subclasses of GeoCodeState:
-    - **Loading** Singleton for creating an instance of GeoCode fromAPI response.
-    - **Success** Returns a  GeoCode instance if API request was successful.
-    - **Error** Holds error message and exceptions thrown if the API request fails.
-
----
-### Weather Related Classes
-
-#### Data Objects
-
-#### Sealed CurrentWeatherState
-- Holds outcome of CurrentWeather API request. Possible states:
-  - Loading
-  - Success
-  - Error
-- Enforces error handling contract
--  Simplifies error handling
-
-sealed class GeoCodeState  <<immutable>> {
-object Loading : GeoCodeState()
-data class Success(val geoCode: GeoCode) : GeoCodeState()
-data class Error(val message: String) : GeoCodeState() // Represents an error state with a message
-}
-
-
----
-### Forecast Related Classes
-
-```plantuml
-@startuml
-' Abstract class representing the sealed class
-abstract class CurrentWeatherState  <<immutable>> {
- + loading(): Loading
-  + createError(message: String): Error
- + createSuccess(currentWeather: CurrentWeather): Success
-}
-
-' Subclasses
-
-class Loading  <<immutable>> {
- + Loading: <<singleton>> 
-}
-
-class Success  <<immutable>> {
- + <i>currentWeather</i>: CurrentWeather
-}
-
-class Error  <<immutable>> {
- + <i>message</i>: String
-}
-
-' Inheritance Relationships
-CurrentWeatherState <|--- Loading
-CurrentWeatherState <|--up- Success
-CurrentWeatherState <|--- Error
-
-' Aggregation or Instantiation Relationship
-CurrentWeatherState ..> Loading : creates
-CurrentWeatherState ..> Success : creates
-CurrentWeatherState ..> Error : creates
-
-' Sealed class ForecastState
-abstract class ForecastState
-
-class Loading <<immutable>> {
-}
-
-class Success  <<immutable>> {
- + <i>forecast</i>: Forecast
-}
-
-class Error  <<immutable>> {
-+ String message
-}
-
-ForecastState <|-- Loading
-ForecastState <|-- Success
-ForecastState <|-- Error
-@enduml
-```
-
-`
-
-
-```plantuml
-@startuml
-' Abstract sealed class
-abstract class GeoCodeState
-
-' Subclasses of GeoCodeState
-class Loading  <<immutable>> {
-<<singleton>> ' Creates GeoCode object
-}
-
-class Success  <<immutable>> {
-+ <i>geoCode</i>: GeoCode
-}
-
-class Error  <<immutable>> {
-+ <i>message</i>: String
-}
-
-' Representing inheritance relationships
-GeoCodeState <|--- Loading
-GeoCodeState <|--up- Success
-GeoCodeState <|--- Error
-
-' Aggregation or Instantiation Relationship
-GeoCodeState ..> Loading : creates
-GeoCodeState ..> Success : creates
-GeoCodeState ..> Error : creates
-
-' Abstract class representing the sealed class
-abstract class CurrentWeatherState  <<immutable>> {
- + loading(): Loading
-  + createError(message: String): Error
- + createSuccess(currentWeather: CurrentWeather): Success
-}
-
-' Subclasses
-
-class Loading  <<immutable>> {
- + Loading: <<singleton>> 
-}
-
-class Success  <<immutable>> {
- + <i>currentWeather</i>: CurrentWeather
-}
-
-class Error  <<immutable>> {
- + <i>message</i>: String
-}
-
-' Inheritance Relationships
-CurrentWeatherState <|--- Loading
-CurrentWeatherState <|--up- Success
-CurrentWeatherState <|--- Error
-
-' Aggregation or Instantiation Relationship
-CurrentWeatherState ..> Loading : creates
-CurrentWeatherState ..> Success : creates
-CurrentWeatherState ..> Error : creates
-
-@enduml
-```
-
-### Higher Level Class
-- Aggregations of 
-
-### 1. **WeatherData**
-- Represents the weather information fetched from an API or local cache.
-- **Example Fields**:
-    - `temperature: Double`
-    - `humidity: Int`
-    - `weatherCondition: String`
-
-   ```kotlin
-   data class WeatherData(
-       val temperature: Double,
-       val humidity: Int,
-       val weatherCondition: String
-   )
-   ```
-
-### Sealed Class: CurrentWeatherState
-
-`CurrentWeatherState` is a sealed class in Kotlin that represents the different states of weather data loading. It has the following subtypes:
-
-1. **Object**: `Loading`
-    - Represents the loading state while fetching weather data.
-
-2. **Data Class**: `Success`
-    - Contains the successfully fetched weather data.
-    - Fields:
-        - `currentWeather: CurrentWeather`
-
-3. **Data Class**: `Error`
-    - Represents an error state with a message.
-    - Fields:
-        - `message: String`
-
-
-### 2. **Location**
-- Represents the user's current or selected location.
-- **Example Fields**:
-    - `latitude: Double`
-    - `longitude: Double`
-    - `cityName: String`
-
-   ```kotlin
-   data class Location(
-       val latitude: Double,
-       val longitude: Double,
-       val cityName: String
-   )
-   ```
-
-### 3. **Forecast**
-- Represents hourly or daily forecast data.
-- **Example Fields**:
-    - `date: String`
-    - `highTemperature: Double`
-    - `lowTemperature: Double`
-    - `description: String`
-
-   ```kotlin
-   data class Forecast(
-       val date: String,
-       val highTemperature: Double,
-       val lowTemperature: Double,
-       val description: String
-   )
-   ```
 
 ---
 ## Example Usage
@@ -400,6 +416,8 @@ The `model` package is self-contained. It does not depend on other packages in t
 ---
 
 ## Best Practices
+
+This structure aims to provide clarity for future maintainers and contributors while ensuring the responsibilities of this package are clean and well-documented.
 1. **Immutable Data Models**  
    Data classes should be immutable whenever possible. Use `val` for fields.
 
@@ -422,6 +440,3 @@ The `model` package is self-contained. It does not depend on other packages in t
 - Add validation logic (e.g., using Kotlin contracts or custom validation annotations).
 - Define specific response models for each API endpoint if the app becomes more complex.
 
----
-
-This structure aims to provide clarity for future maintainers and contributors while ensuring the responsibilities of this package are clean and well-documented.
